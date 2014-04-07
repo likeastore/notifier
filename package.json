@@ -1,0 +1,19 @@
+{
+  "name": "notifier",
+  "version": "0.0.1",
+  "description": "Service for sending notifications to users",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/likeastore/notifier.git"
+  },
+  "author": "alexander.beletsky@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/likeastore/notifier/issues"
+  },
+  "homepage": "https://github.com/likeastore/notifier"
+}
