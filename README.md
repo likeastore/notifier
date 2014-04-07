@@ -1,6 +1,6 @@
 # Notifier
 
-Recieved email from Likeastore.com? Now you know, it's me reposible for that.
+Recieved email from Likeastore.com? Now you know, it's me responsible for that.
 
 # Licence (MIT)
 
