@@ -1,4 +1,4 @@
-var accessToken = '';
+var accessToken = '1234';
 var config = require('../config');
 var db = require('../source/db')(config);
 
@@ -12,6 +12,6 @@ module.exports = {
 	},
 
 	getLastAction: function (callback) {
-		callback(null, {});
+		db.actions.find({}).sort({_id: -1}).limit(1, callback);
 	}
 };

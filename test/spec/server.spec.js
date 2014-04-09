@@ -2,7 +2,7 @@ var request = require('request');
 var utils = require('../utils');
 
 describe('server.spec.js', function () {
-	var url, event, action;
+	var url, event, action, response;
 
 	before(function () {
 		url = utils.serviceUrl();
@@ -19,7 +19,10 @@ describe('server.spec.js', function () {
 			});
 
 			beforeEach(function (done) {
-				request.post({url: url, body: event, json: true}, done);
+				request.post({url: url, body: event, json: true}, function (err, resp) {
+					response = resp;
+					done(err);
+				});
 			});
 
 			beforeEach(function (done) {
@@ -27,6 +30,10 @@ describe('server.spec.js', function () {
 					action = act;
 					done(err);
 				});
+			});
+
+			it('should respond 201 (created)', function () {
+				expect(response.statusCode).to.equal(201);
 			});
 
 			it('should send-welcome-email action created', function () {
