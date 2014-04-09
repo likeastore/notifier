@@ -15,5 +15,11 @@
   "bugs": {
     "url": "https://github.com/likeastore/notifier/issues"
   },
+  "devDependencies": {
+    "mocha": "~1.10.0",
+    "chai": "~1.6.1",
+    "sinon-chai": "~2.4.0",
+    "request": "~2.21.0"
+  },
   "homepage": "https://github.com/likeastore/notifier"
 }
