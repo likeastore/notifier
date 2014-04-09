@@ -9,7 +9,7 @@ describe('server.spec.js', function () {
 	});
 
 	before(function (done) {
-		utils.crearDb(done);
+		utils.clearDb(done);
 	});
 
 	describe('when user-registered event', function () {
@@ -19,7 +19,7 @@ describe('server.spec.js', function () {
 			});
 
 			beforeEach(function (done) {
-				request.post({url: url, body: event}, done);
+				request.post({url: url, body: event, json: true}, done);
 			});
 
 			beforeEach(function (done) {

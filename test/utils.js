@@ -9,5 +9,9 @@ module.exports = {
 
 	clearDb: function (callback) {
 		db.dropDatabase(callback);
+	},
+
+	getLastAction: function (callback) {
+		callback(null, {});
 	}
 };
