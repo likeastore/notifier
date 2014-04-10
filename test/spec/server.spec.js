@@ -40,6 +40,7 @@ describe('server.spec.js', function () {
 
 			it('should send-welcome-email action created', function () {
 				expect(action.id).to.equal('send-welcome-email');
+				expect(action.email).to.equal('a@a.com');
 			});
 		});
 	});
