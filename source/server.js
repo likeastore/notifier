@@ -1,8 +1,12 @@
 var express = require('express');
 var config = require('../config');
 var db = require('../source/db')(config);
+var postal = require('postal');
 
 var app = express();
+var bus = postal.channel();
+
+require('./triggers')(bus);
 
 var cors = function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -36,10 +40,12 @@ function checkAccessToken(req, res, next) {
 }
 
 app.post('/api/events', checkAccessToken, function (req, res) {
-	db.events.save(req.body, function (err, event) {
+	db.events.save(req.body, function (err, e) {
 		if (err) {
 			return res.send(500, {message: 'failed to save event'});
 		}
+
+		bus.publish(e.event, e);
 
 		res.send(201);
 	});

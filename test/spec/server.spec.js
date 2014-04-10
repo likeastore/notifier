@@ -26,10 +26,12 @@ describe('server.spec.js', function () {
 			});
 
 			beforeEach(function (done) {
-				utils.getLastAction(function (err, act) {
-					action = act;
-					done(err);
-				});
+				setTimeout(function () {
+					utils.getLastAction(function (err, act) {
+						action = act;
+						done(err);
+					});
+				}, 30);
 			});
 
 			it('should respond 201 (created)', function () {
@@ -37,7 +39,7 @@ describe('server.spec.js', function () {
 			});
 
 			it('should send-welcome-email action created', function () {
-				expect(action.type).to.equal('send-welcome-email');
+				expect(action.id).to.equal('send-welcome-email');
 			});
 		});
 	});
