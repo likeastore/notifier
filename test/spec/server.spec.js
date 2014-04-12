@@ -82,8 +82,37 @@ describe('server.spec.js', function () {
 	});
 
 	describe('when collection-followed', function () {
-		describe('notify followers action', function () {
+		describe('notify collection owner', function () {
+			beforeEach(function () {
+				event = {event: 'collection-followed', data: {owner: 'a@a.com', followed: {name: 'john doe', id: '123'}}};
+			});
 
+			beforeEach(function (done) {
+				request.post({url: url, body: event, json: true}, function (err, resp) {
+					response = resp;
+					done(err);
+				});
+			});
+
+			beforeEach(function (done) {
+				setTimeout(function () {
+					utils.getLastAction(function (err, act) {
+						action = act;
+						done(err);
+					});
+				}, 30);
+			});
+
+			it('should respond 201 (created)', function () {
+				expect(response.statusCode).to.equal(201);
+			});
+
+			it('should send-notify-collection-owner action created', function () {
+				expect(action.id).to.equal('send-notify-collection-owner-email');
+				expect(action.email).to.eql('a@a.com');
+				expect(action.userName).to.equal('john doe');
+				expect(action.userId).to.equal('123');
+			});
 		});
 	});
 

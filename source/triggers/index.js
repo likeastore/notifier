@@ -8,6 +8,11 @@ function userRegistered(bus) {
 	bus.subscribe('collection-created', function (e) {
 		actions.notifyFollowers(e);
 	});
+
+	bus.subscribe('collection-followed', function (e) {
+		actions.notifyOwner(e);
+	});
+
 }
 
 module.exports = userRegistered;

@@ -18,7 +18,17 @@ function notifyFollowers(e, callback) {
 	}, callback);
 }
 
+function notifyOwner(e, callback) {
+	db.actions.save({
+		id: 'send-notify-collection-owner-email',
+		email: e.data.owner,
+		userName: e.data.followed.name,
+		userId: e.data.followed.id
+	}, callback);
+}
+
 module.exports = {
 	welcomeEmail: welcomeEmail,
-	notifyFollowers: notifyFollowers
+	notifyFollowers: notifyFollowers,
+	notifyOwner: notifyOwner
 };
