@@ -15,7 +15,10 @@ describe('server.spec.js', function () {
 	describe('when user-registered event', function () {
 		describe('send welcome email', function () {
 			beforeEach(function () {
-				event = {event: 'user-registered', data: {email: 'a@a.com'}};
+				event = {
+					event: 'user-registered',
+					data: {email: 'a@a.com'}
+				};
 			});
 
 			beforeEach(function (done) {
@@ -48,7 +51,10 @@ describe('server.spec.js', function () {
 	describe('when collection-created', function () {
 		describe('notify followers action', function () {
 			beforeEach(function () {
-				event = {event: 'collection-created', data: {owner: 'a@a.com', followers: ['b@b.com', 'c@c.com'], title: 'aaa', description: 'bbb', collectionId: '123'}};
+				event = {
+					event: 'collection-created',
+					data: {owner: 'a@a.com', followers: ['b@b.com', 'c@c.com'], title: 'aaa', description: 'bbb', collectionId: '123'
+				}};
 			});
 
 			beforeEach(function (done) {
@@ -84,7 +90,9 @@ describe('server.spec.js', function () {
 	describe('when collection-followed', function () {
 		describe('notify collection owner', function () {
 			beforeEach(function () {
-				event = {event: 'collection-followed', data: {owner: 'a@a.com', followed: {name: 'john doe', id: '123'}}};
+				event = {
+					event: 'collection-followed', data: {owner: 'a@a.com', followed: {name: 'john doe', id: '123'}}
+				};
 			});
 
 			beforeEach(function (done) {
