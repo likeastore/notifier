@@ -8,8 +8,8 @@ describe('server.spec.js', function () {
 		url = utils.serviceUrl();
 	});
 
-	before(function (done) {
-		utils.clearDb(done);
+	beforeEach(function (done) {
+		utils.clearCollection('actions', done);
 	});
 
 	describe('when user-registered event', function () {
