@@ -17,7 +17,7 @@ describe('server.spec.js', function () {
 			beforeEach(function () {
 				event = {
 					event: 'user-registered',
-					data: {email: 'a@a.com'}
+					user: 'a@a.com'
 				};
 			});
 
@@ -43,7 +43,7 @@ describe('server.spec.js', function () {
 
 			it('should send-welcome-email action created', function () {
 				expect(action.id).to.equal('send-welcome');
-				expect(action.email).to.equal('a@a.com');
+				expect(action.user).to.equal('a@a.com');
 			});
 		});
 	});
@@ -53,8 +53,9 @@ describe('server.spec.js', function () {
 			beforeEach(function () {
 				event = {
 					event: 'collection-created',
-					data: {owner: 'a@a.com', followers: ['b@b.com', 'c@c.com'], title: 'aaa', description: 'bbb', collectionId: '123'
-				}};
+					user: 'a@a.com',
+					data: {collection: '123'}
+				};
 			});
 
 			beforeEach(function (done) {
@@ -79,10 +80,8 @@ describe('server.spec.js', function () {
 
 			it('should send-notify-followers-email action created', function () {
 				expect(action.id).to.equal('send-notify-followers-collection-created');
-				expect(action.email).to.eql(['b@b.com', 'c@c.com']);
-				expect(action.title).to.equal('aaa');
-				expect(action.description).to.equal('bbb');
-				expect(action.collectionId).to.equal('123');
+				expect(action.user).to.eql('a@a.com');
+				expect(action.collection).to.equal('123');
 			});
 		});
 	});
@@ -91,7 +90,9 @@ describe('server.spec.js', function () {
 		describe('notify collection owner', function () {
 			beforeEach(function () {
 				event = {
-					event: 'collection-followed', data: {owner: 'a@a.com', followed: {name: 'john doe', id: '123'}}
+					event: 'collection-followed',
+					user: 'a@a.com',
+					data: {follower: '123'}
 				};
 			});
 
@@ -117,9 +118,8 @@ describe('server.spec.js', function () {
 
 			it('should send-notify-collection-owner action created', function () {
 				expect(action.id).to.equal('send-notify-owner-collection-followed');
-				expect(action.email).to.eql('a@a.com');
-				expect(action.userName).to.equal('john doe');
-				expect(action.userId).to.equal('123');
+				expect(action.user).to.eql('a@a.com');
+				expect(action.follower).to.equal('123');
 			});
 		});
 	});
