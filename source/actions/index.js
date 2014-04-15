@@ -1,16 +1,16 @@
 var config = require('../../config');
 var db = require('../db')(config);
 
-function welcomeEmail(e, callback) {
+function sendWelcomeEmail(e, callback) {
 	db.actions.save({
-		id: 'send-welcome-email',
+		id: 'send-welcome',
 		email: e.data.email
 	}, callback);
 }
 
-function notifyFollowers(e, callback) {
+function sendNotifyFollowersCollectionCreated(e, type, callback) {
 	db.actions.save({
-		id: 'send-notify-followers-email',
+		id: 'send-notify-followers-collection-created',
 		email: e.data.followers,
 		title: e.data.title,
 		description: e.data.description,
@@ -18,17 +18,27 @@ function notifyFollowers(e, callback) {
 	}, callback);
 }
 
-function notifyOwner(e, callback) {
+function sendNotifyOwnerCollectionFollowed(e, callback) {
 	db.actions.save({
-		id: 'send-notify-collection-owner-email',
+		id: 'send-notify-owner-collection-followed',
 		email: e.data.owner,
 		userName: e.data.followed.name,
 		userId: e.data.followed.id
 	}, callback);
 }
 
+function sendNotifyFollowersNewItemsAdded(e, items, callback) {
+	db.actions.save({
+		id: 'send-notify-followers-new-items-added',
+		user: e.user,
+		collection: e.data.collection,
+		items: items
+	}, callback);
+}
+
 module.exports = {
-	welcomeEmail: welcomeEmail,
-	notifyFollowers: notifyFollowers,
-	notifyOwner: notifyOwner
+	sendWelcomeEmail: sendWelcomeEmail,
+	sendNotifyFollowersCollectionCreated: sendNotifyFollowersCollectionCreated,
+	sendNotifyOwnerCollectionFollowed: sendNotifyOwnerCollectionFollowed,
+	sendNotifyFollowersNewItemsAdded: sendNotifyFollowersNewItemsAdded
 };

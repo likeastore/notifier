@@ -42,7 +42,7 @@ describe('server.spec.js', function () {
 			});
 
 			it('should send-welcome-email action created', function () {
-				expect(action.id).to.equal('send-welcome-email');
+				expect(action.id).to.equal('send-welcome');
 				expect(action.email).to.equal('a@a.com');
 			});
 		});
@@ -78,7 +78,7 @@ describe('server.spec.js', function () {
 			});
 
 			it('should send-notify-followers-email action created', function () {
-				expect(action.id).to.equal('send-notify-followers-email');
+				expect(action.id).to.equal('send-notify-followers-collection-created');
 				expect(action.email).to.eql(['b@b.com', 'c@c.com']);
 				expect(action.title).to.equal('aaa');
 				expect(action.description).to.equal('bbb');
@@ -116,7 +116,7 @@ describe('server.spec.js', function () {
 			});
 
 			it('should send-notify-collection-owner action created', function () {
-				expect(action.id).to.equal('send-notify-collection-owner-email');
+				expect(action.id).to.equal('send-notify-owner-collection-followed');
 				expect(action.email).to.eql('a@a.com');
 				expect(action.userName).to.equal('john doe');
 				expect(action.userId).to.equal('123');
@@ -125,6 +125,10 @@ describe('server.spec.js', function () {
 	});
 
 	describe('when collection-item-added', function () {
+
+		before(function (done) {
+			utils.clearCollection('states', done);
+		});
 
 		describe('first item added', function () {
 			beforeEach(function (done) {
@@ -197,8 +201,8 @@ describe('server.spec.js', function () {
 			});
 
 			it('should send-notify-followers-email', function () {
-				expect(action.id).to.equal('send-notify-collection-owner-email');
-				expect(action.user).to.eql('a@a.com');
+				expect(action.id).to.equal('send-notify-followers-new-items-added');
+				expect(action.user).to.eql('user@notify.com');
 				expect(action.collection).to.equal('345');
 				expect(action.items).to.eql(['123', '456', '789']);
 			});

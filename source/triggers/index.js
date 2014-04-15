@@ -1,42 +1,46 @@
 var actions = require('../actions');
-var state = {};
+var state = require('../state');
 
 function userRegistered(bus) {
 	bus.subscribe('user-registered', function (e) {
-		actions.welcomeEmail(e);
+		actions.sendWelcomeEmail(e);
 	});
 
 	bus.subscribe('collection-created', function (e) {
-		actions.notifyFollowers(e);
+		actions.sendNotifyFollowersCollectionCreated(e);
 	});
 
 	bus.subscribe('collection-followed', function (e) {
-		actions.notifyOwner(e);
+		actions.sendNotifyOwnerCollectionFollowed(e);
 	});
 
 	bus.subscribe('collection-item-added', function (e) {
 		var current = state(e);
 
 		current.use(function (err, state) {
-			// log errors
-			rule(state).call(this, state);
+			// TODO: log errors
+			updateState(state, function (e, state) {
+				if (state.properties.count >= 3) {
+					produceAction(state, function () {
+						current.clear();
+					});
+				}
+			});
 		});
 
-		function rule(state) {
-			return state.count > 3 ? produceAction : updateState;
+		function produceAction(state, callback) {
+			actions.sendNotifyFollowersNewItemsAdded(e, state.properties.items, callback);
 		}
 
-		function produceAction(state) {
-			current.clear(function (err) {
-				actions.notifyFollowers(e);
-			});
-		}
+		function updateState(state, callback) {
+			var properties = state.properties || {count: 0, items: []};
 
-		function updateState(state) {
-			current.update({})
+			properties.count += 1;
+			properties.items.push(e.data.item);
+
+			current.update(properties, callback);
 		}
 	});
-
 }
 
 module.exports = userRegistered;
