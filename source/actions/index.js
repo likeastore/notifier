@@ -11,7 +11,7 @@ function sendWelcomeEmail(e, callback) {
 	}, callback);
 }
 
-function sendNotifyFollowersCollectionCreated(e, type, callback) {
+function sendNotifyFollowersCollectionCreated(e, callback) {
 	db.actions.save({
 		id: 'send-notify-followers-collection-created',
 		user: e.user,

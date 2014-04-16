@@ -15,13 +15,29 @@ var resolvers = {
 				return callback(err);
 			}
 
-			var data = {
-				title: collection.title,
-				description: collection.description,
-				url: config.app + '/collections/' + collection._id
-			};
+			db.users.findOne({email: action.user}, function (err, user) {
+				if (err) {
+					return callback(err);
+				}
 
-			callback(null, action, data);
+				if (!user) {
+					return ({message: 'user not found', email: action.user});
+				}
+
+				var emails = user.followed.map(function (u) {
+					return u.email;
+				});
+
+				var data = {
+					email: emails,
+					title: collection.title,
+					description: collection.description,
+					user: collection.userData.name,
+					collection: collection._id.toString()
+				};
+
+				callback(null, action, data);
+			});
 		});
 	},
 

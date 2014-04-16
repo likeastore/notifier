@@ -15,6 +15,24 @@ module.exports = {
 		db[collection].remove(callback);
 	},
 
+	createTestUser: function (email, name, followers, callback) {
+		db.users.save({
+			email: email,
+			name: name,
+			followed: followers
+		}, callback);
+	},
+
+	createTestCollection: function (user, title, description, followers, userData, callback) {
+		db.collections.save({
+			user: user,
+			title: title,
+			description: description,
+			followers: followers,
+			userData: userData
+		}, callback);
+	},
+
 	getLastAction: function (callback) {
 		db.actions.find({}).sort({_id: -1}).limit(1, function (err, actions) {
 			callback(err, actions[0]);
