@@ -1,6 +1,5 @@
 var express = require('express');
 var config = require('../config');
-var db = require('../source/db')(config);
 var postal = require('postal');
 
 var app = express();
