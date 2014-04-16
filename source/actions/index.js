@@ -1,6 +1,8 @@
 var config = require('../../config');
 var db = require('../db')(config);
 
+var initial = 'created';
+
 function sendWelcomeEmail(e, callback) {
 	db.actions.save({
 		id: 'send-welcome',
@@ -12,7 +14,8 @@ function sendNotifyFollowersCollectionCreated(e, type, callback) {
 	db.actions.save({
 		id: 'send-notify-followers-collection-created',
 		user: e.user,
-		collection: e.data.collection
+		collection: e.data.collection,
+		state: initial,
 	}, callback);
 }
 
@@ -20,7 +23,8 @@ function sendNotifyOwnerCollectionFollowed(e, callback) {
 	db.actions.save({
 		id: 'send-notify-owner-collection-followed',
 		user: e.user,
-		follower: e.data.follower
+		follower: e.data.follower,
+		state: initial
 	}, callback);
 }
 
@@ -29,7 +33,8 @@ function sendNotifyFollowersNewItemsAdded(e, items, callback) {
 		id: 'send-notify-followers-new-items-added',
 		user: e.user,
 		collection: e.data.collection,
-		items: items
+		items: items,
+		state: initial
 	}, callback);
 }
 
