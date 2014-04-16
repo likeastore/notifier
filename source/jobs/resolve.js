@@ -59,8 +59,10 @@ function resolve(callback) {
 		});
 
 		function ready(action, data) {
-			// set action to ready state
-			callback(null, action);
+			db.actions.findAndModify({
+				query: {_id: action._id},
+				update: { $set: {data: data, state: 'ready'}}
+			}, callback);
 		}
 	}
 }

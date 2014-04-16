@@ -6,7 +6,8 @@ var initial = 'created';
 function sendWelcomeEmail(e, callback) {
 	db.actions.save({
 		id: 'send-welcome',
-		user: e.user
+		user: e.user,
+		state: initial,
 	}, callback);
 }
 

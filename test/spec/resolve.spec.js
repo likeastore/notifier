@@ -2,7 +2,7 @@ var utils = require('../utils');
 var actions = require('../../source/actions');
 var resolve = require('../../source/jobs/resolve');
 
-describe('resolve.spec.js', function () {
+describe.only('resolve.spec.js', function () {
 	var action;
 
 	beforeEach(function (done) {
