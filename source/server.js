@@ -39,16 +39,16 @@ function checkAccessToken(req, res, next) {
 	next();
 }
 
-app.post('/api/events', checkAccessToken, function (req, res) {
-	db.events.save(req.body, function (err, e) {
-		if (err) {
-			return res.send(500, {message: 'failed to save event'});
-		}
+function validateEvent(req, res, next) {
+	// TODO: Add validation code
+	next();
+}
 
-		bus.publish(e.event, e);
+app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
+	var e = req.body;
+	bus.publish(e.event, e);
 
-		res.send(201);
-	});
+	res.send(201);
 });
 
 app.listen(app.get('port'), function () {
