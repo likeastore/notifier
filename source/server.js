@@ -1,6 +1,8 @@
 var express = require('express');
-var config = require('../config');
 var postal = require('postal');
+
+var config = require('../config');
+var package = require('./package');
 
 var app = express();
 var bus = postal.channel();
@@ -42,6 +44,10 @@ function validateEvent(req, res, next) {
 	// TODO: Add validation code
 	next();
 }
+
+app.get('/', function (req, res) {
+	res.json({app: 'notifier', env: process.env.NODE_ENV, version: package.version, apiUrl: '/api'});
+});
 
 app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 	var e = req.body;
