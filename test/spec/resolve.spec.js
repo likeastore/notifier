@@ -143,6 +143,31 @@ describe('resolve.spec.js', function () {
 			expect(action.data.follower.email).to.equal('follower@test.com');
 			expect(action.data.follower._id.toString()).to.equal(userId);
 		});
+	});
 
+	describe('resolve send-notify-followers-new-items-added', function () {
+		var collectionId, userId;
+
+		beforeEach(function (done) {
+			utils.createTestUser('follower@test.com', 'follower', [], function (err, user) {
+				userId = user._id.toString();
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			var userData = {
+				email: 'user@test.com',
+				name: 'user'
+			};
+
+			utils.createTestCollection('user@test.com', 'title', 'description', [{email: 'aa@a.com'}, {email: 'bb@b.com'}], userData, function (err, collection) {
+				collectionId = collection._id.toString();
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+		});
 	});
 });

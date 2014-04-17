@@ -131,86 +131,30 @@ describe('server.spec.js', function () {
 			utils.clearCollection('states', done);
 		});
 
-		describe('first item added', function () {
-			beforeEach(function (done) {
-				request.post({url: url, body: {
-					event: 'collection-item-added',
-					user: 'user@notify.com',
-					data: { item: '123', collection: '345'}}, json: true}, function (err, resp) {
-						response = resp;
-						done(err);
-				});
-			});
-
-			beforeEach(function (done) {
-				setTimeout(function () {
-					utils.getLastAction(function (err, act) {
-						action = act;
-						done(err);
-					});
-				}, 30);
-			});
-
-			it('should no actions be added', function () {
-				expect(action).to.not.ok;
+		beforeEach(function (done) {
+			request.post({url: url, body: {
+				event: 'collection-item-added',
+				user: 'user@notify.com',
+				data: { item: '123', collection: '345'}}, json: true}, function (err, resp) {
+					response = resp;
+					done(err);
 			});
 		});
 
-		describe('second item added', function () {
-			beforeEach(function (done) {
-				request.post({url: url, body: {
-					event: 'collection-item-added',
-					user: 'user@notify.com',
-					data: { item: '456', collection: '345'}}, json: true}, function (err, resp) {
-						response = resp;
-						done(err);
+		beforeEach(function (done) {
+			setTimeout(function () {
+				utils.getLastAction(function (err, act) {
+					action = act;
+					done(err);
 				});
-			});
-
-			beforeEach(function (done) {
-				setTimeout(function () {
-					utils.getLastAction(function (err, act) {
-						action = act;
-						done(err);
-					});
-				}, 30);
-			});
-
-			it('should no actions be added', function () {
-				expect(action).to.not.ok;
-			});
+			}, 30);
 		});
 
-		describe('third item added', function () {
-			beforeEach(function (done) {
-				request.post({url: url, body: {
-					event: 'collection-item-added',
-					user: 'user@notify.com',
-					data: { item: '789', collection: '345'}}, json: true}, function (err, resp) {
-						response = resp;
-						done(err);
-				});
-			});
-
-			beforeEach(function (done) {
-				setTimeout(function () {
-					utils.getLastAction(function (err, act) {
-						action = act;
-						done(err);
-					});
-				}, 30);
-			});
-
-			it('should send-notify-followers-email', function () {
-				expect(action.id).to.equal('send-notify-followers-new-items-added');
-				expect(action.user).to.eql('user@notify.com');
-				expect(action.collection).to.equal('345');
-				expect(action.items).to.eql(['123', '456', '789']);
-			});
-		});
-
-		describe('and repeated', function () {
-
+		it('should send-notify-followers-new-item-added', function () {
+			expect(action.id).to.equal('send-notify-followers-new-item-added');
+			expect(action.user).to.eql('user@notify.com');
+			expect(action.collection).to.equal('345');
+			expect(action.item).to.eql('123');
 		});
 	});
 });

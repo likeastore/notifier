@@ -30,12 +30,12 @@ function sendNotifyOwnerCollectionFollowed(e, callback) {
 	}, callback);
 }
 
-function sendNotifyFollowersNewItemsAdded(e, items, callback) {
+function sendNotifyFollowersNewItemAdded(e, callback) {
 	db.actions.save({
-		id: 'send-notify-followers-new-items-added',
+		id: 'send-notify-followers-new-item-added',
 		user: e.user,
 		collection: e.data.collection,
-		items: items,
+		item: e.data.item,
 		state: initial
 	}, callback);
 }
@@ -44,5 +44,5 @@ module.exports = {
 	sendWelcomeEmail: sendWelcomeEmail,
 	sendNotifyFollowersCollectionCreated: sendNotifyFollowersCollectionCreated,
 	sendNotifyOwnerCollectionFollowed: sendNotifyOwnerCollectionFollowed,
-	sendNotifyFollowersNewItemsAdded: sendNotifyFollowersNewItemsAdded
+	sendNotifyFollowersNewItemAdded: sendNotifyFollowersNewItemAdded
 };

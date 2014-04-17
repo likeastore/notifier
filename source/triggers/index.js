@@ -15,31 +15,7 @@ function userRegistered(bus) {
 	});
 
 	bus.subscribe('collection-item-added', function (e) {
-		var current = state(e);
-
-		current.use(function (err, state) {
-			// TODO: log errors
-			updateState(state, function (e, state) {
-				if (state.properties.count >= 3) {
-					produceAction(state, function () {
-						current.clear();
-					});
-				}
-			});
-		});
-
-		function produceAction(state, callback) {
-			actions.sendNotifyFollowersNewItemsAdded(e, state.properties.items, callback);
-		}
-
-		function updateState(state, callback) {
-			var properties = state.properties || {count: 0, items: []};
-
-			properties.count += 1;
-			properties.items.push(e.data.item);
-
-			current.update(properties, callback);
-		}
+		actions.sendNotifyFollowersNewItemAdded(e);
 	});
 }
 
