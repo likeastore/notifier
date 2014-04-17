@@ -51,5 +51,5 @@ app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 });
 
 app.listen(app.get('port'), function () {
-	console.log('notify server started, port: ' + app.get('port') + ' env: ' + process.env.NODE_ENV || 'development');
+	console.log('notify server started, port: ' + app.get('port') + ' env: ' + (process.env.NODE_ENV || 'development'));
 });
