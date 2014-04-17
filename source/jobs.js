@@ -1,7 +1,7 @@
 var Agenda = require('agenda');
 var config = require('../config');
 
-var agenda = new Agenda({db: {address: config.connection, collection: 'jobs'} });
+var agenda = new Agenda({db: {address: config.connection, collection: 'notifierJobs'} });
 
 agenda.define('resolve actions', function (job, callback) {
 	callback(null);

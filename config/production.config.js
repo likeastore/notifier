@@ -1,5 +1,5 @@
 var config = {
-	connection: 'mongodb://localhost:27017/notifierdb',
+	connection: process.env.MONGO_CONNECTION,
 	accessToken: '1234',
 
 	logentries: {
