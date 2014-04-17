@@ -2,7 +2,7 @@ var express = require('express');
 var postal = require('postal');
 
 var config = require('../config');
-var package = require('./package');
+var package = require('../package');
 
 var app = express();
 var bus = postal.channel();
