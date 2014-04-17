@@ -10,7 +10,7 @@ function monitor(app) {
 	});
 
 	proc.on('spawn', function () {
-		util.print('application monitor started...');
+		console.log('%s: application monitor started', app);
 	});
 
 	proc.on('exit', function (code, signal) {

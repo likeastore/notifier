@@ -1,6 +1,6 @@
 var monitor = require('./monitor');
 
-['source/server'].map(monitor).forEach(function (m) {
+['source/server', 'source/jobs'].map(monitor).forEach(function (m) {
 	m.start();
 });
 
