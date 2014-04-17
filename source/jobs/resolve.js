@@ -42,7 +42,29 @@ var resolvers = {
 	},
 
 	'send-notify-owner-collection-followed': function (action, callback) {
-		callback(null, action);
+		db.collections.findOne({_id: new ObjectId(action.collection)}, function (err, collection) {
+			if (err) {
+				return callback(err);
+			}
+
+			db.users.findOne({email: action.follower}, function (err, user) {
+				if (err) {
+					return callback(err);
+				}
+
+				if (!user) {
+					return ({message: 'user not found', email: action.user});
+				}
+
+				var data = {
+					email: collection.userData.email,
+					follower: user,
+					collection: collection
+				};
+
+				callback(null, action, data);
+			});
+		});
 	},
 
 	'send-notify-followers-new-items-added': function (action, callback) {

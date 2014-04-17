@@ -92,7 +92,7 @@ describe('server.spec.js', function () {
 				event = {
 					event: 'collection-followed',
 					user: 'a@a.com',
-					data: {follower: '123'}
+					data: {collection: '321', follower: '123'}
 				};
 			});
 
@@ -120,6 +120,7 @@ describe('server.spec.js', function () {
 				expect(action.id).to.equal('send-notify-owner-collection-followed');
 				expect(action.user).to.eql('a@a.com');
 				expect(action.follower).to.equal('123');
+				expect(action.collection).to.equal('321');
 			});
 		});
 	});

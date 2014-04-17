@@ -2,7 +2,7 @@ var utils = require('../utils');
 var actions = require('../../source/actions');
 var resolve = require('../../source/jobs/resolve');
 
-describe.only('resolve.spec.js', function () {
+describe('resolve.spec.js', function () {
 	var action;
 
 	beforeEach(function (done) {
@@ -57,7 +57,7 @@ describe.only('resolve.spec.js', function () {
 
 		beforeEach(function (done) {
 			var userData = {
-				email: 'a@a.com',
+				email: 'user@test.com',
 				name: 'user'
 			};
 
@@ -94,5 +94,55 @@ describe.only('resolve.spec.js', function () {
 			expect(action.data.description).to.eql('description');
 			expect(action.data.collection).to.eql(collectionId);
 		});
+	});
+
+	describe('resolve send-notify-owner-collection-followed', function () {
+		var collectionId, userId;
+
+		beforeEach(function (done) {
+			utils.createTestUser('follower@test.com', 'follower', [], function (err, user) {
+				userId = user._id.toString();
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			var userData = {
+				email: 'user@test.com',
+				name: 'user'
+			};
+
+			utils.createTestCollection('user@test.com', 'title', 'description', [], userData, function (err, collection) {
+				collectionId = collection._id.toString();
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			actions.sendNotifyOwnerCollectionFollowed({data: {follower: 'follower@test.com',  collection: collectionId}}, done);
+		});
+
+		beforeEach(function (done) {
+			resolve(done);
+		});
+
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		it('should change state to ready', function () {
+			expect(action.state).to.equal('ready');
+		});
+
+		it('should have data', function () {
+			expect(action).to.have.property('data');
+			expect(action.data.email).to.eql('user@test.com');
+			expect(action.data.follower.email).to.equal('follower@test.com');
+			expect(action.data.follower._id.toString()).to.equal(userId);
+		});
+
 	});
 });

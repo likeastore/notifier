@@ -25,6 +25,7 @@ function sendNotifyOwnerCollectionFollowed(e, callback) {
 		id: 'send-notify-owner-collection-followed',
 		user: e.user,
 		follower: e.data.follower,
+		collection: e.data.collection,
 		state: initial
 	}, callback);
 }
