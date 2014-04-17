@@ -1,6 +1,7 @@
 var async = require('async');
 var config = require('../../config');
 var db = require('../db')(config);
+var resolvers = require('./resolvers');
 
 function resolve(callback) {
 	db.actions.find({state: 'created'}, function (err, actions) {
