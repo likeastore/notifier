@@ -146,14 +146,7 @@ describe('resolve.spec.js', function () {
 	});
 
 	describe('resolve send-notify-followers-new-items-added', function () {
-		var collectionId, userId;
-
-		beforeEach(function (done) {
-			utils.createTestUser('follower@test.com', 'follower', [], function (err, user) {
-				userId = user._id.toString();
-				done(err);
-			});
-		});
+		var collectionId, itemId;
 
 		beforeEach(function (done) {
 			var userData = {
@@ -168,6 +161,36 @@ describe('resolve.spec.js', function () {
 		});
 
 		beforeEach(function (done) {
+			utils.createTestItem('user@test.com', function (err, item) {
+				itemId = item._id.toString();
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			actions.sendNotifyFollowersNewItemAdded({data: {collection: collectionId, item: itemId}}, done);
+		});
+
+		beforeEach(function (done) {
+			resolve(done);
+		});
+
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		it('should change state to ready', function () {
+			expect(action.state).to.equal('ready');
+		});
+
+		it('should have data', function () {
+			expect(action).to.have.property('data');
+			expect(action.data.email).to.eql(['aa@a.com', 'bb@b.com']);
+			expect(action.data.collection._id.toString()).to.equal(collectionId);
+			expect(action.data.item._id.toString()).to.equal(itemId);
 		});
 	});
 });

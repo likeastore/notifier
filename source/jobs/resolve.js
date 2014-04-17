@@ -15,6 +15,10 @@ var resolvers = {
 				return callback(err);
 			}
 
+			if (!collection) {
+				return callback({message: 'collection not found', collection: action.collection});
+			}
+
 			db.users.findOne({email: action.user}, function (err, user) {
 				if (err) {
 					return callback(err);
@@ -47,13 +51,17 @@ var resolvers = {
 				return callback(err);
 			}
 
+			if (!collection) {
+				return callback({message: 'collection not found', collection: action.collection});
+			}
+
 			db.users.findOne({email: action.follower}, function (err, user) {
 				if (err) {
 					return callback(err);
 				}
 
 				if (!user) {
-					return ({message: 'user not found', email: action.user});
+					return callback({message: 'user not found', email: action.user});
 				}
 
 				var data = {
@@ -67,8 +75,34 @@ var resolvers = {
 		});
 	},
 
-	'send-notify-followers-new-items-added': function (action, callback) {
-		callback(null, action);
+	'send-notify-followers-new-item-added': function (action, callback) {
+		db.collections.findOne({_id: new ObjectId(action.collection)}, function (err, collection) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!collection) {
+				return callback({message: 'collection not found', collection: action.collection});
+			}
+
+			var emails = collection.followers.map(function (f) {
+				return f.email;
+			});
+
+			db.items.findOne({_id: new ObjectId(action.item)}, function (err, item) {
+				if (err) {
+					return callback(err);
+				}
+
+				var data = {
+					email: emails,
+					collection: collection,
+					item: item
+				};
+
+				callback(null, action, data);
+			});
+		});
 	}
 };
 

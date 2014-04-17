@@ -33,6 +33,12 @@ module.exports = {
 		}, callback);
 	},
 
+	createTestItem: function (user, callback) {
+		db.items.save({
+			user: user
+		}, callback);
+	},
+
 	getLastAction: function (callback) {
 		db.actions.find({}).sort({_id: -1}).limit(1, function (err, actions) {
 			callback(err, actions[0]);

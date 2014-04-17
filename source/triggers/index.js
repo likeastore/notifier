@@ -1,5 +1,4 @@
 var actions = require('../actions');
-var state = require('../state');
 
 function userRegistered(bus) {
 	bus.subscribe('user-registered', function (e) {
