@@ -5,7 +5,17 @@ var ObjectId = require('mongojs').ObjectId;
 
 var resolvers = {
 	'send-welcome': function (action, callback) {
-		callback(null, action, {email: action.user});
+		db.users.findOne({email: action.user}, function (err, user) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!user) {
+				return callback({message: 'user not found', email: action.email});
+			}
+
+			callback(null, action, {email: action.user, user: user});
+		});
 	},
 
 	'send-notify-followers-collection-created': function (action, callback) {

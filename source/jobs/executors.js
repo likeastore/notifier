@@ -3,6 +3,8 @@ var logger = require('../utils/logger');
 var mandrill = require('node-mandrill')(config.mandrill.token);
 
 function sendMandrill(to, template, vars, callback) {
+	logger.important({message: 'sending email', to: to, template: template});
+
 	mandrill('/messages/send-template', {
 		template_name: template,
 		template_content: [],
@@ -30,7 +32,11 @@ function formatUrl(collection) {
 
 var executors = {
 	'send-welcome': function (action, callback) {
-		sendMandrill([{email: action.data.email}], 'welcome-email', null,  callback);
+		var vars = [
+			{name: 'USERID', content: action.data.user._id}
+		];
+
+		sendMandrill([{email: action.data.email}], 'welcome-email', vars,  callback);
 	},
 
 	'send-notify-followers-collection-created': function (action, callback) {
@@ -38,6 +44,10 @@ var executors = {
 	},
 
 	'send-notify-owner-collection-followed': function (action, callback) {
+		callback(null);
+	},
+
+	'send-notify-followers-new-item-added': function (action, callback) {
 		var emails = action.data.email.map(function (e) {
 			return {email: e};
 		});
@@ -56,10 +66,6 @@ var executors = {
 		];
 
 		sendMandrill(emails, 'notify-owner-collection-followed', vars, callback);
-	},
-
-	'send-notify-followers-new-item-added': function (action, callback) {
-		callback(null);
 	}
 };
 

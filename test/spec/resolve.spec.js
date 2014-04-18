@@ -19,6 +19,12 @@ describe('resolve.spec.js', function () {
 
 	describe('resove send-welcome', function () {
 		beforeEach(function (done) {
+			utils.createTestUser('a@a.com', 'follower', [], function (err, user) {
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
 			actions.sendWelcomeEmail({user: 'a@a.com'}, done);
 		});
 
@@ -40,6 +46,7 @@ describe('resolve.spec.js', function () {
 		it('should have data', function () {
 			expect(action).to.have.property('data');
 			expect(action.data.email).to.equal('a@a.com');
+			expect(action.data.user.email).to.equal('a@a.com');
 		});
 	});
 

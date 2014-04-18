@@ -16,8 +16,10 @@ agenda.define('execute actions', function (job, callback) {
 	execute(callback);
 });
 
-agenda.schedule('every 3 minutes', 'resolve actions');
-agenda.schedule('every 5 minutes', 'execute actions');
+agenda.purge(function () {
+	agenda.schedule('every 30 seconds', 'resolve actions');
+	agenda.schedule('every 1 minute', 'execute actions');
+});
 
 agenda.on('start', function (job) {
 	timing.start(job.attrs.name);
