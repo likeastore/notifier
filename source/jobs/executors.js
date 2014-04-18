@@ -21,6 +21,13 @@ function sendMandrill(to, template, vars, callback) {
 	});
 }
 
+function formatUrl(collection) {
+	var id = collection._id;
+	var user = collection.userData;
+
+	return 'https://app.likeastore.com/u/' + user.name + '/' + id;
+}
+
 var executors = {
 	'send-welcome': function (action, callback) {
 		sendMandrill([{email: action.data.email}], 'welcome-email', null,  callback);
@@ -31,7 +38,24 @@ var executors = {
 	},
 
 	'send-notify-owner-collection-followed': function (action, callback) {
-		callback(null);
+		var emails = action.data.email.map(function (e) {
+			return {email: e};
+		});
+
+		var item = action.data.item;
+		var collection = action.data.collection;
+
+		var vars = [
+			{name: 'ITEM_TITLE', content: item.title || item.authorName },
+			{name: 'ITEM_THUMBNAIL', content: item.thumbnail },
+			{name: 'ITEM_DESCRIPTION', content: item.description },
+			{name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
+			{name: 'USER_NAME', content: collection.userData.displayName || collection.userData.name },
+			{name: 'ITEM_COLLECTION_URL', content: formatUrl(collection._id) },
+			{name: 'ITEM_TYPE', content: item.type }
+		];
+
+		sendMandrill(emails, 'notify-owner-collection-followed', vars, callback);
 	},
 
 	'send-notify-followers-new-item-added': function (action, callback) {
