@@ -2,10 +2,8 @@ var async = require('async');
 var config = require('../../config');
 var db = require('../db')(config);
 
-var resolvers = require('./resolvers');
-
-function resolve(callback) {
-	db.actions.find({state: 'created'}, function (err, actions) {
+function iterate(fromState, toState, resolvers, callback) {
+	db.actions.find({state: fromState}, function (err, actions) {
 		if (err) {
 			return callback(err);
 		}
@@ -31,10 +29,10 @@ function resolve(callback) {
 		function ready(action, data) {
 			db.actions.findAndModify({
 				query: {_id: action._id},
-				update: { $set: {data: data, state: 'ready'}}
+				update: { $set: {data: data, state: toState}}
 			}, callback);
 		}
 	}
 }
 
-module.exports = resolve;
+module.exports = iterate;

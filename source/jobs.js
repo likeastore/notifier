@@ -3,14 +3,17 @@ var config = require('../config');
 var logger = require('./utils/logger');
 var timing = require('./utils/timing');
 
+var resolve = require('./jobs/resolve');
+var execute = require('./jobs/execute');
+
 var agenda = new Agenda({db: {address: config.connection, collection: 'notifierJobs'} });
 
 agenda.define('resolve actions', function (job, callback) {
-	callback(null);
+	resolve(callback);
 });
 
 agenda.define('execute actions', function (job, callback) {
-	callback(null);
+	execute(callback);
 });
 
 agenda.schedule('every 3 minutes', 'resolve actions');

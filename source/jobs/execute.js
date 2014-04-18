@@ -2,10 +2,10 @@ var async = require('async');
 var config = require('../../config');
 var db = require('../db')(config);
 
-var resolvers = require('./resolvers');
+var executors = require('./executors');
 
-function resolve(callback) {
-	db.actions.find({state: 'created'}, function (err, actions) {
+function execute(callback) {
+	db.actions.find({state: 'ready'}, function (err, actions) {
 		if (err) {
 			return callback(err);
 		}
@@ -14,27 +14,27 @@ function resolve(callback) {
 	});
 
 	function iterateAction(action, callback) {
-		var resolver = resolvers[action.id];
+		var executor = executors[action.id];
 
-		if (!resolver) {
+		if (!executor) {
 			return callback(null, action);
 		}
 
-		resolver(action, function (err, action, data) {
+		executor(action, function (err, action) {
 			if (err) {
 				return callback(err);
 			}
 
-			ready(action, data);
+			ready(action);
 		});
 
-		function ready(action, data) {
+		function ready(action) {
 			db.actions.findAndModify({
 				query: {_id: action._id},
-				update: { $set: {data: data, state: 'ready'}}
+				update: { $set: {state: 'executed'}}
 			}, callback);
 		}
 	}
 }
 
-module.exports = resolve;
+module.exports = execute;
