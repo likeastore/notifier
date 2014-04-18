@@ -15,9 +15,6 @@ function sendMandrill(to, template, vars, callback) {
 			preserve_recipients: false
 		}
 	}, function (err) {
-		if (err) {
-			logger.error({message: 'error during mandrill send', err: err});
-		}
 
 		callback && callback(err);
 	});
@@ -36,7 +33,9 @@ var executors = {
 			{name: 'USERID', content: action.data.user._id}
 		];
 
-		sendMandrill([{email: action.data.email}], 'welcome-email', vars,  callback);
+		sendMandrill([{email: action.data.email}], 'welcome-email', vars,  function (err) {
+			callback(err, action);
+		});
 	},
 
 	'send-notify-followers-collection-created': function (action, callback) {

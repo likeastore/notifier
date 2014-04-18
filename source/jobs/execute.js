@@ -1,6 +1,7 @@
 var async = require('async');
 var config = require('../../config');
 var db = require('../db')(config);
+var logger = require('../utils/logger');
 
 var executors = require('./executors');
 
@@ -20,18 +21,18 @@ function execute(callback) {
 			return callback(null, action);
 		}
 
-		executor(action, function (err, action) {
+		executor(action, ready);
+
+		function ready(err, action) {
 			if (err) {
-				return callback(err);
+				logger.error({message: 'error of execution', action: action, err: err});
 			}
 
-			ready(action);
-		});
+			var state = err ? 'error' : 'executed';
 
-		function ready(action) {
 			db.actions.findAndModify({
 				query: {_id: action._id},
-				update: { $set: {state: 'executed'}}
+				update: { $set: {state: state}}
 			}, callback);
 		}
 	}
