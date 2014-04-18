@@ -17,8 +17,8 @@ agenda.define('execute actions', function (job, callback) {
 });
 
 agenda.purge(function () {
-	agenda.schedule('every 30 seconds', 'resolve actions');
-	agenda.schedule('every 1 minute', 'execute actions');
+	agenda.every('30 seconds', 'resolve actions');
+	agenda.every('1 minute', 'execute actions');
 });
 
 agenda.on('start', function (job) {
