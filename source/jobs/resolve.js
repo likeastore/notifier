@@ -28,7 +28,7 @@ function resolve(callback) {
 				logger.error({message: 'error of execution', action: action, err: err});
 			}
 
-			var state = err ? 'error' : 'executed';
+			var state = err ? 'error' : 'ready';
 
 			db.actions.findAndModify({
 				query: {_id: action._id},
