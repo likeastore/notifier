@@ -4,6 +4,10 @@ var config = {
 
 	logentries: {
 		token: null
+	},
+
+	mandrill: {
+		token: null
 	}
 };
 
