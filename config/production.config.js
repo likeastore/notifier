@@ -3,7 +3,7 @@ var config = {
 	accessToken: process.env.ACCESS_TOKEN,
 
 	logentries: {
-		token: '8adf2203-f6bf-4a23-9f3e-2ac9002080f7'
+		token: '0bb5837f-db56-45dd-8be1-6541b14a49f0'
 	},
 
 	mandrill: {
