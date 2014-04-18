@@ -3,7 +3,7 @@ var logger = require('../utils/logger');
 var mandrill = require('node-mandrill')(config.mandrill.token);
 
 function sendMandrill(to, template, vars, callback) {
-	logger.important({message: 'sending email', to: to, template: template});
+	logger.info({message: 'sending email', to: to, template: template});
 
 	mandrill('/messages/send-template', {
 		template_name: template,
