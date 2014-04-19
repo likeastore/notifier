@@ -50,7 +50,7 @@ var executors = {
 			{ name: 'USERID', content: action.data.user._id },
 			{ name: 'USER_NAME', content: follower.name },
 			{ name: 'USER_AVATAR', content: follower.avatarUrl },
-			{ name: 'COLLECTION_URL', content: formatUrl(collection._id) },
+			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
 			{ name: 'COLLECTION_TITLE', content: formatUrl(collection.title) },
 		];
 
@@ -73,7 +73,7 @@ var executors = {
 			{ name: 'ITEM_DESCRIPTION', content: item.description },
 			{ name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
 			{ name: 'USER_NAME', content: collection.userData.displayName || collection.userData.name },
-			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(collection._id) },
+			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(collection) },
 			{ name: 'ITEM_TYPE', content: item.type }
 		];
 
