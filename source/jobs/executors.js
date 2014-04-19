@@ -49,7 +49,7 @@ var executors = {
 		var vars = [
 			{ name: 'USERID', content: action.data.user._id },
 			{ name: 'USER_NAME', content: follower.name },
-			{ name: 'USER_AVATAR', content: follower.avatarUrl },
+			{ name: 'USER_AVATAR', content: follower.avatar },
 			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
 			{ name: 'COLLECTION_TITLE', content: collection.title },
 		];
