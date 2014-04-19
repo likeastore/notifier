@@ -43,7 +43,20 @@ var executors = {
 	},
 
 	'send-notify-owner-collection-followed': function (action, callback) {
-		callback(null);
+		var follower = action.data.follower;
+		var collection = action.data.collection;
+
+		var vars = [
+			{ name: 'USERID', content: action.data.user._id },
+			{ name: 'USER_NAME', content: follower.name },
+			{ name: 'USER_AVATAR', content: follower.avatarUrl },
+			{ name: 'COLLECTION_URL', content: formatUrl(collection._id) },
+			{ name: 'COLLECTION_TITLE', content: formatUrl(collection.title) },
+		];
+
+		sendMandrill([{email: action.data.email}], 'notify-owner-collection-followed', vars, function (err) {
+			callback(err, action);
+		});
 	},
 
 	'send-notify-followers-new-item-added': function (action, callback) {
@@ -55,16 +68,16 @@ var executors = {
 		var collection = action.data.collection;
 
 		var vars = [
-			{name: 'ITEM_TITLE', content: item.title || item.authorName },
-			{name: 'ITEM_THUMBNAIL', content: item.thumbnail },
-			{name: 'ITEM_DESCRIPTION', content: item.description },
-			{name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
-			{name: 'USER_NAME', content: collection.userData.displayName || collection.userData.name },
-			{name: 'ITEM_COLLECTION_URL', content: formatUrl(collection._id) },
-			{name: 'ITEM_TYPE', content: item.type }
+			{ name: 'ITEM_TITLE', content: item.title || item.authorName },
+			{ name: 'ITEM_THUMBNAIL', content: item.thumbnail },
+			{ name: 'ITEM_DESCRIPTION', content: item.description },
+			{ name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
+			{ name: 'USER_NAME', content: collection.userData.displayName || collection.userData.name },
+			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(collection._id) },
+			{ name: 'ITEM_TYPE', content: item.type }
 		];
 
-		sendMandrill(emails, 'notify-owner-collection-followed', vars, callback);
+		sendMandrill(emails, 'notify-followers-new-item-added', vars, callback);
 	}
 };
 
