@@ -51,7 +51,7 @@ var executors = {
 			{ name: 'USER_NAME', content: follower.name },
 			{ name: 'USER_AVATAR', content: follower.avatarUrl },
 			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
-			{ name: 'COLLECTION_TITLE', content: formatUrl(collection.title) },
+			{ name: 'COLLECTION_TITLE', content: collection.title },
 		];
 
 		sendMandrill([{email: action.data.email}], 'notify-owner-collection-followed', vars, function (err) {
