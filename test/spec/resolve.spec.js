@@ -159,6 +159,7 @@ describe('resolve.spec.js', function () {
 
 		it('should have data', function () {
 			expect(action).to.have.property('data');
+			expect(action.data.user.email).to.eql('user@test.com');
 			expect(action.data.email).to.eql('user@test.com');
 			expect(action.data.follower.email).to.equal('follower@test.com');
 			expect(action.data.follower._id.toString()).to.equal(userId);
