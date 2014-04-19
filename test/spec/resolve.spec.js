@@ -135,7 +135,7 @@ describe('resolve.spec.js', function () {
 		});
 
 		beforeEach(function (done) {
-			actions.sendNotifyOwnerCollectionFollowed({data: {follower: 'follower@test.com',  collection: collectionId}}, done);
+			actions.sendNotifyOwnerCollectionFollowed({data: {follower: userId,  collection: collectionId}}, done);
 		});
 
 		beforeEach(function (done) {

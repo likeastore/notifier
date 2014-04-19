@@ -23,7 +23,9 @@ function resolve(callback) {
 
 		resolver(action, ready);
 
-		function ready(err, action, data) {
+		function ready(err, updated, data) {
+			action = updated || action;
+
 			if (err) {
 				logger.error({message: 'error of execution', action: action, err: err});
 			}

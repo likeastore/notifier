@@ -64,7 +64,7 @@ var resolvers = {
 				return callback({message: 'collection not found', collection: action.collection});
 			}
 
-			db.users.findOne({email: action.follower}, function (err, user) {
+			db.users.findOne({_id: new ObjectId(action.follower)}, function (err, user) {
 				if (err) {
 					return callback(err);
 				}

@@ -23,7 +23,9 @@ function execute(callback) {
 
 		executor(action, ready);
 
-		function ready(err, action) {
+		function ready(err, updated) {
+			action = updated || action;
+
 			if (err) {
 				logger.error({message: 'error of execution', action: action, err: err});
 			}
