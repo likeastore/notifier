@@ -43,6 +43,11 @@ describe('resolve.spec.js', function () {
 			expect(action.state).to.equal('ready');
 		});
 
+		it('should have resoved at date', function () {
+			console.log(action);
+			expect(action.resolvedAt).to.be.a('Date');
+		});
+
 		it('should have data', function () {
 			expect(action).to.have.property('data');
 			expect(action.data.email).to.equal('a@a.com');
@@ -91,6 +96,10 @@ describe('resolve.spec.js', function () {
 
 		it('should change state to ready', function () {
 			expect(action.state).to.equal('ready');
+		});
+
+		it('should have resoved at date', function () {
+			expect(action.resolvedAt).to.be.a('Date');
 		});
 
 		it('should have data', function () {
@@ -144,6 +153,10 @@ describe('resolve.spec.js', function () {
 			expect(action.state).to.equal('ready');
 		});
 
+		it('should have resoved at date', function () {
+			expect(action.resolvedAt).to.be.a('Date');
+		});
+
 		it('should have data', function () {
 			expect(action).to.have.property('data');
 			expect(action.data.email).to.eql('user@test.com');
@@ -191,6 +204,10 @@ describe('resolve.spec.js', function () {
 
 		it('should change state to ready', function () {
 			expect(action.state).to.equal('ready');
+		});
+
+		it('should have resoved at date', function () {
+			expect(action.resolvedAt).to.be.a('Date');
 		});
 
 		it('should have data', function () {

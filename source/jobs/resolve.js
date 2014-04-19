@@ -32,7 +32,7 @@ function resolve(callback) {
 
 			db.actions.findAndModify({
 				query: {_id: action._id},
-				update: { $set: {data: data, state: state}}
+				update: { $set: {data: data, state: state, resolvedAt: new Date() }}
 			}, callback);
 		}
 	}
