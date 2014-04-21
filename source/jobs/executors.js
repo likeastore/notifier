@@ -39,7 +39,23 @@ var executors = {
 	},
 
 	'send-notify-followers-collection-created': function (action, callback) {
-		callback(null);
+		var emails = action.data.email.map(function (e) {
+			return {email: e};
+		});
+
+		var user = action.data.user;
+		var collection = action.data.collection;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.name },
+			{ name: 'USER_AVATAR', content: user.avatar },
+			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
+			{ name: 'COLLECTION_TITLE', content: collection.title },
+			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail },
+			{ name: 'COLLECTION_DESCRIPTION', content: collection.description }
+		];
+
+		sendMandrill(emails, 'notify-followers-collection-created', vars, callback);
 	},
 
 	'send-notify-owner-collection-followed': function (action, callback) {
@@ -52,6 +68,7 @@ var executors = {
 			{ name: 'USER_AVATAR', content: follower.avatar },
 			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
 			{ name: 'COLLECTION_TITLE', content: collection.title },
+			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail }
 		];
 
 		sendMandrill([{email: action.data.email}], 'notify-owner-collection-followed', vars, function (err) {
