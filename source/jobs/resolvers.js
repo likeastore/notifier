@@ -37,7 +37,8 @@ var resolvers = {
 					return ({message: 'user not found', email: action.user});
 				}
 
-				var emails = user.followed.map(function (u) {
+				var followers = user.followed || [];
+				var emails = followers.map(function (u) {
 					return u.email;
 				});
 
@@ -93,7 +94,8 @@ var resolvers = {
 				return callback({message: 'collection not found', collection: action.collection});
 			}
 
-			var emails = collection.followers.map(function (f) {
+			var followers = collection.followers || [];
+			var emails = followers.map(function (f) {
 				return f.email;
 			});
 
