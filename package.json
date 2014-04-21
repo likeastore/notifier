@@ -4,7 +4,9 @@
   "description": "Service for sending notifications to users",
   "main": "index.js",
   "scripts": {
-    "test": "node test/run.js"
+    "test": "node test/run.js",
+    "watch": "nodemon --watch source --watch config app.js",
+    "test-watch": "nodemon --watch source --watch config --watch test test/run.js"
   },
   "repository": {
     "type": "git",

@@ -1,5 +1,6 @@
 var config = require('../../config');
 var db = require('../db')(config);
+var logger = require('../utils/logger');
 
 var initial = 'created';
 
@@ -8,7 +9,10 @@ function sendWelcomeEmail(e, callback) {
 		id: 'send-welcome',
 		user: e.user,
 		state: initial,
-	}, callback);
+	}, function (err) {
+		logger.info({message: 'created send-welcome action'});
+		callback && callback(err);
+	});
 }
 
 function sendNotifyFollowersCollectionCreated(e, callback) {
@@ -17,7 +21,10 @@ function sendNotifyFollowersCollectionCreated(e, callback) {
 		user: e.user,
 		collection: e.data.collection,
 		state: initial,
-	}, callback);
+	}, function (err) {
+		logger.info({message: 'created send-notify-followers-collection-created action'});
+		callback && callback(err);
+	});
 }
 
 function sendNotifyOwnerCollectionFollowed(e, callback) {
@@ -27,7 +34,10 @@ function sendNotifyOwnerCollectionFollowed(e, callback) {
 		follower: e.data.follower,
 		collection: e.data.collection,
 		state: initial
-	}, callback);
+	}, function (err) {
+		logger.info({message: 'created send-notify-owner-collection-followed action'});
+		callback && callback(err);
+	});
 }
 
 function sendNotifyFollowersNewItemAdded(e, callback) {
@@ -37,7 +47,10 @@ function sendNotifyFollowersNewItemAdded(e, callback) {
 		collection: e.data.collection,
 		item: e.data.item,
 		state: initial
-	}, callback);
+	}, function (err) {
+		logger.info({message: 'created send-notify-followers-new-item-added action'});
+		callback && callback(err);
+	});
 }
 
 module.exports = {
