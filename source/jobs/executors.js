@@ -68,11 +68,11 @@ var executors = {
 		var collection = action.data.collection;
 
 		var vars = [
+			{ name: 'USER_NAME', content: collection.userData.displayName || collection.userData.name },
 			{ name: 'ITEM_TITLE', content: item.title || item.authorName },
 			{ name: 'ITEM_THUMBNAIL', content: item.thumbnail },
 			{ name: 'ITEM_DESCRIPTION', content: item.description },
 			{ name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
-			{ name: 'USER_NAME', content: collection.userData.displayName || collection.userData.name },
 			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(collection) },
 			{ name: 'ITEM_TYPE', content: item.type }
 		];
