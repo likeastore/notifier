@@ -105,10 +105,8 @@ describe('resolve.spec.js', function () {
 		it('should have data', function () {
 			expect(action).to.have.property('data');
 			expect(action.data.email).to.eql(['first@follower.com', 'second@follower.com']);
-			expect(action.data.user).to.equal('user');
-			expect(action.data.title).to.eql('title');
-			expect(action.data.description).to.eql('description');
-			expect(action.data.collection).to.eql(collectionId);
+			expect(action.data.user.name).to.equal('user');
+			expect(action.data.collection._id.toString()).to.eql(collectionId);
 		});
 	});
 

@@ -43,10 +43,8 @@ var resolvers = {
 
 				var data = {
 					email: emails,
-					title: collection.title,
-					description: collection.description,
-					user: collection.userData.name,
-					collection: collection._id.toString()
+					user: user,
+					collection: collection
 				};
 
 				callback(null, action, data);
