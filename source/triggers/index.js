@@ -14,7 +14,12 @@ function userRegistered(bus) {
 	});
 
 	bus.subscribe('collection-item-added', function (e) {
-		actions.sendNotifyFollowersNewItemAdded(e);
+		// disable as for now, since it's too noisy
+		// actions.sendNotifyFollowersNewItemAdded(e);
+	});
+
+	bus.subscribe('user-feedback', function (e) {
+		actions.sendNotifyToDevelopers(e);
 	});
 }
 

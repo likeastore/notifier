@@ -187,7 +187,7 @@ describe('resolve.spec.js', function () {
 		});
 
 		beforeEach(function (done) {
-			actions.sendNotifyFollowersNewItemAdded({data: {collection: collectionId, item: itemId}}, done);
+			actions.sendNotifyFollowersNewItemAdded({user: 'a@a.com', data: {collection: collectionId, item: itemId}}, done);
 		});
 
 		beforeEach(function (done) {
@@ -214,6 +214,43 @@ describe('resolve.spec.js', function () {
 			expect(action.data.email).to.eql(['aa@a.com', 'bb@b.com']);
 			expect(action.data.collection._id.toString()).to.equal(collectionId);
 			expect(action.data.item._id.toString()).to.equal(itemId);
+		});
+	});
+
+	describe('resolve send-notify-developers', function () {
+		beforeEach(function (done) {
+			utils.createTestUser('a@a.com', 'follower', [], function (err, user) {
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			actions.sendNotifyToDevelopers({user: 'a@a.com', data: {message: 'hello world'}}, done);
+		});
+
+		beforeEach(function (done) {
+			resolve(done);
+		});
+
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		it('should change state to ready', function () {
+			expect(action.state).to.equal('ready');
+		});
+
+		it('should have resoved at date', function () {
+			expect(action.resolvedAt).to.be.a('Date');
+		});
+
+		it('should have data', function () {
+			expect(action).to.have.property('data');
+			expect(action.data.email).to.eql('devs@likeastore.com');
+			expect(action.data.user.email).to.eql('a@a.com');
 		});
 	});
 });

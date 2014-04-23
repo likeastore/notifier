@@ -125,12 +125,7 @@ describe('server.spec.js', function () {
 		});
 	});
 
-	describe('when collection-item-added', function () {
-
-		before(function (done) {
-			utils.clearCollection('states', done);
-		});
-
+	xdescribe('when collection-item-added', function () {
 		beforeEach(function (done) {
 			request.post({url: url, body: {
 				event: 'collection-item-added',
@@ -155,6 +150,33 @@ describe('server.spec.js', function () {
 			expect(action.user).to.eql('user@notify.com');
 			expect(action.collection).to.equal('345');
 			expect(action.item).to.eql('123');
+		});
+	});
+
+	describe('when user sends feedback', function () {
+		beforeEach(function (done) {
+			request.post({url: url, body: {
+				event: 'user-feedback',
+				user: 'user@notify.com',
+				data: { message: 'you are awesome'}}, json: true}, function (err, resp) {
+					response = resp;
+					done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			setTimeout(function () {
+				utils.getLastAction(function (err, act) {
+					action = act;
+					done(err);
+				});
+			}, 30);
+		});
+
+		it('should send-notify-developers', function () {
+			expect(action.id).to.equal('send-notify-developers');
+			expect(action.user).to.eql('user@notify.com');
+			expect(action.message).to.equal('you are awesome');
 		});
 	});
 });

@@ -113,6 +113,20 @@ var resolvers = {
 				callback(null, action, data);
 			});
 		});
+	},
+
+	'send-notify-developers': function (action, callback) {
+		db.users.findOne({email: action.user}, function (err, user) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!user) {
+				return callback({message: 'user not found', email: action.email});
+			}
+
+			callback(null, action, {email: 'devs@likeastore.com', user: user});
+		});
 	}
 };
 

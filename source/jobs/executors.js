@@ -95,6 +95,22 @@ var executors = {
 		];
 
 		sendMandrill(emails, 'notify-followers-new-item-added', vars, callback);
+	},
+
+	'send-notify-developers': function (action, callback) {
+		var user = action.data.user;
+		var message = action.data.message;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.name },
+			{ name: 'USER_DISPLAY_NAME', content: user.displayName || 'NONE' },
+			{ name: 'USER_EMAIL', content: user.email },
+			{ name: 'MESSAGE', content: message}
+		];
+
+		sendMandrill([{email: action.data.email}], 'notify-developers-user-feedback', vars, function (err) {
+			callback(err, action);
+		});
 	}
 };
 
