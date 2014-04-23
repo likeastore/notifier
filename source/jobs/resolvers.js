@@ -34,7 +34,7 @@ var resolvers = {
 				}
 
 				if (!user) {
-					return ({message: 'user not found', email: action.user});
+					return callback({message: 'user not found', email: action.user});
 				}
 
 				var followers = user.followed || [];
