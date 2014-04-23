@@ -99,7 +99,7 @@ var executors = {
 
 	'send-notify-developers': function (action, callback) {
 		var user = action.data.user;
-		var message = action.data.message;
+		var message = action.message;
 
 		var vars = [
 			{ name: 'USER_NAME', content: user.name },
