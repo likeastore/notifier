@@ -21,7 +21,7 @@ function sendPersonalEmail(e, callback) {
 		id: 'send-personal',
 		user: e.user,
 		state: initial,
-		executeAfter: moment().add(5, 'minutes').toDate()
+		executeAfter: moment().add(3, 'days').toDate()
 	}, function (err) {
 		logger.info({message: 'created send-personal action'});
 		callback && callback(err);
