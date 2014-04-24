@@ -13,21 +13,21 @@ describe('server.spec.js', function () {
 	});
 
 	describe('when user-registered event', function () {
+		beforeEach(function () {
+			event = {
+				event: 'user-registered',
+				user: 'a@a.com'
+			};
+		});
+
+		beforeEach(function (done) {
+			request.post({url: url, body: event, json: true}, function (err, resp) {
+				response = resp;
+				done(err);
+			});
+		});
+
 		describe('send welcome email', function () {
-			beforeEach(function () {
-				event = {
-					event: 'user-registered',
-					user: 'a@a.com'
-				};
-			});
-
-			beforeEach(function (done) {
-				request.post({url: url, body: event, json: true}, function (err, resp) {
-					response = resp;
-					done(err);
-				});
-			});
-
 			beforeEach(function (done) {
 				setTimeout(function () {
 					utils.getLastAction(function (err, act) {
@@ -49,22 +49,22 @@ describe('server.spec.js', function () {
 	});
 
 	describe('when collection-created', function () {
+		beforeEach(function () {
+			event = {
+				event: 'collection-created',
+				user: 'a@a.com',
+				data: {collection: '123'}
+			};
+		});
+
+		beforeEach(function (done) {
+			request.post({url: url, body: event, json: true}, function (err, resp) {
+				response = resp;
+				done(err);
+			});
+		});
+
 		describe('notify followers action', function () {
-			beforeEach(function () {
-				event = {
-					event: 'collection-created',
-					user: 'a@a.com',
-					data: {collection: '123'}
-				};
-			});
-
-			beforeEach(function (done) {
-				request.post({url: url, body: event, json: true}, function (err, resp) {
-					response = resp;
-					done(err);
-				});
-			});
-
 			beforeEach(function (done) {
 				setTimeout(function () {
 					utils.getLastAction(function (err, act) {
@@ -87,22 +87,22 @@ describe('server.spec.js', function () {
 	});
 
 	describe('when collection-followed', function () {
+		beforeEach(function () {
+			event = {
+				event: 'collection-followed',
+				user: 'a@a.com',
+				data: {collection: '321', follower: '123'}
+			};
+		});
+
+		beforeEach(function (done) {
+			request.post({url: url, body: event, json: true}, function (err, resp) {
+				response = resp;
+				done(err);
+			});
+		});
+
 		describe('notify collection owner', function () {
-			beforeEach(function () {
-				event = {
-					event: 'collection-followed',
-					user: 'a@a.com',
-					data: {collection: '321', follower: '123'}
-				};
-			});
-
-			beforeEach(function (done) {
-				request.post({url: url, body: event, json: true}, function (err, resp) {
-					response = resp;
-					done(err);
-				});
-			});
-
 			beforeEach(function (done) {
 				setTimeout(function () {
 					utils.getLastAction(function (err, act) {
@@ -136,20 +136,22 @@ describe('server.spec.js', function () {
 			});
 		});
 
-		beforeEach(function (done) {
-			setTimeout(function () {
-				utils.getLastAction(function (err, act) {
-					action = act;
-					done(err);
-				});
-			}, 30);
-		});
+		describe('notify followers', function () {
+			beforeEach(function (done) {
+				setTimeout(function () {
+					utils.getLastAction(function (err, act) {
+						action = act;
+						done(err);
+					});
+				}, 30);
+			});
 
-		it('should send-notify-followers-new-item-added', function () {
-			expect(action.id).to.equal('send-notify-followers-new-item-added');
-			expect(action.user).to.eql('user@notify.com');
-			expect(action.collection).to.equal('345');
-			expect(action.item).to.eql('123');
+			it('should send-notify-followers-new-item-added', function () {
+				expect(action.id).to.equal('send-notify-followers-new-item-added');
+				expect(action.user).to.eql('user@notify.com');
+				expect(action.collection).to.equal('345');
+				expect(action.item).to.eql('123');
+			});
 		});
 	});
 
