@@ -5,6 +5,10 @@ function userRegistered(bus) {
 		actions.sendWelcomeEmail(e);
 	});
 
+	bus.subscribe('user-registered', function (e) {
+		actions.sendPersonalEmail(e);
+	});
+
 	bus.subscribe('collection-created', function (e) {
 		actions.sendNotifyFollowersCollectionCreated(e);
 	});

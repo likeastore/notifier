@@ -1,3 +1,5 @@
+var moment = require('moment');
+var _ = require('underscore');
 var request = require('request');
 var utils = require('../utils');
 
@@ -30,8 +32,10 @@ describe('server.spec.js', function () {
 		describe('send welcome email', function () {
 			beforeEach(function (done) {
 				setTimeout(function () {
-					utils.getLastAction(function (err, act) {
-						action = act;
+					utils.getLastActions(function (err, act) {
+						action = _.find(act, function (a) {
+							return a.id === 'send-welcome';
+						});
 						done(err);
 					});
 				}, 30);
@@ -44,6 +48,33 @@ describe('server.spec.js', function () {
 			it('should send-welcome-email action created', function () {
 				expect(action.id).to.equal('send-welcome');
 				expect(action.user).to.equal('a@a.com');
+			});
+		});
+
+		describe('send personal message in 3 days', function () {
+			beforeEach(function (done) {
+				setTimeout(function () {
+					utils.getLastActions(function (err, act) {
+						action = _.find(act, function (a) {
+							return a.id === 'send-personal';
+						});
+						done(err);
+					});
+				}, 30);
+			});
+
+			it('should respond 201 (created)', function () {
+				expect(response.statusCode).to.equal(201);
+			});
+
+			it('should send-personal-email action created', function () {
+				expect(action.id).to.equal('send-personal');
+				expect(action.user).to.equal('a@a.com');
+			});
+
+			it('should be executed after 3 days', function () {
+				var duration = moment.duration(moment(action.executeAfter).diff(moment())).humanize();
+				expect(duration).to.equal('3 days');
 			});
 		});
 	});

@@ -1,3 +1,4 @@
+var moment = require('moment');
 var config = require('../../config');
 var db = require('../db')(config);
 var logger = require('../utils/logger');
@@ -11,6 +12,18 @@ function sendWelcomeEmail(e, callback) {
 		state: initial,
 	}, function (err) {
 		logger.info({message: 'created send-welcome action'});
+		callback && callback(err);
+	});
+}
+
+function sendPersonalEmail(e, callback) {
+	db.actions.save({
+		id: 'send-personal',
+		user: e.user,
+		state: initial,
+		executeAfter: moment().add(3, 'days').toDate()
+	}, function (err) {
+		logger.info({message: 'created send-personal action'});
 		callback && callback(err);
 	});
 }
@@ -67,6 +80,7 @@ function sendNotifyToDevelopers(e, callback) {
 
 module.exports = {
 	sendWelcomeEmail: sendWelcomeEmail,
+	sendPersonalEmail: sendPersonalEmail,
 	sendNotifyFollowersCollectionCreated: sendNotifyFollowersCollectionCreated,
 	sendNotifyOwnerCollectionFollowed: sendNotifyOwnerCollectionFollowed,
 	sendNotifyFollowersNewItemAdded: sendNotifyFollowersNewItemAdded,

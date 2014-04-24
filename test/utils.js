@@ -43,5 +43,9 @@ module.exports = {
 		db.actions.find({}).sort({_id: -1}).limit(1, function (err, actions) {
 			callback(err, actions[0]);
 		});
+	},
+
+	getLastActions: function (callback) {
+		db.actions.find({}).sort({_id: -1}, callback);
 	}
 };

@@ -38,6 +38,19 @@ var executors = {
 		});
 	},
 
+	'send-personal': function (action, callback) {
+		var user = action.data.user;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.displayName || user.name },
+			{ name: 'USER_EMAIL', content: user.email },
+		];
+
+		sendMandrill([{email: action.data.email}], 'personal-email', vars,  function (err) {
+			callback(err, action);
+		});
+	},
+
 	'send-notify-followers-collection-created': function (action, callback) {
 		var emails = action.data.email.map(function (e) {
 			return {email: e};

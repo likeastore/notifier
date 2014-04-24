@@ -44,7 +44,6 @@ describe('resolve.spec.js', function () {
 		});
 
 		it('should have resoved at date', function () {
-			console.log(action);
 			expect(action.resolvedAt).to.be.a('Date');
 		});
 

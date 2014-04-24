@@ -1,3 +1,4 @@
+var moment = require('moment');
 var async = require('async');
 var config = require('../../config');
 var db = require('../db')(config);
@@ -18,6 +19,10 @@ function execute(callback) {
 		var executor = executors[action.id];
 
 		if (!executor) {
+			return callback(null, action);
+		}
+
+		if (moment().diff(action.executeAfter) < 0) {
 			return callback(null, action);
 		}
 
