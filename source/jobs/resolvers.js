@@ -1,7 +1,11 @@
+var _ = require('underscore');
 var config = require('../../config');
 var db = require('../db')(config);
 
 var ObjectId = require('mongojs').ObjectId;
+
+var userPick = ['_id', 'avatar', 'email', 'name', 'displayName'];
+var collectionPick = ['_id', 'color', 'description', 'public', 'title', 'user'];
 
 var resolvers = {
 	'send-welcome': function (action, callback) {
@@ -58,8 +62,8 @@ var resolvers = {
 
 				var data = {
 					email: emails,
-					user: user,
-					collection: collection
+					user: _.pick(user, userPick),
+					collection: _.pick(collection, collectionPick)
 				};
 
 				callback(null, action, data);
@@ -88,9 +92,9 @@ var resolvers = {
 
 				var data = {
 					email: collection.userData.email,
-					user: collection.userData,
+					user: _.pick(collection.userData, userPick),
 					follower: follower,
-					collection: collection
+					collection: _.pick(collection, collectionPick)
 				};
 
 				callback(null, action, data);
@@ -139,7 +143,12 @@ var resolvers = {
 				return callback({message: 'user not found', email: action.email});
 			}
 
-			callback(null, action, {email: 'devs@likeastore.com', user: user});
+			var data = {
+				email: 'devs@likeastore.com',
+				user: _.pick(user, userPick)
+			};
+
+			callback(null, action, data);
 		});
 	}
 };
