@@ -25,6 +25,10 @@ function userRegistered(bus) {
 	bus.subscribe('user-feedback', function (e) {
 		actions.sendNotifyToDevelopers(e);
 	});
+
+	bus.subscribe('user-deleted', function (e) {
+		actions.sendSorrySeeYouGo(e);
+	});
 }
 
 module.exports = userRegistered;

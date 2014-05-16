@@ -18,7 +18,12 @@ var resolvers = {
 				return callback({message: 'user not found', email: action.email});
 			}
 
-			callback(null, action, {email: action.user, user: user});
+			var data = {
+				email: action.user,
+				user: _.pick(user, userPick)
+			};
+
+			callback(null, action, data);
 		});
 	},
 
@@ -32,7 +37,12 @@ var resolvers = {
 				return callback({message: 'user not found', email: action.email});
 			}
 
-			callback(null, action, {email: action.user, user: user});
+			var data = {
+				email: action.user,
+				user: _.pick(user, userPick)
+			};
+
+			callback(null, action, data);
 		});
 	},
 
@@ -124,7 +134,7 @@ var resolvers = {
 
 				var data = {
 					email: emails,
-					collection: collection,
+					collection: _.pick(collection, collectionPick),
 					item: item
 				};
 
@@ -145,6 +155,25 @@ var resolvers = {
 
 			var data = {
 				email: 'devs@likeastore.com',
+				user: _.pick(user, userPick)
+			};
+
+			callback(null, action, data);
+		});
+	},
+
+	'send-sorry': function (action, callback) {
+		db.users.findOne({email: action.user}, function (err, user) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!user) {
+				return callback({message: 'user not found', email: action.email});
+			}
+
+			var data = {
+				email: user.email,
 				user: _.pick(user, userPick)
 			};
 

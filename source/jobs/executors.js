@@ -124,6 +124,19 @@ var executors = {
 		sendMandrill([{email: action.data.email}], 'notify-developers-user-feedback', vars, function (err) {
 			callback(err, action);
 		});
+	},
+
+	'send-sorry': function (action, callback) {
+		var user = action.data.user;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.displayName || user.name },
+			{ name: 'USER_EMAIL', content: user.email },
+		];
+
+		sendMandrill([{email: action.data.email}], 'sorry-email', vars,  function (err) {
+			callback(err, action);
+		});
 	}
 };
 

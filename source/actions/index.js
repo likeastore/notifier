@@ -78,11 +78,25 @@ function sendNotifyToDevelopers(e, callback) {
 	});
 }
 
+function sendSorrySeeYouGo(e, callback) {
+	db.actions.save({
+		id: 'send-sorry',
+		user: e.user,
+		message: e.data.message,
+		state: initial,
+		executeAfter: moment().add(1, 'days').toDate()
+	}, function (err) {
+		logger.info({message: 'created send-sorry action'});
+		callback && callback(err);
+	});
+}
+
 module.exports = {
 	sendWelcomeEmail: sendWelcomeEmail,
 	sendPersonalEmail: sendPersonalEmail,
 	sendNotifyFollowersCollectionCreated: sendNotifyFollowersCollectionCreated,
 	sendNotifyOwnerCollectionFollowed: sendNotifyOwnerCollectionFollowed,
 	sendNotifyFollowersNewItemAdded: sendNotifyFollowersNewItemAdded,
-	sendNotifyToDevelopers: sendNotifyToDevelopers
+	sendNotifyToDevelopers: sendNotifyToDevelopers,
+	sendSorrySeeYouGo: sendSorrySeeYouGo
 };
