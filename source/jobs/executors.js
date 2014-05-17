@@ -20,11 +20,8 @@ function sendMandrill(to, template, vars, callback) {
 	});
 }
 
-function formatUrl(collection) {
-	var id = collection._id;
-	var user = collection.userData;
-
-	return 'https://app.likeastore.com/u/' + user.name + '/' + id;
+function formatUrl(user, collection) {
+	return 'https://app.likeastore.com/u/' + user.name + '/' + collection._id;
 }
 
 var executors = {
@@ -62,7 +59,7 @@ var executors = {
 		var vars = [
 			{ name: 'USER_NAME', content: user.name },
 			{ name: 'USER_AVATAR', content: user.avatar },
-			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
+			{ name: 'COLLECTION_URL', content: formatUrl(user, collection) },
 			{ name: 'COLLECTION_TITLE', content: collection.title },
 			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail },
 			{ name: 'COLLECTION_DESCRIPTION', content: collection.description }
@@ -73,13 +70,14 @@ var executors = {
 
 	'send-notify-owner-collection-followed': function (action, callback) {
 		var follower = action.data.follower;
+		var user = action.data.user;
 		var collection = action.data.collection;
 
 		var vars = [
 			{ name: 'USERID', content: action.data.user._id },
 			{ name: 'USER_NAME', content: follower.name },
 			{ name: 'USER_AVATAR', content: follower.avatar },
-			{ name: 'COLLECTION_URL', content: formatUrl(collection) },
+			{ name: 'COLLECTION_URL', content: formatUrl(user, collection) },
 			{ name: 'COLLECTION_TITLE', content: collection.title },
 			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail }
 		];
@@ -95,6 +93,7 @@ var executors = {
 		});
 
 		var item = action.data.item;
+		var user = action.data.user;
 		var collection = action.data.collection;
 
 		var vars = [
@@ -103,7 +102,7 @@ var executors = {
 			{ name: 'ITEM_THUMBNAIL', content: item.thumbnail },
 			{ name: 'ITEM_DESCRIPTION', content: item.description },
 			{ name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
-			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(collection) },
+			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(user, collection) },
 			{ name: 'ITEM_TYPE', content: item.type }
 		];
 
