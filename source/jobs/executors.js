@@ -5,15 +5,32 @@ var mandrill = require('node-mandrill')(config.mandrill.token);
 function sendMandrill(to, template, vars, callback) {
 	logger.info({message: 'sending email', to: to, template: template});
 
-	mandrill('/messages/send-template', {
-		template_name: template,
-		template_content: [],
+	mandrill('/messages/send', {
 		message: {
 			auto_html: null,
 			to: to,
 			global_merge_vars: vars,
-			preserve_recipients: false
+			preserve_recipients: false,
+
+			from_email: "notifier@democracyos.org",
+    	from_name: "DemocracyOS Notifier",
+
+    	subject: "Testing the notifier!",
+
+			text: "¡¿SABÉPORQUÉ!?",
+			html: "¡¿SABÉPORQUÉ!?",
+			auto_text: true
 		}
+
+	// mandrill('/messages/send-template', {
+	// 	template_name: template,
+	// 	template_content: [],
+	// 	message: {
+	// 		auto_html: null,
+	// 		to: to,
+	// 		global_merge_vars: vars,
+	// 		preserve_recipients: false
+	// 	}
 	}, function (err) {
 
 		callback && callback(err);
