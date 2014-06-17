@@ -1,24 +1,30 @@
 var config = require('../../config');
+var temp = require('../templates/template');
 var logger = require('../utils/logger');
 var mandrill = require('node-mandrill')(config.mandrill.token);
 
 function sendMandrill(to, template, vars, callback) {
 	logger.info({message: 'sending email', to: to, template: template});
+	debugger;
+	var content = temp.jade(template);
 
 	mandrill('/messages/send', {
 		message: {
-			auto_html: null,
-			to: to,
-			global_merge_vars: vars,
-			preserve_recipients: false,
+      auto_html: null,
+      to: to,
+      global_merge_vars: vars,
+      preserve_recipients: false,
 
-			from_email: "notifier@democracyos.org",
-    	from_name: "DemocracyOS Notifier",
+		  from_email: "notifier@democracyos.org",
+      from_name: "DemocracyOS Notifier",
 
     	subject: "Testing the notifier!",
 
-			text: "¡¿SABÉPORQUÉ!?",
-			html: "¡¿SABÉPORQUÉ!?",
+      text: content,
+      html: content,
+
+			// text: "¡¿SABÉPORQUÉ!?",
+			// html: "¡¿SABÉPORQUÉ!?",
 			auto_text: true
 		}
 
