@@ -1,22 +1,28 @@
 var fs = require('fs');
 var path = require('path');
 var jade = require('jade');
-var merge = require('merge-util');
 var t = require('t-component');
 var logger = require('../utils/logger');
 
-function jadeTemplate(name, options, callback) {
-  var filePath = path.join(__dirname, '/' + name + '.jade');
+function jadeTemplate(name, callback) {
+  var filePath = path.join(__dirname, './' + name + '.jade');
 
-  logger.info('looking for template [' + name + '] in path: ' filePath);
+  console.log('looking for template [' + name + '] in path: ' + filePath);
 
-  fs.readFile(filePath, {encoding: 'utf-8'}, function (err, template) {
-    if (err) {
+  fs.readFile(filePath, { encoding: 'utf-8' }, function (err, template) {
+    if (!err) {
+      // var mail = jade.compile(template, { t: t });
+
+      var mail = jade.compile(template);
+      var content = mail({ t: t });
+
+      console.log('JADE: ' + content);
+
+      callback(null, content);
+    } else {
+      console.log('Error while reading template: ' + err.stack);
       callback({message: 'unable to find template with name ' + name});
-      return err;
     }
-
-    callback(null, jade.compile(template, merge(options, {t: t})))
   }); 
 };
 

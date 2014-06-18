@@ -4,42 +4,36 @@ var logger = require('../utils/logger');
 var mandrill = require('node-mandrill')(config.mandrill.token);
 
 function sendMandrill(to, template, vars, callback) {
-	logger.info({message: 'sending email', to: to, template: template});
-	debugger;
-	var content = temp.jade(template);
 
-	mandrill('/messages/send', {
-		message: {
-      auto_html: null,
-      to: to,
-      global_merge_vars: vars,
-      preserve_recipients: false,
+	temp.jade(template, function (err, content) {
 
-		  from_email: "notifier@democracyos.org",
-      from_name: "DemocracyOS Notifier",
+		mandrill('/messages/send', {
+			message: {
+	      auto_html: null,
+	      to: to,
+	      global_merge_vars: vars,
+	      preserve_recipients: false,
+				from_email: "notifier@democracyos.org",
+				from_name: "DemocracyOS Notifier",
+				subject: "Testing the notifier!",
+				text: content,
+				html: content,
+				auto_text: true
+			}
 
-    	subject: "Testing the notifier!",
+			// mandrill('/messages/send-template', {
+			// 	template_name: template,
+			// 	template_content: [],
+			// 	message: {
+			// 		auto_html: null,
+			// 		to: to,
+			// 		global_merge_vars: vars,
+			// 		preserve_recipients: false
+			// 	}
+		}, function (err) {
+			callback && callback(err);
+		});
 
-      text: content,
-      html: content,
-
-			// text: "¡¿SABÉPORQUÉ!?",
-			// html: "¡¿SABÉPORQUÉ!?",
-			auto_text: true
-		}
-
-	// mandrill('/messages/send-template', {
-	// 	template_name: template,
-	// 	template_content: [],
-	// 	message: {
-	// 		auto_html: null,
-	// 		to: to,
-	// 		global_merge_vars: vars,
-	// 		preserve_recipients: false
-	// 	}
-	}, function (err) {
-
-		callback && callback(err);
 	});
 }
 
@@ -56,7 +50,7 @@ var executors = {
 			{name: 'USERID', content: action.data.user._id}
 		];
 
-		sendMandrill([{email: action.data.email}], 'welcome-email', vars,  function (err) {
+			sendMandrill([{email: action.data.email}], 'welcome-email', vars,  function (err) {
 			callback(err, action);
 		});
 	},
