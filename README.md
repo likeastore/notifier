@@ -1,6 +1,12 @@
-# Notifier
+# Jobber
 
-Recieved email from Likeastore.com? Now you know, it's me responsible for that.
+I run jobs to help Likeastore be a greatest service.
+
+## Current jobs
+
+* [pulse](/source/jobs/pulse.js) - aggregates likes to reference count
+* [spread](/source/jobs/spread.js) - send weekly emails on pulse contents
+* [mixpanel](/source/jobs/mixpanel.js) - updates our Mixpanel account with actual user stats
 
 # Licence (MIT)
 
