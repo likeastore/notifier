@@ -27,7 +27,8 @@ function formatUrl(user, collection) {
 var executors = {
 	'send-welcome': function (action, callback) {
 		var vars = [
-			{name: 'USERID', content: action.data.user._id}
+			{name: 'USERID', content: action.data.user._id},
+			{name: 'USER_NAME', content: action.data.user.displayName || action.data.user.name}
 		];
 
 		sendMandrill([{email: action.data.email}], 'welcome-email', vars,  function (err) {
