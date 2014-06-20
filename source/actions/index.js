@@ -66,6 +66,19 @@ function sendNotifyFollowersNewItemAdded(e, callback) {
 	});
 }
 
+function sendNotifyCollectionOwner(e, callback) {
+	db.actions.save({
+		id: 'send-notify-collection-owner-item-used',
+		user: e.user,
+		collection: e.data.collection,
+		item: e.data.item,
+		state: initial
+	}, function (err) {
+		logger.info({message: 'created send-notify-collection-owner-item-used action'});
+		callback && callback(err);
+	});
+}
+
 function sendNotifyToDevelopers(e, callback) {
 	db.actions.save({
 		id: 'send-notify-developers',
@@ -98,5 +111,6 @@ module.exports = {
 	sendNotifyOwnerCollectionFollowed: sendNotifyOwnerCollectionFollowed,
 	sendNotifyFollowersNewItemAdded: sendNotifyFollowersNewItemAdded,
 	sendNotifyToDevelopers: sendNotifyToDevelopers,
-	sendSorrySeeYouGo: sendSorrySeeYouGo
+	sendSorrySeeYouGo: sendSorrySeeYouGo,
+	sendNotifyCollectionOwner: sendNotifyCollectionOwner
 };

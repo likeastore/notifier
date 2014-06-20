@@ -110,6 +110,28 @@ var executors = {
 		sendMandrill(emails, 'notify-followers-new-item-added', vars, callback);
 	},
 
+	'send-notify-collection-owner-item-used': function (action, callback) {
+		var item = action.data.item;
+		var user = action.data.user;
+		var collection = action.data.collection;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.displayName || user.name  },
+			{ name: 'USER_AVATAR', content: user.avatar },
+			{ name: 'COLLECTION_URL', content: formatUrl(user, collection) },
+			{ name: 'COLLECTION_TITLE', content: collection.title },
+			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail },
+			{ name: 'ITEM_TITLE', content: item.title || item.authorName },
+			{ name: 'ITEM_THUMBNAIL', content: item.thumbnail },
+			{ name: 'ITEM_DESCRIPTION', content: item.description },
+			{ name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
+			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(user, collection) },
+			{ name: 'ITEM_TYPE', content: item.type }
+		];
+
+		sendMandrill([{email: action.data.email}], 'notify-collection-owner-item-used', vars, callback);
+	},
+
 	'send-notify-developers': function (action, callback) {
 		var user = action.data.user;
 		var message = action.message;

@@ -143,6 +143,39 @@ var resolvers = {
 		});
 	},
 
+	'send-notify-collection-owner-item-used': function (action, callback) {
+		db.collections.findOne({_id: new ObjectId(action.collection)}, function (err, collection) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!collection) {
+				return callback({message: 'collection not found', collection: action.collection});
+			}
+
+			db.items.findOne({_id: new ObjectId(action.item)}, function (err, item) {
+				if (err) {
+					return callback(err);
+				}
+
+				if (collection.public && collection.userData.email === item.userData.email) {
+					// ignore the actions if items belogs to me or placed to private collection
+					return callback(null, action, {}, true);
+				}
+
+				var data = {
+					email: collection.userData.email,
+					user: collection.userData,
+					owner: item.userData,
+					collection: _.pick(collection, collectionPick),
+					item: item
+				};
+
+				callback(null, action, data);
+			});
+		});
+	},
+
 	'send-notify-developers': function (action, callback) {
 		db.users.findOne({email: action.user}, function (err, user) {
 			if (err) {

@@ -23,14 +23,14 @@ function resolve(callback) {
 
 		resolver(action, ready);
 
-		function ready(err, updated, data) {
+		function ready(err, updated, data, ignore) {
 			action = updated || action;
 
 			if (err) {
 				logger.error({message: 'error of execution', action: action, err: err});
 			}
 
-			var state = err ? 'error' : 'ready';
+			var state = err ? 'error' : ignore ? 'ignore' : 'ready';
 
 			db.actions.findAndModify({
 				query: {_id: action._id},
