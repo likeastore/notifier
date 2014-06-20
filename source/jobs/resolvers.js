@@ -158,13 +158,13 @@ var resolvers = {
 					return callback(err);
 				}
 
-				if (collection.public && collection.userData.email === item.userData.email) {
+				if (collection.public || collection.userData.email === item.userData.email) {
 					// ignore the actions if items belogs to me or placed to private collection
 					return callback(null, action, {}, true);
 				}
 
 				var data = {
-					email: collection.userData.email,
+					email: item.userData.email,
 					user: collection.userData,
 					owner: item.userData,
 					collection: _.pick(collection, collectionPick),
