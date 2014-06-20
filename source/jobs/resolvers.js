@@ -158,7 +158,7 @@ var resolvers = {
 					return callback(err);
 				}
 
-				if (collection.public || collection.userData.email === item.userData.email) {
+				if (!collection.public || collection.userData.email === item.userData.email) {
 					// ignore the actions if items belogs to me or placed to private collection
 					return callback(null, action, {}, true);
 				}
