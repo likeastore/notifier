@@ -1,7 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var jade = require('jade');
-var t = require('t-component');
+var t = require('../translations').t;
 var logger = require('../utils/logger');
 
 function jadeTemplate(name, vars, callback) {

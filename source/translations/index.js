@@ -2,6 +2,17 @@
  * Module dependencies.
  */
 
+var t = require('t-component');
+var config = require('../../config');
+
+/**
+ * Load localization dictionaries to translation application
+ */
+
+/**
+ * Init `t-component` component with parameter locale
+ */
+
 var en = require('./lib/en');
 var es = require('./lib/es');
 // var ca = require('./lib/ca');
@@ -9,22 +20,24 @@ var es = require('./lib/es');
 // var fi = require('./lib/fi');
 // var it = require('./lib/it');
 
-module.exports.help = function(t) {
-  // English
-  t.en = en;
+module.exports.t = t;
 
-  // Spanish
-  t.es = es;
+// English
+t.en = en;
 
-  // // Català
-  // t.ca = ca;
+// Spanish
+t.es = es;
 
-  // // French
-  // t.fr = fr;
+// // Català
+// t.ca = ca;
 
-  // // Finnish
-  // t.fi = fi;
+// // French
+// t.fr = fr;
 
-  // // Italian
-  // t.it = it;
-}
+// // Finnish
+// t.fi = fi;
+
+// // Italian
+// t.it = it;
+
+t.lang(config.locale);
