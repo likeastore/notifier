@@ -5,13 +5,12 @@ var mandrill = require('node-mandrill')(config.mandrill.token);
 
 function sendMandrill(to, template, vars, callback) {
 
-	temp.jade(template, function (err, content) {
+	temp.jade(template, vars, function (err, content) {
 
 		mandrill('/messages/send', {
 			message: {
 	      auto_html: null,
 	      to: to,
-	      global_merge_vars: vars,
 	      preserve_recipients: false,
 				from_email: "notifier@democracyos.org",
 				from_name: "DemocracyOS Notifier",
@@ -47,7 +46,8 @@ function formatUrl(collection) {
 var executors = {
 	'send-welcome': function (action, callback) {
 		var vars = [
-			{name: 'USERID', content: action.data.user._id}
+			// {name: 'USERID', content: action.data.user._id}
+			{name: 'USER_NAME', content: action.data.user.name}
 		];
 
 			sendMandrill([{email: action.data.email}], 'welcome-email', vars,  function (err) {

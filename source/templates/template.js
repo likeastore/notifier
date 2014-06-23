@@ -4,7 +4,7 @@ var jade = require('jade');
 var t = require('t-component');
 var logger = require('../utils/logger');
 
-function jadeTemplate(name, callback) {
+function jadeTemplate(name, vars, callback) {
   var filePath = path.join(__dirname, './' + name + '.jade');
 
   console.log('looking for template [' + name + '] in path: ' + filePath);
@@ -14,17 +14,28 @@ function jadeTemplate(name, callback) {
       // var mail = jade.compile(template, { t: t });
 
       var mail = jade.compile(template);
-      var content = mail({ t: t });
-
-      console.log('JADE: ' + content);
+      var content = replaceVars(mail({ t: t }), vars);
 
       callback(null, content);
     } else {
-      console.log('Error while reading template: ' + err.stack);
-      callback({message: 'unable to find template with name ' + name});
+      callback(err);
     }
   }); 
 };
+
+function replaceVars(template, vars) {
+  if (!vars) return template;
+
+  var res = template;
+
+  if (res) {
+    vars.forEach(function (v) {
+      res = res.replace(v.name, v.content);
+    });
+  }
+
+  return res;
+}
 
 
 module.exports = {
