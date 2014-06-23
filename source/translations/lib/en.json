@@ -1,0 +1,5 @@
+{
+  "templates.welcome-email.greeting": "Hi, USER_NAME,",
+  "templates.welcome-email.signature": "The DemocracyOS team.",
+  "templates.welcome-email.ps": "PS: if you haven't signed up, please ignore this email."
+}
