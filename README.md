@@ -24,7 +24,7 @@ var notifier = require('./source/notifier');
 notifier.run();
 ```
 
-## Recieving an action
+### Recieving an action
 
 `notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` recieves event with defined type.
 
@@ -70,7 +70,7 @@ notifier.resolve('user-registered', function (action, callback) {
 });
 ```
 
-## Executing action
+### Executing action
 
 Once action got resolve, it's ready to be executed.
 
