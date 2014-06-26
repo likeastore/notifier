@@ -1,12 +1,102 @@
-# Jobber
+# Notifier
 
-I run jobs to help Likeastore be a greatest service.
+The service for sending notifications.
 
-## Current jobs
+## Description
 
-* [pulse](/source/jobs/pulse.js) - aggregates likes to reference count
-* [spread](/source/jobs/spread.js) - send weekly emails on pulse contents
-* [mixpanel](/source/jobs/mixpanel.js) - updates our Mixpanel account with actual user stats
+The `notifier` is a component with one responsibility of sending notifications. At the moment it provides HTTP API that recieves the event and turning that event into correponding notification.
+
+### How it works?
+
+Threre are 2 parts of `notifier`: HTTP [server](/source/server.js) and [jobs](/source/jobs.js). Both are using `respawn` to get up and be restarted in case of crash.
+
+HTTP servers recieves events and turn those events into `actions`. Then `jobs` is scheduling two tasks [resolve](/source/jobs/resolve.js) and [execute](/source/jobs/execute.js). Resolvers are taking care of transformation of `action` to the form ready to be executed. Executors actually runs the `action`.
+
+## API
+
+To initialize the `notifier` you should create 3 entities - `actions`, `resovers` and `executors`.
+
+The entry point of application responsible for initializing the `notifier`.
+
+```js
+var notifier = require('./source/notifier');
+
+notifier.run();
+```
+
+## Recieving an action
+
+`notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` recieves event with defined type.
+
+```js
+notifier.action('user-registered', function (event, actions, callback) {
+	actions.create('send-welcome-email', {user: event.user}, callback);
+});
+```
+
+You can define as many actions as you need for same event.
+
+```js
+notifier.actions('user-payment-recieved', function (event, actions, callback) {
+	actions.create('send-invoice-email', {user: event.user, payment: event.amount}, callback);
+});
+
+
+notifier.actions('user-payment-recieved', function (event, actions, callback) {
+	actions.create('notify-developers-sms', {user: event.user}, callback);
+});
+```
+
+### Resolving an action
+
+To resolve an action, `notifier` should define resolved. Usually resolve calls database or other service for additional data.
+
+```js
+notifier.resolve('user-registered', function (action, callback) {
+	db.user.findOne({email: action.email}, function (err, user) {
+		if (err) {
+			return callback(err);
+		}
+
+		var data = {
+			email: user.email,
+			firstName: user.firstName,
+			secondName: user.secondName,
+			registered: user.registered
+		};
+
+		callback(null, action, data);
+	});
+});
+```
+
+## Executing action
+
+Once action got resolve, it's ready to be executed.
+
+```js
+notifier.execute('user-registered', function (action, transport, callback) {
+		var vars = [
+			{name: 'FIRST_NAME', content: action.data.firstName}
+			{name: 'SECOND_NAME', content: action.data.secondName}
+			{name: 'REGISTERED_DATE', content: action.data.registered}
+		];
+
+		tranport.mandrill.sendTemplate(action.email, vars, 'welcome-email', callback);
+});
+```
+
+The `callback` should recieve (err, action, data) - error, same action and resolved data.
+
+## Transports
+
+Madrill, SendGrid, MailGun, Twillio etc..
+
+TDB.
+
+## How to use?
+
+TDB.
 
 # Licence (MIT)
 
