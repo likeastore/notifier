@@ -2,6 +2,7 @@ var config = require('../../config');
 var temp = require('../templates/template');
 var logger = require('../utils/logger');
 var mandrill = require('node-mandrill')(config.mandrill.token);
+var t = require('../translations').t;
 
 function sendMandrill(to, template, vars, callback) {
 
@@ -9,12 +10,15 @@ function sendMandrill(to, template, vars, callback) {
 
 		mandrill('/messages/send', {
 			message: {
-	      auto_html: null,
-	      to: to,
-	      preserve_recipients: false,
-				from_email: "notifier@democracyos.org",
-				from_name: "DemocracyOS Notifier",
-				subject: "Testing the notifier!",
+				auto_html: null,
+				to: to,
+				preserve_recipients: false,
+				from_email: config.mandrill.from.email,
+				from_name: t('common.from.name'),
+				subject: t('templates.welcome-email.subject'),
+				// from_email: "notifier@democracyos.org",
+				// from_name: "DemocracyOS Notifier",
+				// subject: "Testing the notifier!",
 				text: content,
 				html: content,
 				auto_text: true
