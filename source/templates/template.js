@@ -11,7 +11,6 @@ function jadeTemplate(name, vars, callback) {
 
   fs.readFile(filePath, { encoding: 'utf-8' }, function (err, template) {
     if (!err) {
-      // var mail = jade.compile(template, { t: t });
 
       var mail = jade.compile(template);
       var content = replaceVars(mail({ t: t }), vars);
