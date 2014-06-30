@@ -16,9 +16,6 @@ function sendMandrill(to, template, vars, callback) {
 				from_email: config.mandrill.from.email,
 				from_name: t('common.from.name'),
 				subject: t('templates.welcome-email.subject'),
-				// from_email: "notifier@democracyos.org",
-				// from_name: "DemocracyOS Notifier",
-				// subject: "Testing the notifier!",
 				text: content,
 				html: content,
 				auto_text: true
@@ -50,7 +47,6 @@ function formatUrl(collection) {
 var executors = {
 	'send-welcome': function (action, callback) {
 		var vars = [
-			// {name: 'USERID', content: action.data.user._id}
 			{name: 'USER_NAME', content: action.data.user.name}
 		];
 
