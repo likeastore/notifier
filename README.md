@@ -1,16 +1,12 @@
 # Notifier
 
-The service for sending notifications.
-
-## Description
-
-The `notifier` is a component with one responsibility of sending notifications. At the moment it provides HTTP API that recieves the event and turning that event into correponding notification.
+The `notifier` is notification server. At the moment it provides HTTP API that receives the event and turning that event into corresponding notification.
 
 ### How it works?
 
-Threre are 2 parts of `notifier`: HTTP [server](/source/server.js) and [jobs](/source/jobs.js). Both are using `respawn` to get up and be restarted in case of crash.
+There are 2 parts of `notifier`: HTTP [server](/source/server.js) and [jobs](/source/jobs.js). Both are using `respawn` to get up and be restarted in case of crash.
 
-HTTP servers recieves events and turn those events into `actions`. Then `jobs` is scheduling two tasks [resolve](/source/jobs/resolve.js) and [execute](/source/jobs/execute.js). Resolvers are taking care of transformation of `action` to the form ready to be executed. Executors actually runs the `action`.
+HTTP servers receives events and turn those events into `actions`. Then `jobs` is scheduling two tasks [resolve](/source/jobs/resolve.js) and [execute](/source/jobs/execute.js). Resolvers are taking care of transformation of `action` to the form ready to be executed. Executors actually runs the `action`.
 
 ## API
 
@@ -21,12 +17,12 @@ The entry point of application responsible for initializing the `notifier`.
 ```js
 var notifier = require('./source/notifier');
 
-notifier.run();
+notifier.listen(5050);
 ```
 
-### Recieving an action
+### Receiving an action
 
-`notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` recieves event with defined type.
+`notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
 
 ```js
 notifier.action('user-registered', function (event, actions, callback) {
@@ -82,11 +78,11 @@ notifier.execute('user-registered', function (action, transport, callback) {
 			{name: 'REGISTERED_DATE', content: action.data.registered}
 		];
 
-		tranport.mandrill.sendTemplate(action.email, vars, 'welcome-email', callback);
+		transport.mandrill.sendTemplate(action.email, vars, 'welcome-email', callback);
 });
 ```
 
-The `callback` should recieve (err, action, data) - error, same action and resolved data.
+The `callback` should receive (err, action, data) - error, same action and resolved data.
 
 ## Transports
 
@@ -96,9 +92,51 @@ TDB.
 
 ## How to use?
 
-TDB.
+`notifier` is boilerplate server and only requires configuration and deployment.
 
-# Licence (MIT)
+Clone repo,
+
+```bash
+$ git clone git@github.com:likeastore/notifier.git
+```
+
+Create `app.js` file,
+
+```js
+var notifier = require('./source/notifier');
+
+// initialize actions, resolvers and executors
+notifier
+	.action('incoming-event', function () { /* ... */ })
+	.resolve('created-action', function () { /* ... */ })
+	.execute('created-action', function () { /* ... */ });
+
+// start the server
+notifier.listen(process.env.PORT);
+```
+
+Update `development.config.js` and `production.config.js` configuration. For now, configuration requires connection string to MongoDB, accessToken (shared secret) to access service, mandrill and logentries tokens.
+
+Commit the changes and deploy (heroku, dokku, aws).
+
+```bash
+$ git push master heroku
+```
+
+Check the server deployed fine,
+
+```bash
+$ curl http://notifier.likeastore.com/
+{"app":"notifier","env":"production","version":"0.0.5","apiUrl":"/api"}%
+```
+
+Send first notification,
+
+```bash
+$ echo '{"event": "user-created", "user_id": 1}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
+```
+
+# License (MIT)
 
 Copyright (c) 2014, Likeastore.com info@likeastore.com
 
