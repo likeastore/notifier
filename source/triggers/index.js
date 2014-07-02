@@ -1,7 +1,7 @@
 var actions = require('../actions');
 
 function userRegistered(bus) {
-	bus.subscribe('user-registered', function (e) {
+	bus.subscribe('signup', function (e) {
 		actions.sendWelcomeEmail(e);
 	});
 }

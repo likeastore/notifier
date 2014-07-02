@@ -14,7 +14,7 @@ var resolvers = {
 				return callback({message: 'user not found', email: action.email});
 			}
 
-			callback(null, action, {email: action.user, user: user});
+			callback(null, action, {email: action.user, user: user, validateUrl: action.validateUrl});
 		});
 	},
 

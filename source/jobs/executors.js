@@ -14,7 +14,7 @@ function sendMandrill(to, template, vars, callback) {
 				to: to,
 				preserve_recipients: false,
 				from_email: config.mandrill.from.email,
-				from_name: t('common.from.name'),
+				from_name: config.mandrill.from.name,
 				subject: t('templates.welcome-email.subject'),
 				text: content,
 				html: content,
@@ -47,7 +47,8 @@ function formatUrl(collection) {
 var executors = {
 	'send-welcome': function (action, callback) {
 		var vars = [
-			{name: 'USER_NAME', content: action.data.user.name}
+			{name: 'USER_NAME', content: action.data.user.name},
+			{name: 'VALIDATE_MAIL_URL', content: action.data.validateUrl}
 		];
 
 			sendMandrill([{email: action.data.email}], 'welcome-email', vars,  function (err) {
