@@ -9,7 +9,8 @@ var config = {
   mandrill: {
     token: null,
     from: {
-      email: 'no-reply@democracyos.org'
+      email: 'no-reply@democracyos.org',
+      name: 'DemocracyOS'
     }
   }
 };

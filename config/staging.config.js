@@ -9,7 +9,8 @@ var config = {
   mandrill: {
     token: process.env.MANDRILL_TOKEN,
     from: {
-      email: process.env.MANDRILL_FROM_EMAIL
+      email: process.env.MANDRILL_FROM_EMAIL,
+      name: process.env.MANDRILL_FROM_NAME
     }
   }
 };
