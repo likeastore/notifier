@@ -1,12 +1,6 @@
 # Notifier
 
-The `notifier` is notification server. At the moment it provides HTTP API that receives the event and turning that event into corresponding notification.
-
-### How it works?
-
-There are 2 parts of `notifier`: HTTP [server](/source/server.js) and [jobs](/source/jobs.js). Both are using `respawn` to get up and be restarted in case of crash.
-
-HTTP servers receives events and turn those events into `actions`. Then `jobs` is scheduling two tasks [resolve](/source/jobs/resolve.js) and [execute](/source/jobs/execute.js). Resolvers are taking care of transformation of `action` to the form ready to be executed. Executors actually runs the `action`.
+HTTP API that receives the event and turning that event into corresponding notification.
 
 ## API
 
@@ -20,7 +14,7 @@ var notifier = require('./source/notifier');
 notifier.listen(5050);
 ```
 
-### Receiving an action
+### Receiving an event
 
 `notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
 
@@ -36,7 +30,6 @@ You can define as many actions as you need for same event.
 notifier.actions('user-payment-recieved', function (event, actions, callback) {
 	actions.create('send-invoice-email', {user: event.user, payment: event.amount}, callback);
 });
-
 
 notifier.actions('user-payment-recieved', function (event, actions, callback) {
 	actions.create('notify-developers-sms', {user: event.user}, callback);
@@ -92,8 +85,6 @@ TDB.
 
 ## How to use?
 
-`notifier` is boilerplate server and only requires configuration and deployment.
-
 Clone repo,
 
 ```bash
@@ -133,7 +124,7 @@ $ curl http://notifier.likeastore.com/
 Send first notification,
 
 ```bash
-$ echo '{"event": "user-created", "user_id": 1}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
+$ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
 ```
 
 # License (MIT)
