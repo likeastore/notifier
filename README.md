@@ -79,7 +79,7 @@ The `callback` should receive (err, action, data) - error, same action and resol
 
 ## Transports
 
-Madrill, SendGrid, MailGun, Twillio etc..
+Mandrill, SendGrid, MailGun, Twillio etc..
 
 TDB.
 
