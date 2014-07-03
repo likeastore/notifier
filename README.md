@@ -4,8 +4,6 @@ HTTP API that receives the event and turning that event into corresponding notif
 
 ## API
 
-To initialize the `notifier` you should create 3 entities - `actions`, `resovers` and `executors`.
-
 The entry point of application responsible for initializing the `notifier`.
 
 ```js
@@ -13,6 +11,8 @@ var notifier = require('./source/notifier');
 
 notifier.listen(5050);
 ```
+
+To initialize the `notifier` you should create 3 entities - `actions`, `resovers` and `executors`.
 
 ### Receiving an event
 
