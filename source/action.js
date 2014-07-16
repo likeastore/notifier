@@ -5,6 +5,8 @@ var postal = require('postal');
 var config = require('../config');
 var db = require('./db')(config);
 
+var logger = require('./utils/logger');
+
 var bus = postal.channel('events-channel');
 
 var actions = {
@@ -12,6 +14,11 @@ var actions = {
 		var action = _.extend({id: id, created: moment().utc().toDate(), state: 'created' }, data);
 
 		db.actions.save(action, function (err, action) {
+			if (err) {
+				logger.error('failed to save action');
+			}
+
+			logger.info('created action ' + id);
 			callback && callback(err, action);
 		});
 	}
@@ -23,6 +30,7 @@ function subscribe(eventName, fn) {
 	}
 
 	bus.subscribe(eventName, function (e) {
+		logger.info('event triggired ' + eventName);
 		fn.call(e, actions);
 	});
 }

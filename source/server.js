@@ -68,6 +68,8 @@ function close(callback) {
 	}
 
 	server.close(function () {
+		logger.info('notifier server shutdown');
+
 		callback && callback(arguments);
 	});
 }
