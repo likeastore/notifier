@@ -27,11 +27,11 @@ notifier.action('user-registered', function (event, actions, callback) {
 You can define as many actions as you need for same event.
 
 ```js
-notifier.actions('user-payment-recieved', function (event, actions, callback) {
+notifier.action('user-payment-recieved', function (event, actions, callback) {
 	actions.create('send-invoice-email', {user: event.user, payment: event.amount}, callback);
 });
 
-notifier.actions('user-payment-recieved', function (event, actions, callback) {
+notifier.action('user-payment-recieved', function (event, actions, callback) {
 	actions.create('notify-developers-sms', {user: event.user}, callback);
 });
 ```
