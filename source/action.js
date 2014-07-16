@@ -1,9 +1,23 @@
+var _ = require('underscore');
+var moment = require('moment');
 var postal = require('postal');
+
+var config = require('../config');
+var db = require('./db')(config);
+
 var bus = postal.channel('events-channel');
 
-var actions = {};
+var actions = {
+	create: function (id, data, callback) {
+		var action = _.extend({id: id, created: moment().utc().toDate() }, data);
 
-function action(eventName, fn) {
+		db.actions.save(action, function (err, action) {
+			callback && callback(err, action);
+		});
+	}
+};
+
+function subscribe(eventName, fn) {
 	if (!fn) {
 		throw new Error('missing action hander');
 	}
@@ -14,5 +28,8 @@ function action(eventName, fn) {
 }
 
 module.exports = {
-	action: action
+	action: subscribe,
+
+	// expose actions to use it in tests
+	_actions: actions
 };
