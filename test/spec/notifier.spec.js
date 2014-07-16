@@ -52,8 +52,9 @@ describe('notifier.spec.js', function () {
 					event: 'first-event'
 				};
 
-				request.post({url: url, body: e, json: true}, function (err, resp) {
+				request.post({url: url, body: e, json: true}, function (err, resp, body) {
 					response = resp;
+					results = body;
 					done(err);
 				});
 			});
@@ -64,6 +65,39 @@ describe('notifier.spec.js', function () {
 
 			it('should call action function', function () {
 				expect(actionCallback.called).to.equal(true);
+			});
+		});
+
+		describe('and have few subscribers', function () {
+			var anotherActionCallback;
+
+			beforeEach(function () {
+				anotherActionCallback = sinon.spy();
+			});
+
+			beforeEach(function () {
+				notifier.action('first-event', anotherActionCallback);
+			});
+
+			beforeEach(function (done) {
+				var e = {
+					event: 'first-event'
+				};
+
+				request.post({url: url, body: e, json: true}, function (err, resp, body) {
+					response = resp;
+					results = body;
+					done(err);
+				});
+			});
+
+			it('should respond 201 (created)', function () {
+				expect(response.statusCode).to.equal(201);
+			});
+
+			it('should both actions called function', function () {
+				expect(actionCallback.called).to.equal(true);
+				expect(anotherActionCallback.called).to.equal(true);
 			});
 		});
 	});
