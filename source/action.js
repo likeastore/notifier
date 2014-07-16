@@ -9,7 +9,7 @@ var bus = postal.channel('events-channel');
 
 var actions = {
 	create: function (id, data, callback) {
-		var action = _.extend({id: id, created: moment().utc().toDate() }, data);
+		var action = _.extend({id: id, created: moment().utc().toDate(), state: 'created' }, data);
 
 		db.actions.save(action, function (err, action) {
 			callback && callback(err, action);

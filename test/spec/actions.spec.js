@@ -34,6 +34,10 @@ describe('actions.spec.js', function () {
 			expect(action).to.be.ok;
 		});
 
+		it('should be in initial state', function () {
+			expect(action.state).to.equal('created');
+		});
+
 		it('should have properties initialized', function () {
 			expect(action.id).to.equal('first-action');
 			expect(action.user).to.equal('a@a.com');
@@ -42,6 +46,27 @@ describe('actions.spec.js', function () {
 
 		it('should have timespampt', function () {
 			expect(action.created).to.be.ok;
+		});
+
+		describe('and callback is optional', function () {
+			beforeEach(function () {
+				actions.create('second-action', {user: 'a@a.com', custom: '123'});
+			});
+
+			beforeEach(function (done) {
+				utils.getLastAction(function (err, act) {
+					action = act;
+					done(err);
+				});
+			});
+
+			it('should be created', function () {
+				expect(action).to.be.ok;
+			});
+
+			it('should be in initial state', function () {
+				expect(action.state).to.equal('created');
+			});
 		});
 	});
 });
