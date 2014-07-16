@@ -15,11 +15,11 @@ module.exports = {
 		return 'http://localhost:3031';
 	},
 
-	serviceApiUrl: function () {
+	serviceEventsUrl: function () {
 		return 'http://localhost:3031/api/events';
 	},
 
-	serviceApiAuthUrl: function () {
+	serviceEventsAuthUrl: function () {
 		return 'http://localhost:3031/api/events?access_token=' + accessToken;
 	},
 

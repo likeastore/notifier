@@ -42,6 +42,10 @@ describe('notifier.spec.js', function () {
 			notifier.action('first-event', actionCallback);
 		});
 
+		beforeEach(function () {
+			url = utils.serviceEventsAuthUrl();
+		});
+
 		describe('and event for corresponding action triggired', function () {
 			beforeEach(function (done) {
 				var e = {
