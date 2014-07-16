@@ -3,7 +3,23 @@ var config = require('../config');
 var db = require('../source/db')(config);
 
 module.exports = {
+	accessToken: function () {
+		return accessToken;
+	},
+
+	port: function () {
+		return 3031;
+	},
+
 	serviceUrl: function () {
+		return 'http://localhost:3031';
+	},
+
+	serviceApiUrl: function () {
+		return 'http://localhost:3031/api/events';
+	},
+
+	serviceApiAuthUrl: function () {
 		return 'http://localhost:3031/api/events?access_token=' + accessToken;
 	},
 
