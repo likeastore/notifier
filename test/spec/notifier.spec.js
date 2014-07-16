@@ -31,7 +31,7 @@ describe('notifier.spec.js', function () {
 		});
 	});
 
-	describe('when action is initialized', function () {
+	describe('when action is created', function () {
 		var actionCallback;
 
 		beforeEach(function () {
@@ -98,6 +98,51 @@ describe('notifier.spec.js', function () {
 			it('should both actions called function', function () {
 				expect(actionCallback.called).to.equal(true);
 				expect(anotherActionCallback.called).to.equal(true);
+			});
+		});
+	});
+
+	describe('when action is resolved', function () {
+		var resolveCallback;
+
+		beforeEach(function () {
+			notifier.action('first-event', function (e, actions) {
+				actions.create('first-event-action', {custom: '123'});
+			});
+		});
+
+		beforeEach(function () {
+			resolveCallback = sinon.spy();
+			notifier.resolve('first-event-action', resolveCallback);
+		});
+
+		beforeEach(function () {
+			url = utils.serviceEventsAuthUrl();
+		});
+
+		beforeEach(function (done) {
+			var e = {
+				event: 'first-event'
+			};
+
+			request.post({url: url, body: e, json: true}, function (err, resp, body) {
+				response = resp;
+				results = body;
+				done(err);
+			});
+		});
+
+		it('should respond 201 (created)', function () {
+			expect(response.statusCode).to.equal(201);
+		});
+
+		describe('and resolve job executed', function () {
+			beforeEach(function (done) {
+				notifier._jobs.resolve.run(done);
+			});
+
+			it('should trigger resolve callback', function () {
+				expect(resolveCallback.callback).to.equal(true);
 			});
 		});
 	});

@@ -6,7 +6,7 @@ var package = require('../package');
 var logger = require('./utils/logger');
 
 var app = express(), server;
-var bus = postal.channel('events-channel');
+var bus = postal.channel('event:receive');
 
 var cors = function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');

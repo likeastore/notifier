@@ -7,7 +7,7 @@ var db = require('./db')(config);
 
 var logger = require('./utils/logger');
 
-var bus = postal.channel('events-channel');
+var bus = postal.channel('event:receive');
 
 var actions = {
 	create: function (id, data, callback) {
@@ -31,13 +31,12 @@ function subscribe(eventName, fn) {
 
 	bus.subscribe(eventName, function (e) {
 		logger.info('event triggired ' + eventName);
-		fn.call(e, actions);
+		fn(e, actions);
 	});
 }
 
 module.exports = {
 	action: subscribe,
-
-	// expose actions to use it in tests
+	// expose to use it in tests
 	_actions: actions
 };
