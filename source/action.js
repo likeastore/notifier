@@ -30,7 +30,7 @@ function subscribe(eventName, fn) {
 	}
 
 	bus.subscribe(eventName, function (e) {
-		logger.info('event triggired ' + eventName);
+		logger.info('event triggired ' + e.id);
 		fn(e, actions);
 	});
 }

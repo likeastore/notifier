@@ -26,9 +26,9 @@ function resolve(actionName, fn) {
 		throw new Error('missing resolve hander');
 	}
 
-	bus.subscribe(actionName, function (e) {
-		logger.info('action resolve triggired ' + actionName);
-		fn(e, resolver);
+	bus.subscribe(actionName, function (a) {
+		logger.info('action resolve triggired ' + a.id);
+		fn(a, resolver);
 	});
 }
 

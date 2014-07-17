@@ -138,11 +138,11 @@ describe('notifier.spec.js', function () {
 
 		describe('and resolve job executed', function () {
 			beforeEach(function (done) {
-				notifier._jobs.resolve.run(done);
+				notifier._jobs.resolve(done);
 			});
 
 			it('should trigger resolve callback', function () {
-				expect(resolveCallback.callback).to.equal(true);
+				expect(resolveCallback.called).to.equal(true);
 			});
 		});
 	});
