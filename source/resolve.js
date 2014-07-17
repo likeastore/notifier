@@ -34,7 +34,6 @@ function resolve(actionName, fn) {
 
 module.exports = {
 	resolve: resolve,
-
 	// expose to use it in tests
-	_resolver: resolver
+	_resolve: resolver
 };

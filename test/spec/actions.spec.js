@@ -12,12 +12,6 @@ describe('actions.spec.js', function () {
 		utils.clearCollection('actions', done);
 	});
 
-	describe('when initialized', function () {
-		it('should be defined', function () {
-			expect(actions).to.be.ok;
-		});
-	});
-
 	describe('when creating actions', function () {
 		beforeEach(function (done) {
 			actions.create('first-action', {user: 'a@a.com', custom: '123'}, done);
@@ -45,7 +39,7 @@ describe('actions.spec.js', function () {
 		});
 
 		it('should have timespampt', function () {
-			expect(action.created).to.be.ok;
+			expect(action.created).to.be.a('Date');
 		});
 
 		describe('and callback is optional', function () {
