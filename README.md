@@ -14,7 +14,7 @@ notifier.listen(5050);
 
 To initialize the `notifier` you should create 3 entities - `actions`, `resovers` and `executors`.
 
-### Receiving an event
+### Receiving event
 
 `notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
 
@@ -36,7 +36,7 @@ notifier.action('user-payment-recieved', function (event, actions, callback) {
 });
 ```
 
-### Resolving an action
+### Resolving action
 
 To resolve an action, `notifier` should define resolved. Usually resolve calls database or other service for additional data.
 
@@ -59,7 +59,7 @@ notifier.resolve('user-registered', function (action, actions, callback) {
 });
 ```
 
-### Skipping an action
+### Skipping action
 
 For any reason, action could be skipped, means that it could be resolved but will not be executed.
 
