@@ -28,7 +28,9 @@ function resolve(actionName, fn) {
 
 	bus.subscribe(actionName, function (a) {
 		logger.info('action resolve triggired ' + a.id);
-		fn(a, resolver);
+		fn(a, resolver, function (err) {
+			err && logger.error('action resolver failed' + (err.stack || err));
+		});
 	});
 }
 

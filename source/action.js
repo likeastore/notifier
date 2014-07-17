@@ -26,12 +26,14 @@ var actions = {
 
 function subscribe(eventName, fn) {
 	if (!fn) {
-		throw new Error('missing action hander');
+		throw new Error('missing event hander');
 	}
 
 	bus.subscribe(eventName, function (e) {
 		logger.info('event triggired ' + e.id);
-		fn(e, actions);
+		fn(e, actions, function (err) {
+			err && logger.error('event hander failed' + (err.stack || err));
+		});
 	});
 }
 
