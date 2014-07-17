@@ -48,13 +48,20 @@ function resolve(actionName, fn) {
 		throw new Error('missing resolve hander');
 	}
 
-	bus.subscribe(actionName, function (a) {
-		logger.info('action resolve triggired ' + a.id);
-		fn(a, resolver, function (err) {
+	bus.subscribe(actionName, function (data) {
+		var action = data.action;
+		var callback = data.callback;
+
+		logger.info('action resolve triggired ' + action.id);
+
+		fn(action, resolver, function (err) {
 			if (err) {
 				logger.error('action resolver failed' + (err.stack || err));
-				resolver.error(a, err);
+				return resolver.error(action, err, callback);
 			}
+
+			logger.info('action resolved successfully' + action.id);
+			callback(null);
 		});
 	});
 }

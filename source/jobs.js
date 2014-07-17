@@ -4,7 +4,8 @@ var postal = require('postal');
 var config = require('../config');
 var db = require('./db')(config);
 
-var resolveBus = postal.channel('action:resolve');
+var resolve = postal.channel('action:resolve');
+var execute = postal.channel('action:execute');
 
 var jobs = {
 	resolve: function (callback) {
@@ -13,17 +14,22 @@ var jobs = {
 				return callback(err);
 			}
 
-			actions.forEach(function (action) {
-				resolveBus.publish(action.id, action);
-			});
-
-			callback(null);
+			async.each(actions, function (action, callback) {
+				resolve.publish(action.id, {action: action, callback: callback});
+			}, callback);
 		});
-
 	},
 
 	execute: function (callback) {
-		callback(null);
+		db.actions.find({state: 'resolved'}, function (err, actions) {
+			if (err) {
+				return callback(err);
+			}
+
+			async.each(actions, function (action, callback) {
+				execute.publish(action.id, {action: action, callback: callback});
+			}, callback);
+		});
 	}
 };
 

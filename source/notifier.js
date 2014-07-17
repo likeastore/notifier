@@ -4,5 +4,6 @@ module.exports = _.extend({},
 	require('./server'),
 	require('./action'),
 	require('./resolve'),
-	require('./jobs')
+	require('./jobs'),
+	require('./execute')
 );

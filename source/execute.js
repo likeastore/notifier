@@ -16,7 +16,7 @@ var executor = {
 	success: function (action, callback) {
 		db.actions.findAndModify({
 			query: {_id: action._id},
-			update: { $set: {state: 'executed', executed: moment().toUtc().toDate() }},
+			update: { $set: {state: 'executed', executed: moment().utc().toDate() }},
 			'new': true
 		}, function (err, action) {
 			logger.info('error action ' + action.id);
@@ -41,16 +41,20 @@ function execute(actionName, fn) {
 		throw new Error('missing execute handler');
 	}
 
-	bus.subscribe(actionName, function (a) {
-		logger.info('action execute triggired ' + a.id);
-		fn(a, executor, function (err) {
+	bus.subscribe(actionName, function (data) {
+		var action = data.action;
+		var callback = data.callback;
+
+		logger.info('action execute triggired ' + action.id);
+
+		fn(action, executor, function (err) {
 			if (err) {
 				logger.error('action execute failed' + (err.stack || err));
-				return executor.error(a, err);
+				return executor.error(action, err, callback);
 			}
 
-			logger.info('action executed successfully' + a.id);
-			executor.success(a);
+			logger.info('action executed successfully' + action.id);
+			executor.success(action, callback);
 		});
 	});
 }
