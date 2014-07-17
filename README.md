@@ -41,7 +41,7 @@ notifier.action('user-payment-recieved', function (event, actions, callback) {
 To resolve an action, `notifier` should define resolved. Usually resolve calls database or other service for additional data.
 
 ```js
-notifier.resolve('user-registered', function (action, callback) {
+notifier.resolve('user-registered', function (action, actions, callback) {
 	db.user.findOne({email: action.email}, function (err, user) {
 		if (err) {
 			return callback(err);
@@ -54,10 +54,31 @@ notifier.resolve('user-registered', function (action, callback) {
 			registered: user.registered
 		};
 
-		callback(null, action, data);
+		actions.resolve(action, data, callback);
 	});
 });
 ```
+
+### Skipping an action
+
+For any reason, action could be skipped, means that it could be resolved but will not be executed.
+
+```js
+notifier.resolve('user-registered', function (action, actions, callback) {
+	db.user.findOne({email: action.email}, function (err, user) {
+		if (err) {
+			return callback(err);
+		}
+
+		if (user.email === 'test@example.com') {
+			return actions.skip(action, callback);
+		}
+
+		callback(null);
+	});
+});
+```
+
 
 ### Executing action
 
