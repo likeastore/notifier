@@ -47,11 +47,67 @@ describe('resolve.spec.js', function () {
 	});
 
 	describe('when skipping action', function () {
+		beforeEach(function (done) {
+			actions.create('first-action', {user: 'a@a.com', custom: '123'}, done);
+		});
 
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			resolve.skip(action, done);
+		});
+
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		it('should get skipped state', function () {
+			expect(action.state).to.equal('skipped');
+		});
+
+		it('should have resolved field', function () {
+			expect(action.resolved).to.be.a('Date');
+		});
 	});
 
 	describe('when error action', function () {
+		beforeEach(function (done) {
+			actions.create('first-action', {user: 'a@a.com', custom: '123'}, done);
+		});
 
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		beforeEach(function (done) {
+			resolve.error(action, new Error('failed to open db'), done);
+		});
+
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		it('should get error state', function () {
+			expect(action.state).to.equal('error');
+		});
+
+		it('should have reason', function () {
+			expect(action.reason).to.be.ok;
+		});
 	});
 
 });
