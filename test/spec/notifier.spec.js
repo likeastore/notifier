@@ -14,6 +14,10 @@ describe('notifier.spec.js', function () {
 		url = utils.serviceUrl();
 	});
 
+	beforeEach(function (done) {
+		utils.clearCollection('actions', done);
+	});
+
 	afterEach(function () {
 		notifier.close();
 	});
@@ -106,8 +110,8 @@ describe('notifier.spec.js', function () {
 		var resolveCallback;
 
 		beforeEach(function () {
-			notifier.action('first-event', function (e, actions) {
-				actions.create('first-event-action', {custom: '123'});
+			notifier.action('first-event', function (e, actions, callback) {
+				actions.create('first-event-action', {custom: '123'}, callback);
 			});
 		});
 
@@ -136,13 +140,70 @@ describe('notifier.spec.js', function () {
 			expect(response.statusCode).to.equal(201);
 		});
 
-		describe('and resolve job executed', function () {
+		describe('and resolve job run', function () {
 			beforeEach(function (done) {
 				notifier._jobs.resolve(done);
 			});
 
 			it('should trigger resolve callback', function () {
 				expect(resolveCallback.called).to.equal(true);
+			});
+		});
+	});
+
+	describe('when action is executed', function () {
+		var executeCallback;
+
+		beforeEach(function () {
+			notifier.action('first-event', function (e, actions, callback) {
+				actions.create('first-event-action', {custom: '123'}, callback);
+			});
+		});
+
+		beforeEach(function () {
+			notifier.resolve('first-event-action', function (action, actions, callback) {
+				actions.resolve(action, {email: 'a@a.com'}, callback);
+			});
+		});
+
+		beforeEach(function () {
+			executeCallback = sinon.spy();
+			notifier.execute('first-event-action', executeCallback);
+		});
+
+		beforeEach(function () {
+			url = utils.serviceEventsAuthUrl();
+		});
+
+		beforeEach(function (done) {
+			var e = {
+				event: 'first-event'
+			};
+
+			request.post({url: url, body: e, json: true}, function (err, resp, body) {
+				response = resp;
+				results = body;
+				done(err);
+			});
+		});
+
+		it('should respond 201 (created)', function () {
+			expect(response.statusCode).to.equal(201);
+		});
+
+		describe('and resolve job run', function () {
+			beforeEach(function (done) {
+				notifier._jobs.resolve(done);
+			});
+
+			describe('and execute job run', function () {
+				beforeEach(function (done) {
+					notifier._jobs.execute(done);
+				});
+
+				it('should trigger execute callback', function () {
+					expect(executeCallback.called).to.equal(true);
+				});
 			});
 		});
 	});
