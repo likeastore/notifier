@@ -17,12 +17,7 @@ var jobs = {
 				resolveBus.publish(action.id, action);
 			});
 
-
 			callback(null);
-
-			// async.each(actions, function (action, callback) {
-			// 	resolveBus.publish(action.id, action);
-			// }, callback);
 		});
 
 	},
