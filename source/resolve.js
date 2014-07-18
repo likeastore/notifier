@@ -8,38 +8,28 @@ var logger = require('./utils/logger');
 
 var bus = postal.channel('action:resolve');
 
+var hander = function(action, set, message, callback) {
+	db.actions.findAndModify({
+		query: {_id: action._id},
+		update: { $set: set},
+		'new': true
+	}, function (err, action) {
+		logger.info(message + ' ' + action.id);
+		callback && callback(err, action);
+	});
+};
+
 var resolver = {
 	resolve: function (action, data, callback) {
-		db.actions.findAndModify({
-			query: {_id: action._id},
-			update: { $set: {data: data, state: 'resolved', resolved: moment().utc().toDate() }},
-			'new': true
-		}, function (err, action) {
-			logger.info('resolved action ' + action.id);
-			callback && callback(err, action);
-		});
+		hander(action, {data: data, state: 'resolved', resolved: moment().utc().toDate() }, 'resolved action', callback);
 	},
 
 	skip: function (action, callback) {
-		db.actions.findAndModify({
-			query: {_id: action._id},
-			update: { $set: {state: 'skipped', resolved: moment().utc().toDate() }},
-			'new': true
-		}, function (err, action) {
-			logger.info('skipped action ' + action.id);
-			callback && callback(err, action);
-		});
+		hander(action, {state: 'skipped', resolved: moment().utc().toDate() }, 'skipped action', callback);
 	},
 
 	error: function (action, err, callback) {
-		db.actions.findAndModify({
-			query: {_id: action._id},
-			update: { $set: {state: 'error', reason: err.toString() }},
-			'new': true
-		}, function (err, action) {
-			logger.info('error action ' + action.id);
-			callback && callback(err, action);
-		});
+		hander(action, {state: 'error', reason: err.toString()}, 'error action', callback);
 	}
 };
 
