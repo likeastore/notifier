@@ -9,31 +9,28 @@ var logger = require('./utils/logger');
 var bus = postal.channel('action:execute');
 var subscribers = [];
 
+var handler = function (action, set, message, callback) {
+	db.actions.findAndModify({
+		query: {_id: action._id},
+		update: set,
+		'new': true
+	}, function (err, action) {
+		logger.info(message + ' ' + action.id);
+		callback && callback(err, action);
+	});
+};
+
 var executor = {
 	transport: {
 		mandrill: {}
 	},
 
 	success: function (action, callback) {
-		db.actions.findAndModify({
-			query: {_id: action._id},
-			update: { $set: {state: 'executed', executed: moment().utc().toDate() }},
-			'new': true
-		}, function (err, action) {
-			logger.info('error action ' + action.id);
-			callback && callback(err, action);
-		});
+		handler(action, {state: 'executed', executed: moment().utc().toDate()}, 'action executed', callback);
 	},
 
 	error: function (action, err, callback) {
-		db.actions.findAndModify({
-			query: {_id: action._id},
-			update: { $set: {state: 'error', reason: err.toString(), executed: moment().utc().toDate() }},
-			'new': true
-		}, function (err, action) {
-			logger.info('error action ' + action.id);
-			callback && callback(err, action);
-		});
+		handler(action, {state: 'error', reason: err.toString(), executed: moment().utc().toDate()}, 'action error', callback);
 	}
 };
 
