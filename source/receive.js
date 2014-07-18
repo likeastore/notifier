@@ -42,6 +42,8 @@ function receive(eventName, fn) {
 	});
 
 	subscribers.push(subscriber);
+
+	return this;
 }
 
 function unsubscribe() {

@@ -57,6 +57,8 @@ function execute(actionName, fn) {
 			executor.success(action, callback);
 		});
 	});
+
+	return this;
 }
 
 module.exports = {

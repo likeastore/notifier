@@ -3,7 +3,6 @@ var postal = require('postal');
 
 var config = require('../config');
 var db = require('./db')(config);
-
 var logger = require('./utils/logger');
 
 var bus = postal.channel('action:resolve');
@@ -57,6 +56,8 @@ function resolve(actionName, fn) {
 	});
 
 	subscribers.push(subscriber);
+
+	return this;
 }
 
 function unsubscribe() {

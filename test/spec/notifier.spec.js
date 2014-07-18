@@ -1,12 +1,12 @@
 var request = require('request');
+var notifier = require('../../source/notifier');
 
 var utils = require('../utils');
 
 describe('notifier.spec.js', function () {
-	var notifier, url, response, results;
+	var url, response, results;
 
 	beforeEach(function () {
-		notifier = require('../../source/notifier');
 		notifier.listen(utils.port());
 	});
 
@@ -41,18 +41,17 @@ describe('notifier.spec.js', function () {
 		before(function () {
 			executed = false;
 
-			notifier.receive('first-event', function (e, actions, callback) {
-				actions.create('first-event-action', {custom: '123'}, callback);
-			});
-
-			notifier.resolve('first-event-action', function (action, actions, callback) {
-				actions.resolved(action, {email: 'a@a.com'}, callback);
-			});
-
-			notifier.execute('first-event-action', function (action, actions, callback) {
-				executed = true;
-				callback(null);
-			});
+			notifier
+				.receive('first-event', function (e, actions, callback) {
+					actions.create('first-event-action', {custom: '123'}, callback);
+				})
+				.resolve('first-event-action', function (action, actions, callback) {
+					actions.resolved(action, {email: 'a@a.com'}, callback);
+				})
+				.execute('first-event-action', function (action, actions, callback) {
+					executed = true;
+					callback(null);
+				});
 		});
 
 		beforeEach(function () {
