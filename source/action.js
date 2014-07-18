@@ -8,6 +8,7 @@ var db = require('./db')(config);
 var logger = require('./utils/logger');
 
 var bus = postal.channel('event:receive');
+var subscribers = [];
 
 var actions = {
 	create: function (id, data, callback) {
@@ -29,16 +30,29 @@ function subscribe(eventName, fn) {
 		throw new Error('missing event hander');
 	}
 
-	bus.subscribe(eventName, function (e) {
+	var subscriber = bus.subscribe(eventName, function (data) {
+		var e = data.event;
+		var callback = data.callback;
+
 		logger.info('event triggired ' + e.id);
 		fn(e, actions, function (err) {
 			err && logger.error('event hander failed' + (err.stack || err));
+			callback && callback(err);
 		});
+	});
+
+	subscribers.push(subscriber);
+}
+
+function unsubscribe() {
+	subscribers.forEach(function (subscriber) {
+		subscriber.unsubscribe();
 	});
 }
 
 module.exports = {
-	action: subscribe,
+	receive: subscribe,
 	// expose to use it in tests
-	_actions: actions
+	_receive: bus,
+	_receiveUnsubscribe: unsubscribe
 };
