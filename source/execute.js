@@ -7,6 +7,7 @@ var db = require('./db')(config);
 var logger = require('./utils/logger');
 
 var bus = postal.channel('action:execute');
+var subscribers = [];
 
 var executor = {
 	transport: {
@@ -36,16 +37,30 @@ var executor = {
 	}
 };
 
+function error(callback) {
+	var err = new Error('counld not execute non-resolved action');
+
+	if (!callback) {
+		throw err;
+	}
+
+	callback(err);
+}
+
 function execute(actionName, fn) {
 	if (!fn) {
 		throw new Error('missing execute handler');
 	}
 
-	bus.subscribe(actionName, function (data) {
+	var subscriber = bus.subscribe(actionName, function (data) {
 		var action = data.action;
 		var callback = data.callback;
 
 		logger.info('action execute triggired ' + action.id);
+
+		if (!action.state || action.state !== 'resolved') {
+			return error(callback);
+		}
 
 		fn(action, executor, function (err) {
 			if (err) {
@@ -58,11 +73,20 @@ function execute(actionName, fn) {
 		});
 	});
 
+	subscribers.push(subscriber);
+
 	return this;
+}
+
+function unsubscribe() {
+	subscribers.forEach(function (subscriber) {
+		subscriber.unsubscribe();
+	});
 }
 
 module.exports = {
 	execute: execute,
-	// expose to use it in tests
-	_execute: executor
+	// private, expose to use it in tests
+	_executeBus: bus,
+	_executeUnsubscribe: unsubscribe
 };
