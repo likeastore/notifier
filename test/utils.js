@@ -31,28 +31,8 @@ module.exports = {
 		db[collection].remove(callback);
 	},
 
-	createTestUser: function (email, name, followers, callback) {
-		db.users.save({
-			email: email,
-			name: name,
-			followed: followers
-		}, callback);
-	},
-
-	createTestCollection: function (user, title, description, followers, userData, callback) {
-		db.collections.save({
-			user: user,
-			title: title,
-			description: description,
-			followers: followers,
-			userData: userData
-		}, callback);
-	},
-
-	createTestItem: function (user, callback) {
-		db.items.save({
-			user: user
-		}, callback);
+	createAction: function (data, callback) {
+		db.actions.save(data, callback);
 	},
 
 	getLastAction: function (callback) {

@@ -7,6 +7,7 @@ var db = require('./db')(config);
 var logger = require('./utils/logger');
 
 var bus = postal.channel('action:resolve');
+var subscribers = [];
 
 var hander = function(action, set, message, callback) {
 	db.actions.findAndModify({
@@ -20,11 +21,11 @@ var hander = function(action, set, message, callback) {
 };
 
 var resolver = {
-	resolve: function (action, data, callback) {
+	resolved: function (action, data, callback) {
 		hander(action, {data: data, state: 'resolved', resolved: moment().utc().toDate() }, 'resolved action', callback);
 	},
 
-	skip: function (action, callback) {
+	skipped: function (action, callback) {
 		hander(action, {state: 'skipped', resolved: moment().utc().toDate() }, 'skipped action', callback);
 	},
 
@@ -38,7 +39,7 @@ function resolve(actionName, fn) {
 		throw new Error('missing resolve hander');
 	}
 
-	bus.subscribe(actionName, function (data) {
+	var subscriber = bus.subscribe(actionName, function (data) {
 		var action = data.action;
 		var callback = data.callback;
 
@@ -54,10 +55,19 @@ function resolve(actionName, fn) {
 			callback(null);
 		});
 	});
+
+	subscribers.push(subscriber);
+}
+
+function unsubscribe() {
+	subscribers.forEach(function (subscriber) {
+		subscriber.unsubscribe();
+	});
 }
 
 module.exports = {
 	resolve: resolve,
-	// expose to use it in tests
-	_resolve: resolver
+	// private, expose to use it in tests
+	_resolveBus: bus,
+	_resolveUnsubscribe: unsubscribe
 };

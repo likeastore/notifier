@@ -1,33 +1,36 @@
 var utils = require('../utils');
 var notifier = require('../../source/notifier');
 
-describe('resolve.spec.js', function () {
-	var actions, resolve, action;
+describe.only('resolve.spec.js', function () {
+	var action;
 
 	beforeEach(function () {
-		actions = notifier._actions;
-		resolve = notifier._resolve;
+		notifier._resolveUnsubscribe();
 	});
 
 	beforeEach(function (done) {
 		utils.clearCollection('actions', done);
 	});
 
-	describe('when resolving action', function () {
-		beforeEach(function (done) {
-			actions.create('first-action', {user: 'a@a.com', custom: '123'}, done);
+	beforeEach(function (done) {
+		utils.createAction({id: 'first-action', userId: '123'}, function (err, created) {
+			action = created;
+			done(err);
 		});
+	});
 
-		beforeEach(function (done) {
-			utils.getLastAction(function (err, act) {
-				action = act;
-				done(err);
+	describe('when resolving action', function () {
+		beforeEach(function () {
+			notifier.resolve('first-action', function (action, actions, callback) {
+				// emulate async call
+				process.nextTick(function () {
+					actions.resolved(action, {user: 'a@a.com', custom: '123'}, callback);
+				});
 			});
 		});
 
 		beforeEach(function (done) {
-			var data = { updated: action.email + ' ' + action.custom };
-			resolve.resolve(action, data, done);
+			notifier._resolveBus.publish('first-action', {action: action, callback: done});
 		});
 
 		beforeEach(function (done) {
@@ -47,19 +50,17 @@ describe('resolve.spec.js', function () {
 	});
 
 	describe('when skipping action', function () {
-		beforeEach(function (done) {
-			actions.create('first-action', {user: 'a@a.com', custom: '123'}, done);
-		});
-
-		beforeEach(function (done) {
-			utils.getLastAction(function (err, act) {
-				action = act;
-				done(err);
+		beforeEach(function () {
+			notifier.resolve('first-action', function (action, actions, callback) {
+				// emulate async call
+				process.nextTick(function () {
+					actions.skipped(action, callback);
+				});
 			});
 		});
 
 		beforeEach(function (done) {
-			resolve.skip(action, done);
+			notifier._resolveBus.publish('first-action', {action: action, callback: done});
 		});
 
 		beforeEach(function (done) {
@@ -79,8 +80,17 @@ describe('resolve.spec.js', function () {
 	});
 
 	describe('when error action', function () {
+		beforeEach(function () {
+			notifier.resolve('first-action', function (action, actions, callback) {
+				// emulate async call
+				process.nextTick(function () {
+					actions.error(action, new Error('failed to open db'), callback);
+				});
+			});
+		});
+
 		beforeEach(function (done) {
-			actions.create('first-action', {user: 'a@a.com', custom: '123'}, done);
+			notifier._resolveBus.publish('first-action', {action: action, callback: done});
 		});
 
 		beforeEach(function (done) {
@@ -90,18 +100,7 @@ describe('resolve.spec.js', function () {
 			});
 		});
 
-		beforeEach(function (done) {
-			resolve.error(action, new Error('failed to open db'), done);
-		});
-
-		beforeEach(function (done) {
-			utils.getLastAction(function (err, act) {
-				action = act;
-				done(err);
-			});
-		});
-
-		it('should get error state', function () {
+		it('should get skipped state', function () {
 			expect(action.state).to.equal('error');
 		});
 
@@ -109,5 +108,4 @@ describe('resolve.spec.js', function () {
 			expect(action.reason).to.be.ok;
 		});
 	});
-
 });

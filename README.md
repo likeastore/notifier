@@ -54,7 +54,7 @@ notifier.resolve('user-registered', function (action, actions, callback) {
 			registered: user.registered
 		};
 
-		actions.resolve(action, data, callback);
+		actions.resolved(action, data, callback);
 	});
 });
 ```
@@ -73,10 +73,10 @@ notifier.resolve('user-registered', function (action, actions, callback) {
 		}
 
 		if (user.email === 'test@example.com') {
-			return actions.skip(action, callback);
+			return actions.skipped(action, callback);
 		}
 
-		callback(null);
+		actions.resolved(action, {data: 123}, callback);
 	});
 });
 ```
