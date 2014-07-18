@@ -41,7 +41,7 @@ describe('notifier.spec.js', function () {
 		before(function () {
 			executed = false;
 
-			notifier.action('first-event', function (e, actions, callback) {
+			notifier.receive('first-event', function (e, actions, callback) {
 				actions.create('first-event-action', {custom: '123'}, callback);
 			});
 

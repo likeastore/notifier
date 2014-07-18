@@ -2,7 +2,7 @@ var _ = require('underscore');
 
 module.exports = _.extend({},
 	require('./server'),
-	require('./action'),
+	require('./receive'),
 	require('./resolve'),
 	require('./jobs'),
 	require('./execute')
