@@ -1,7 +1,7 @@
 var utils = require('../utils');
 var notifier = require('../../source/notifier');
 
-describe.only('resolve.spec.js', function () {
+describe('resolve.spec.js', function () {
 	var action;
 
 	beforeEach(function () {
