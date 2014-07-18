@@ -59,6 +59,8 @@ notifier.resolve('user-registered', function (action, actions, callback) {
 });
 ```
 
+Note, there should be only one resolve function for action, otherwise the exception is thrown.
+
 ### Skipping action
 
 For any reason, action could be skipped, means that it could be resolved but will not be executed.
@@ -95,8 +97,6 @@ notifier.execute('user-registered', function (action, transport, callback) {
 		transport.mandrill.sendTemplate(action.email, vars, 'welcome-email', callback);
 });
 ```
-
-The `callback` should receive (err, action, data) - error, same action and resolved data.
 
 ## Transports
 
