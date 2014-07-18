@@ -73,4 +73,42 @@ describe.only('execute.spec.js', function () {
 			expect(action.executed).to.be.a('Date');
 		});
 	});
+
+	describe('when executed with error', function () {
+		beforeEach(function (done) {
+			utils.createAction({id: 'just-created-action', state: 'resolved'}, function (err, created) {
+				action = created;
+				done(err);
+			});
+		});
+
+		beforeEach(function () {
+			notifier.execute('just-created-action', function (action, actions, callback) {
+				callback(new Error());
+			});
+		});
+
+		beforeEach(function (done) {
+			notifier._executeBus.publish('just-created-action', {action: action, callback: done});
+		});
+
+		beforeEach(function (done) {
+			utils.getLastAction(function (err, act) {
+				action = act;
+				done(err);
+			});
+		});
+
+		it('should get error state', function () {
+			expect(action.state).to.equal('error');
+		});
+
+		it('should have executed date', function () {
+			expect(action.executed).to.be.a('Date');
+		});
+
+		it('should have reason', function () {
+			expect(action.reason).to.be.ok;
+		});
+	});
 });

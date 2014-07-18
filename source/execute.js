@@ -28,7 +28,7 @@ var executor = {
 	error: function (action, err, callback) {
 		db.actions.findAndModify({
 			query: {_id: action._id},
-			update: { $set: {state: 'error', reason: err.toString() }},
+			update: { $set: {state: 'error', reason: err.toString(), executed: moment().utc().toDate() }},
 			'new': true
 		}, function (err, action) {
 			logger.info('error action ' + action.id);
