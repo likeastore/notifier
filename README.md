@@ -19,7 +19,7 @@ To initialize the `notifier` you should create 3 entities - `actions`, `resovers
 `notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
 
 ```js
-notifier.action('user-registered', function (event, actions, callback) {
+notifier.receive('user-registered', function (event, actions, callback) {
 	actions.create('send-welcome-email', {user: event.user}, callback);
 });
 ```
@@ -27,11 +27,11 @@ notifier.action('user-registered', function (event, actions, callback) {
 You can define as many actions as you need for same event.
 
 ```js
-notifier.action('user-payment-recieved', function (event, actions, callback) {
+notifier.receive('user-payment-recieved', function (event, actions, callback) {
 	actions.create('send-invoice-email', {user: event.user, payment: event.amount}, callback);
 });
 
-notifier.action('user-payment-recieved', function (event, actions, callback) {
+notifier.receive('user-payment-recieved', function (event, actions, callback) {
 	actions.create('notify-developers-sms', {user: event.user}, callback);
 });
 ```
