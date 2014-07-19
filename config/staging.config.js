@@ -11,8 +11,8 @@ var config = {
 			token: process.env.MANDRILL_TOKEN
 		},
 		twilio : {
-			accountSid: process.env.ACCOUNT_SID,
-			authToken: process.env.AUTH_TOKEN
+			accountSid: process.env.TWILLIO_ACCOUNT_SID,
+			authToken: process.env.TWILLIO_ACCOUNT_TOKEN
 		}
 	}
 };
