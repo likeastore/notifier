@@ -1,5 +1,6 @@
 var express = require('express');
 var postal = require('postal');
+var async = require('async');
 
 var config = require('../config');
 var package = require('../package');
@@ -57,8 +58,7 @@ app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 function listen(port, callback) {
 	server = app.listen(port, function () {
 		logger.info('notifier server started, env: ' + process.env.NODE_ENV + ' port: ' + port);
-
-		callback && callback(arguments);
+		callback(arguments);
 	});
 }
 
