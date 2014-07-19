@@ -7,10 +7,7 @@ describe('notifier.spec.js', function () {
 	var url, response, results;
 
 	beforeEach(function (done) {
-		notifier._server.listen(utils.port(), function (err) {
-			console.log(err);
-			done(err);
-		});
+		notifier._server.listen(utils.port(), done);
 	});
 
 	beforeEach(function () {

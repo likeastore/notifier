@@ -26,7 +26,7 @@ notifier
 				return callback(err);
 			}
 
-			actions.resolve(a, {email: user.email, name: user.name}, callback);
+			actions.resolved(a, {email: user.email, name: user.name}, callback);
 		});
 	})
 	.resolve('send-verify-sms', function (a, actions, callback) {
@@ -35,7 +35,7 @@ notifier
 				return callback(err);
 			}
 
-			actions.resolve(a, {phone: user.email}, callback);
+			actions.resolved(a, {phone: user.email}, callback);
 		});
 	})
 	.execute('send-welcome-email', function (a, transport, callback) {
@@ -47,8 +47,12 @@ notifier
 
 		];
 
+		console.log('SENDINGING', a);
+
 		transport.mandrill('/messages/send-template', {
 			template_name: 'welcome-email',
+			template_content: [],
+
 			message: {
 				to: [{email: user.email}],
 				global_merge_vars: vars

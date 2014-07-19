@@ -49,7 +49,7 @@ app.get('/', function (req, res) {
 
 app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 	var e = req.body;
-	bus.publish(e.event, e);
+	bus.publish(e.event, {event: e});
 
 	res.send(201);
 });

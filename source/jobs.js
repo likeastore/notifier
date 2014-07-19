@@ -42,12 +42,11 @@ var startAgenda = function (callback) {
 
 		agenda.on('start', function (job) {
 			timing.start(job.attrs.name);
-			logger.info({message: 'job started', job: job.attrs.name });
 		});
 
 		agenda.on('success', function (job) {
 			var duration = timing.finish(job.attrs.name);
-			logger.success({message: 'job compeleted', job: job.attrs.name, duration: duration.asMilliseconds()});
+			logger.info({message: 'job compeleted', job: job.attrs.name, duration: duration.asMilliseconds()});
 		});
 
 		agenda.on('fail', function (err, job) {

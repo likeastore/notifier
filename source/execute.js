@@ -13,7 +13,7 @@ var subscribers = [];
 var handler = function (action, set, message, callback) {
 	db.actions.findAndModify({
 		query: {_id: action._id},
-		update: set,
+		update: {$set: set},
 		'new': true
 	}, function (err, action) {
 		logger.info(message + ' ' + action.id);
@@ -27,7 +27,7 @@ var executor = {
 	},
 
 	error: function (action, err, callback) {
-		handler(action, {state: 'error', reason: err.toString(), executed: moment().utc().toDate()}, 'action error', callback);
+		handler(action, {state: 'error', reason: err, executed: moment().utc().toDate()}, 'action error', callback);
 	}
 };
 
@@ -58,11 +58,11 @@ function execute(actionName, fn) {
 
 		fn(action, transport, function (err) {
 			if (err) {
-				logger.error('action execute failed' + (err.stack || err));
+				logger.error('action execute failed ' + (err.stack || err));
 				return executor.error(action, err, callback);
 			}
 
-			logger.info('action executed successfully' + action.id);
+			logger.info('action executed successfully ' + action.id);
 			executor.success(action, callback);
 		});
 	});

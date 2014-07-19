@@ -11,7 +11,7 @@ var subscribers = [];
 var hander = function(action, set, message, callback) {
 	db.actions.findAndModify({
 		query: {_id: action._id},
-		update: { $set: set},
+		update: {$set: set},
 		'new': true
 	}, function (err, action) {
 		logger.info(message + ' ' + action.id);
@@ -21,15 +21,15 @@ var hander = function(action, set, message, callback) {
 
 var resolver = {
 	resolved: function (action, data, callback) {
-		hander(action, {data: data, state: 'resolved', resolved: moment().utc().toDate() }, 'resolved action', callback);
+		hander(action, {data: data, state: 'resolved', resolved: moment().utc().toDate()}, 'resolved action', callback);
 	},
 
 	skipped: function (action, callback) {
-		hander(action, {state: 'skipped', resolved: moment().utc().toDate() }, 'skipped action', callback);
+		hander(action, {state: 'skipped', resolved: moment().utc().toDate()}, 'skipped action', callback);
 	},
 
 	error: function (action, err, callback) {
-		hander(action, {state: 'error', reason: err.toString()}, 'error action', callback);
+		hander(action, {state: 'error', reason: err}, 'error action', callback);
 	}
 };
 
@@ -46,11 +46,11 @@ function resolve(actionName, fn) {
 
 		fn(action, resolver, function (err) {
 			if (err) {
-				logger.error('action resolver failed' + (err.stack || err));
+				logger.error('action resolver failed ' + (err.stack || err));
 				return resolver.error(action, err, callback);
 			}
 
-			logger.info('action resolved successfully' + action.id);
+			logger.info('action resolved successfully ' + action.id);
 			callback(null);
 		});
 	});

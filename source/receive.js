@@ -36,7 +36,7 @@ function receive(eventName, fn) {
 
 		logger.info('event triggired ' + e.id);
 		fn(e, actions, function (err) {
-			err && logger.error('event hander failed' + (err.stack || err));
+			err && logger.error('event hander failed ' + (err.stack || err));
 			callback && callback(err);
 		});
 	});
