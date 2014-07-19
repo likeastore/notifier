@@ -9,6 +9,10 @@ var config = {
 	transport: {
 		mandrill: {
 			token: 'fake-mandrill-api-token'
+		},
+		twilio : {
+			accountSid: 'fake-twilio-account-sid',
+			authToken: 'fake-twilio-auth-token'
 		}
 	}
 };
