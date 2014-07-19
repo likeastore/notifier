@@ -47,8 +47,11 @@ notifier
 		});
 	}).
 	execute('send-verify-sms', function (a, transport, callback) {
-		// TODO: add twillio example
-		callback(null);
+		transport.twilio.messages.create({
+			to: '+380633252435',
+			from: '+12282201270',
+			body: 'Verification code: 1111',
+		}, callback);
 	});
 
 notifier.start(process.env.NODE_PORT || 7000);
