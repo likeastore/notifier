@@ -160,6 +160,10 @@ Send first notification,
 $ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
 ```
 
+## Example
+
+Check out [example/server.js] with ready to user `notifier` server.
+
 # License (MIT)
 
 Copyright (c) 2014, Likeastore.com info@likeastore.com
