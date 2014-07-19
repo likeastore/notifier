@@ -111,18 +111,18 @@ notifier.execute('user-registered', function (action, transport, callback) {
 Each `.execute()` function callback receives `transport` object, which exposes intialized transports clients libraries.
 
 Supported now:
-	* [Mandrill](https://github.com/jimrubenstein/node-mandrill)
+* [Mandrill](https://github.com/jimrubenstein/node-mandrill)
 
 Will be added soon:
-	* [Twillio]()
-	* [Mailgun]()
+* [Twillio]()
+* [Mailgun]()
 
 If you want to extend transport support:
 
-	1. Fork this repo
-	2. Update [transport.js](/source/transport.js)
-	3. Update [config/*.js](/config/development.js) files with new transport section.
-	4. Send PR.
+1. Fork this repo
+2. Update [transport.js](/source/transport.js)
+3. Update [config/*.js](/config/development.js) files with new transport section.
+4. Send PR.
 
 ## How to use?
 
