@@ -162,7 +162,7 @@ $ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com
 
 ## Example
 
-Check out [example/server.js] with ready to user `notifier` server.
+Check out [example/server.js](example/server.js) with ready to user `notifier` server.
 
 # License (MIT)
 
