@@ -36,7 +36,7 @@ describe('notifier.spec.js', function () {
 	});
 
 	describe('when action is executed', function () {
-		var executed;
+		var executed, transport;
 
 		before(function () {
 			executed = false;
@@ -48,8 +48,9 @@ describe('notifier.spec.js', function () {
 				.resolve('first-event-action', function (action, actions, callback) {
 					actions.resolved(action, {email: 'a@a.com'}, callback);
 				})
-				.execute('first-event-action', function (action, transport, callback) {
+				.execute('first-event-action', function (action, trans, callback) {
 					executed = true;
+					transport = trans;
 					callback(null);
 				});
 		});
@@ -86,6 +87,10 @@ describe('notifier.spec.js', function () {
 
 				it('should trigger execute callback', function () {
 					expect(executed).to.equal(true);
+				});
+
+				it('should pass transport', function () {
+					expect(transport).to.be.ok;
 				});
 			});
 		});

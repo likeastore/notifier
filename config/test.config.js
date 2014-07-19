@@ -4,6 +4,12 @@ var config = {
 
 	logentries: {
 		token: null
+	},
+
+	transport: {
+		mandrill: {
+			token: 'fake-mandrill-api-token'
+		}
 	}
 };
 

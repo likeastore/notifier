@@ -6,8 +6,10 @@ var config = {
 		token: null
 	},
 
-	mandrill: {
-		token: null
+	transport: {
+		mandrill: {
+			token: null
+		}
 	}
 };
 

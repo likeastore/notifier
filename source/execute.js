@@ -3,6 +3,7 @@ var postal = require('postal');
 
 var config = require('../config');
 var db = require('./db')(config);
+var transport = require('./transport');
 
 var logger = require('./utils/logger');
 
@@ -21,10 +22,6 @@ var handler = function (action, set, message, callback) {
 };
 
 var executor = {
-	transport: {
-		mandrill: {}
-	},
-
 	success: function (action, callback) {
 		handler(action, {state: 'executed', executed: moment().utc().toDate()}, 'action executed', callback);
 	},
@@ -59,7 +56,7 @@ function execute(actionName, fn) {
 			return error(callback);
 		}
 
-		fn(action, executor, function (err) {
+		fn(action, transport, function (err) {
 			if (err) {
 				logger.error('action execute failed' + (err.stack || err));
 				return executor.error(action, err, callback);

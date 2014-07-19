@@ -6,8 +6,10 @@ var config = {
 		token: '0bb5837f-db56-45dd-8be1-6541b14a49f0'
 	},
 
-	mandrill: {
-		token: process.env.MANDRILL_TOKEN
+	transport: {
+		mandrill: {
+			token: process.env.MANDRILL_TOKEN
+		}
 	}
 };
 
