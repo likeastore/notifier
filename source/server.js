@@ -1,6 +1,5 @@
 var express = require('express');
 var postal = require('postal');
-var async = require('async');
 
 var config = require('../config');
 var package = require('../package');
@@ -57,9 +56,9 @@ app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 
 var server = {
 	listen: function (port, callback) {
-		instance = app.listen(port, function () {
+		instance = app.listen(port, function (err) {
 			logger.info('notifier server started, env: ' + process.env.NODE_ENV + ' port: ' + port);
-			callback && callback(arguments);
+			callback && callback(err);
 		});
 	},
 
@@ -68,9 +67,9 @@ var server = {
 			throw new Error('server not started, forgot to call .listen()?');
 		}
 
-		instance.close(function () {
+		instance.close(function (err) {
 			logger.info('notifier server shutdown');
-			callback && callback(arguments);
+			callback && callback(err);
 		});
 	}
 };

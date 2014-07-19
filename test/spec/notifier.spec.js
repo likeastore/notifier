@@ -6,8 +6,11 @@ var utils = require('../utils');
 describe('notifier.spec.js', function () {
 	var url, response, results;
 
-	beforeEach(function () {
-		notifier.listen(utils.port());
+	beforeEach(function (done) {
+		notifier._server.listen(utils.port(), function (err) {
+			console.log(err);
+			done(err);
+		});
 	});
 
 	beforeEach(function () {
@@ -18,8 +21,8 @@ describe('notifier.spec.js', function () {
 		utils.clearCollection('actions', done);
 	});
 
-	afterEach(function () {
-		notifier.close();
+	afterEach(function (done) {
+		notifier._server.close(done);
 	});
 
 	describe('server started', function () {

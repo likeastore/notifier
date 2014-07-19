@@ -1,8 +1,12 @@
 var async = require('async');
 var postal = require('postal');
+var Agenda = require('agenda');
 
 var config = require('../config');
 var db = require('./db')(config);
+
+var logger = require('./utils/logger');
+var timing = require('./utils/timing');
 
 var channels = {
 	'resolve': postal.channel('action:resolve'),
@@ -21,6 +25,39 @@ var handler = function (state, channel, callback) {
 	});
 };
 
+var startAgenda = function (callback) {
+	var agenda = new Agenda({db: {address: config.connection, collection: 'notifierJobs'} });
+
+	agenda.purge(function () {
+		agenda.define('resolve actions', function (job, callback) {
+			handler('created', 'resolve', callback);
+		});
+
+		agenda.define('execute actions', function (job, callback) {
+			handler('resolved', 'execute', callback);
+		});
+
+		agenda.every('5 seconds', 'resolve actions');
+		agenda.every('10 seconds', 'execute actions');
+
+		agenda.on('start', function (job) {
+			timing.start(job.attrs.name);
+			logger.info({message: 'job started', job: job.attrs.name });
+		});
+
+		agenda.on('success', function (job) {
+			var duration = timing.finish(job.attrs.name);
+			logger.success({message: 'job compeleted', job: job.attrs.name, duration: duration.asMilliseconds()});
+		});
+
+		agenda.on('fail', function (err, job) {
+			logger.error({message: 'job failed', job: job.attrs.name, err: err});
+		});
+
+		agenda.start();
+	});
+};
+
 var jobs = {
 	resolve: function (callback) {
 		handler('created', 'resolve', callback);
@@ -31,7 +68,7 @@ var jobs = {
 	},
 
 	start: function (callback) {
-
+		startAgenda(callback);
 	}
 };
 
