@@ -6,7 +6,7 @@ var config = require('../config');
 var package = require('../package');
 var logger = require('./utils/logger');
 
-var app = express(), server;
+var app = express(), instance;
 var bus = postal.channel('event:receive');
 
 var cors = function (req, res, next) {
@@ -55,26 +55,26 @@ app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 	res.send(201);
 });
 
-function listen(port, callback) {
-	server = app.listen(port, function () {
-		logger.info('notifier server started, env: ' + process.env.NODE_ENV + ' port: ' + port);
-		callback(arguments);
-	});
-}
+var server = {
+	listen: function (port, callback) {
+		instance = app.listen(port, function () {
+			logger.info('notifier server started, env: ' + process.env.NODE_ENV + ' port: ' + port);
+			callback && callback(arguments);
+		});
+	},
 
-function close(callback) {
-	if (!server) {
-		throw new Error('server not started, forgot to call .listen()?');
+	close: function (callback) {
+		if (!instance) {
+			throw new Error('server not started, forgot to call .listen()?');
+		}
+
+		instance.close(function () {
+			logger.info('notifier server shutdown');
+			callback && callback(arguments);
+		});
 	}
-
-	server.close(function () {
-		logger.info('notifier server shutdown');
-
-		callback && callback(arguments);
-	});
-}
+};
 
 module.exports = {
-	listen: listen,
-	close: close
+	_server: server
 };

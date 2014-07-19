@@ -8,7 +8,7 @@ var config = {
 
 	transport: {
 		mandrill: {
-			token: null
+			token: 'fake-mandrill-api-token'
 		}
 	}
 };

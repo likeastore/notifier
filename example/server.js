@@ -60,6 +60,4 @@ notifier
 		callback(null);
 	});
 
-notifier.start(function () {
-	// started!
-});
+notifier.start(process.env.NODE_PORT || 7000);

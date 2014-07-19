@@ -5,5 +5,6 @@ module.exports = _.extend({},
 	require('./receive'),
 	require('./resolve'),
 	require('./jobs'),
-	require('./execute')
+	require('./execute'),
+	require('./start')
 );
