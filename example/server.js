@@ -47,8 +47,6 @@ notifier
 
 		];
 
-		console.log('SENDINGING', a);
-
 		transport.mandrill('/messages/send-template', {
 			template_name: 'welcome-email',
 			template_content: [],
