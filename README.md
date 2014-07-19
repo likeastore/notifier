@@ -108,21 +108,21 @@ notifier.execute('user-registered', function (action, transport, callback) {
 
 ## Transports
 
-Each `.excute()` function callback receives `transport` object, which exposes intialized transports clients libraries.
+Each `.execute()` function callback receives `transport` object, which exposes intialized transports clients libraries.
 
 Supported now:
-* [Mandrill](https://github.com/jimrubenstein/node-mandrill)
+	* [Mandrill](https://github.com/jimrubenstein/node-mandrill)
 
 Will be added soon:
-* [Twillio]()
-* [Mailgun]()
+	* [Twillio]()
+	* [Mailgun]()
 
 If you want to extend transport support:
 
-1. Fork this repo
-2. Update [transport.js](/source/transport.js)
-3. Update [config/*.js](/config/development.js) files with new transport section.
-4. Send PR.
+	1. Fork this repo
+	2. Update [transport.js](/source/transport.js)
+	3. Update [config/*.js](/config/development.js) files with new transport section.
+	4. Send PR.
 
 ## How to use?
 
@@ -170,7 +170,7 @@ $ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com
 
 ## Example
 
-Check out [example/server.js](example/server.js) with ready to user `notifier` server.
+Check out [example/server.js](example/server.js) with ready to use `notifier` server.
 
 # License (MIT)
 
