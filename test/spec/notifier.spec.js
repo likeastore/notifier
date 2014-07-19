@@ -48,7 +48,7 @@ describe('notifier.spec.js', function () {
 				.resolve('first-event-action', function (action, actions, callback) {
 					actions.resolved(action, {email: 'a@a.com'}, callback);
 				})
-				.execute('first-event-action', function (action, actions, callback) {
+				.execute('first-event-action', function (action, transport, callback) {
 					executed = true;
 					callback(null);
 				});

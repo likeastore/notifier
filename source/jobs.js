@@ -28,6 +28,10 @@ var jobs = {
 
 	execute: function (callback) {
 		handler('resolved', 'execute', callback);
+	},
+
+	start: function (callback) {
+
 	}
 };
 
