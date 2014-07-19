@@ -94,7 +94,15 @@ notifier.execute('user-registered', function (action, transport, callback) {
 			{name: 'REGISTERED_DATE', content: action.data.registered}
 		];
 
-		transport.mandrill.sendTemplate(action.email, vars, 'welcome-email', callback);
+		transport.mandrill('/messages/send-template', {
+			template_name: 'welcome-email',
+			template_content: [],
+
+			message: {
+				to: [{email: user.email}],
+				global_merge_vars: vars
+			}
+		}, callback);
 });
 ```
 
