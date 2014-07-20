@@ -112,9 +112,9 @@ Each `.execute()` function callback receives `transport` object, which exposes i
 
 Supported now:
 * [Mandrill](https://github.com/jimrubenstein/node-mandrill)
+* [Twillio](https://github.com/twilio/twilio-node)
 
 Will be added soon:
-* [Twillio]()
 * [Mailgun]()
 
 If you want to extend transport support:
