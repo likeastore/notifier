@@ -1,3 +1,4 @@
+var util = require('util');
 var async = require('async');
 var postal = require('postal');
 var Agenda = require('agenda');
@@ -37,8 +38,8 @@ var startAgenda = function (callback) {
 			handler('resolved', 'execute', callback);
 		});
 
-		agenda.every('5 seconds', 'resolve actions');
-		agenda.every('10 seconds', 'execute actions');
+		agenda.every(util.format('%d seconds', config.jobs.run.resolve), 'resolve actions');
+		agenda.every(util.format('%d seconds', config.jobs.run.execute), 'execute actions');
 
 		agenda.on('start', function (job) {
 			timing.start(job.attrs.name);

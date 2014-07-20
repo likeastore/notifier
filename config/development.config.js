@@ -14,6 +14,13 @@ var config = {
 			accountSid: 'fake-twilio-account-sid',
 			authToken: 'fake-twilio-auth-token'
 		}
+	},
+
+	jobs: {
+		run: {
+			resolve: 5,
+			execute: 10
+		}
 	}
 };
 

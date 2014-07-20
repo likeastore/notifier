@@ -14,6 +14,13 @@ var config = {
 			accountSid: process.env.TWILLIO_ACCOUNT_SID,
 			authToken: process.env.TWILLIO_ACCOUNT_TOKEN
 		}
+	},
+
+	jobs: {
+		run: {
+			resolve: 5,
+			execute: 10
+		}
 	}
 };
 
