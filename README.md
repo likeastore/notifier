@@ -16,7 +16,7 @@ To initialize the `notifier` you should create 3 entities - `actions`, `resovers
 
 ### Receiving event
 
-`notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
+`notifier` exposes `.receive()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
 
 ```js
 notifier.receive('user-registered', function (event, actions, callback) {
