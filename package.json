@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/run.js",
+    "test-func": "node test/run.js test/func/notifier.func.js",
     "watch": "nodemon --watch source --watch config app.js",
     "test-watch": "nodemon --watch source --watch config --watch test test/run.js"
   },
