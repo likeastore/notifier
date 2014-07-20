@@ -20,7 +20,9 @@ var config = {
 		run: {
 			resolve: 5,
 			execute: 10
-		}
+		},
+
+		collection: 'notifierJobs'
 	}
 };
 

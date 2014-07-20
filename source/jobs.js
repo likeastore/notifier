@@ -27,7 +27,7 @@ var handler = function (state, channel, callback) {
 };
 
 var startAgenda = function (callback) {
-	var agenda = new Agenda({db: {address: config.connection, collection: 'notifierJobs'} });
+	var agenda = new Agenda({db: {address: config.connection, collection: config.jobs.collection} });
 
 	agenda.purge(function () {
 		agenda.define('resolve actions', function (job, callback) {
