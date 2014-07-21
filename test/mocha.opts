@@ -1,5 +1,4 @@
 --require ./test/common.js
---skip ./test/func
 --reporter spec
 --ui bdd
 --recursive
