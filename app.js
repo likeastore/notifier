@@ -242,6 +242,81 @@ notifier
 		}, callback);
 	});
 
+// collection item used
+
+notifier
+	.receive('collection-item-added', function (e, actions, callback) {
+		actions.create('send-notify-collection-owner-item-used', {
+			user: e.user,
+			collection: e.data.collection,
+			item: e.data.item,
+		}, callback);
+	})
+	.resolve('send-notify-collection-owner-item-used', function (action, actions, callback) {
+		db.collections.findOne({_id: new mongo.ObjectId(action.collection)}, function (err, collection) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!collection) {
+				return callback({message: 'collection not found', collection: action.collection});
+			}
+
+			db.items.findOne({_id: new mongo.ObjectId(action.item)}, function (err, item) {
+				if (err) {
+					return callback(err);
+				}
+
+				// ignore the actions if items belogs to me or placed to private collection
+				if (!collection.public || collection.userData.email === item.userData.email) {
+					return actions.skipped(action, callback);
+				}
+
+				var data = {
+					email: item.userData.email,
+					user: collection.userData,
+					owner: item.userData,
+					collection: _.pick(collection, collectionPick),
+					item: item
+				};
+
+				actions.resolved(action, data, callback);
+			});
+		});
+
+	})
+	.execute('send-notify-collection-owner-item-used', function (action, transport, callback) {
+		var item = action.data.item;
+		var user = action.data.user;
+		var collection = action.data.collection;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.displayName || user.name  },
+			{ name: 'USER_AVATAR', content: user.avatar },
+			{ name: 'COLLECTION_URL', content: formatUrl(user, collection) },
+			{ name: 'COLLECTION_TITLE', content: collection.title },
+			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail },
+			{ name: 'ITEM_TITLE', content: item.title || item.authorName },
+			{ name: 'ITEM_THUMBNAIL', content: item.thumbnail },
+			{ name: 'ITEM_DESCRIPTION', content: item.description },
+			{ name: 'ITEM_OWNER_USER_NAME', content: item.userData.displayName || item.userData.name },
+			{ name: 'ITEM_COLLECTION_URL', content: formatUrl(user, collection) },
+			{ name: 'ITEM_TYPE', content: item.type }
+		];
+
+		transport.mandrill('/messages/send-template', {
+			template_name: 'notify-collection-owner-item-used',
+			template_content: [],
+			message: {
+				auto_html: null,
+				to: [{email: action.data.email}],
+				bcc: 'ceo@likeastore.com',
+				global_merge_vars: vars,
+				preserve_recipients: false
+			}
+		}, callback);
+	});
+
 // user feedback (email to developers)
 
 // sorry see you go email
