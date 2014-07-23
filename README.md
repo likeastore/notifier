@@ -182,6 +182,8 @@ Check the following code for guidance.
 * [DemocracyOS](http://democracyos.org)
 * [Tapreserve](http://tapreserve.com)
 
+(if you are one of the user, please send a PR to extend the list)
+
 # License (MIT)
 
 Copyright (c) 2014, Likeastore.com info@likeastore.com
