@@ -116,6 +116,7 @@ Supported now:
 
 Will be added soon:
 * [Mailgun]()
+* [iPhone / Androing push notifications]()
 
 If you want to extend transport support:
 
