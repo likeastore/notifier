@@ -319,5 +319,53 @@ notifier
 
 // user feedback (email to developers)
 
+notifier
+	.receive('user-feedback', function (e, actions, callback) {
+		actions.create('send-notify-developers', {
+			user: e.user,
+			message: e.data.message,
+		}, callback);
+	})
+	.resolve('send-notify-developers', function (action, actions, callback) {
+		db.users.findOne({email: action.user}, function (err, user) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!user) {
+				return callback({message: 'user not found', email: action.email});
+			}
+
+			var data = {
+				email: 'devs@likeastore.com',
+				user: _.pick(user, userPick)
+			};
+
+			callback(null, action, data);
+		});
+	})
+	.execute('send-notify-developers', function (action, transport, callback) {
+		var user = action.data.user;
+		var message = action.message;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.name },
+			{ name: 'USER_DISPLAY_NAME', content: user.displayName || 'NONE' },
+			{ name: 'USER_EMAIL', content: user.email },
+			{ name: 'MESSAGE', content: message}
+		];
+
+		transport.mandrill('/messages/send-template', {
+			template_name: 'notify-developers-user-feedback',
+			template_content: [],
+			message: {
+				auto_html: null,
+				to: [{email: action.data.email}],
+				global_merge_vars: vars,
+				preserve_recipients: false
+			}
+		}, callback);
+	});
+
 // sorry see you go email
 
