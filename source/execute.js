@@ -58,7 +58,7 @@ function execute(actionName, fn) {
 		}
 
 		if (action.executeAfter && moment().diff(action.executeAfter) < 0) {
-			logger.info('could not execute action yet (executeAfter)' + action.id + ' (' + action._id + ')');
+			logger.info('delayed execution of action since executeAfter' + action.id + ' (' + action._id + ')');
 			return callback && callback(null);
 		}
 
