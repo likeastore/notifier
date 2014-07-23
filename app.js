@@ -5,7 +5,8 @@ var moment = require('moment');
 var config = require('./config');
 var notifier = require('./source/notifier');
 
-var db = mongo.connect(config.connection, []);
+var collections = ['users', 'collections', 'items'];
+var db = mongo.connect(config.connection, collections);
 
 var userPick = ['_id', 'avatar', 'email', 'name', 'displayName'];
 var collectionPick = ['_id', 'color', 'description', 'public', 'title', 'user'];
