@@ -416,4 +416,4 @@ notifier
 		}, callback);
 	});
 
-notifier.start(process.env.NODE_PORT || 3031);
+notifier.start(process.env.PORT || 3031);
