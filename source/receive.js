@@ -34,7 +34,7 @@ function receive(eventName, fn) {
 		var e = data.event;
 		var callback = data.callback;
 
-		logger.info('event triggired ' + e.id);
+		logger.info('event triggired ' + eventName);
 		fn(e, actions, function (err) {
 			err && logger.error('event hander failed ' + (err.stack || err));
 			callback && callback(err);
