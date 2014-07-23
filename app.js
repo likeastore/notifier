@@ -10,6 +10,10 @@ var db = mongo.connect(config.connection, []);
 var userPick = ['_id', 'avatar', 'email', 'name', 'displayName'];
 var collectionPick = ['_id', 'color', 'description', 'public', 'title', 'user'];
 
+function formatUrl(user, collection) {
+	return 'https://app.likeastore.com/u/' + user.name + '/' + collection._id;
+}
+
 // welcome email
 
 notifier
