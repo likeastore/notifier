@@ -18,8 +18,8 @@ var config = {
 
 	jobs: {
 		run: {
-			resolve: 5,
-			execute: 10
+			resolve: 30,
+			execute: 60
 		},
 
 		collection: 'notifierJobs'

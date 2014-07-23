@@ -415,3 +415,5 @@ notifier
 			}
 		}, callback);
 	});
+
+notifier.start(process.env.NODE_PORT || 3031);
