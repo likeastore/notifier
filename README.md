@@ -169,9 +169,18 @@ Send first notification,
 $ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
 ```
 
-## Example
+## Getting started
 
-Check out [example/server.js](example/server.js) with ready to use `notifier` server.
+Check the following code for guidance.
+
+* [example/server.js](example/server.js) with ready to use `notifier` server.
+* [production](https://github.com/likeastore/notifier/tree/production) version of notifier used by Likeastore
+
+## Used by
+
+* [Likeastore](https://likeastore.com)
+* [DemocracyOS](http://democracyos.org)
+* [Tapreserve](http://tapreserve.com)
 
 # License (MIT)
 
