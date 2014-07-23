@@ -2,6 +2,7 @@ var util = require('util');
 var async = require('async');
 var postal = require('postal');
 var Agenda = require('agenda');
+var moment = require('moment');
 
 var config = require('../config');
 var db = require('./db')(config);
