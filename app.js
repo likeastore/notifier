@@ -100,6 +100,77 @@ notifier
 
 // collection created email
 
+notifier
+	.receive('collection-created', function (e, actions, callback) {
+		actions.create('send-notify-followers-collection-created', {
+			user: e.user,
+			collection: e.data.collection
+		}, callback);
+	})
+	.resolve('send-notify-followers-collection-created', function (action, actions, callback) {
+		db.collections.findOne({_id: new mongo.ObjectId(action.collection)}, function (err, collection) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!collection) {
+				return callback({message: 'collection not found', collection: action.collection});
+			}
+
+			db.users.findOne({email: action.user}, function (err, user) {
+				if (err) {
+					return callback(err);
+				}
+
+				if (!user) {
+					return callback({message: 'user not found', email: action.user});
+				}
+
+				var followers = user.followed || [];
+				var emails = followers.map(function (u) {
+					return u.email;
+				});
+
+				var data = {
+					email: emails,
+					user: _.pick(user, userPick),
+					collection: _.pick(collection, collectionPick)
+				};
+
+				actions.resolved(action, data, callback);
+			});
+		});
+	})
+	.execute('send-notify-followers-collection-created', function (action, transport, callback) {
+		var emails = action.data.email.map(function (e) {
+			return {email: e};
+		});
+
+		var user = action.data.user;
+		var collection = action.data.collection;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.name },
+			{ name: 'USER_AVATAR', content: user.avatar },
+			{ name: 'COLLECTION_URL', content: formatUrl(user, collection) },
+			{ name: 'COLLECTION_TITLE', content: collection.title },
+			{ name: 'COLLECTION_THUMBNAIL', content: collection.thumbnail },
+			{ name: 'COLLECTION_DESCRIPTION', content: collection.description }
+		];
+
+		transport.mandrill('/messages/send-template', {
+			template_name: 'notify-followers-collection-created',
+			template_content: [],
+			message: {
+				auto_html: null,
+				to: emails,
+				bcc: 'ceo@likeastore.com',
+				global_merge_vars: vars,
+				preserve_recipients: false
+			}
+		}, callback);
+	});
+
 // collection followed email
 
 // user feedback (email to developers)
