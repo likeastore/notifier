@@ -341,7 +341,7 @@ notifier
 				user: _.pick(user, userPick)
 			};
 
-			callback(null, action, data);
+			actions.resolved(action, data, callback);
 		});
 	})
 	.execute('send-notify-developers', function (action, transport, callback) {
@@ -369,3 +369,49 @@ notifier
 
 // sorry see you go email
 
+notifier
+	.receive('user-deleted', function (e, actions, callback) {
+		actions.create('send-sorry', {
+			user: e.user,
+			message: e.data.message,
+			executeAfter: moment().add(1, 'hour').toDate()
+		}, callback);
+	})
+	.resolve('send-sorry', function (action, actions, callback) {
+		db.users.findOne({email: action.user}, function (err, user) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!user) {
+				return callback({message: 'user not found', email: action.email});
+			}
+
+			var data = {
+				email: user.email,
+				user: _.pick(user, userPick)
+			};
+
+			actions.resolved(action, data, callback);
+		});
+	})
+	.execute('send-sorry', function (action, transport, callback) {
+		var user = action.data.user;
+
+		var vars = [
+			{ name: 'USER_NAME', content: user.displayName || user.name },
+			{ name: 'USER_EMAIL', content: user.email },
+		];
+
+		transport.mandrill('/messages/send-template', {
+			template_name: 'sorry-email',
+			template_content: [],
+			message: {
+				auto_html: null,
+				to: [{email: action.data.email}],
+				bcc: 'ceo@likeastore.com',
+				global_merge_vars: vars,
+				preserve_recipients: false
+			}
+		}, callback);
+	});
