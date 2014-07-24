@@ -64,7 +64,7 @@ function execute(actionName, fn) {
 
 		fn(action, transport, function (err) {
 			if (err) {
-				logger.error('action execute failed ' + (err.stack || err));
+				logger.error('action execute failed ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
 				return executor.error(action, err, callback);
 			}
 
