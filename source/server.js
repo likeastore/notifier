@@ -18,7 +18,7 @@ var cors = function (req, res, next) {
 };
 
 app.configure(function(){
-	app.set('port', process.env.PORT || 3031);
+	app.set('port', process.env.PORT || config.port || 3031);
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(cors);
