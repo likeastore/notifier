@@ -6,7 +6,7 @@ var timing = require('./utils/timing');
 var resolve = require('./jobs/resolve');
 var execute = require('./jobs/execute');
 
-var agenda = new Agenda({db: {address: config.connection, collection: 'notifierJobs'} });
+var agenda = new Agenda({db: {address: config.db.connection, collection: 'notifierJobs'} });
 
 agenda.purge(function () {
 	agenda.define('resolve actions', function (job, callback) {

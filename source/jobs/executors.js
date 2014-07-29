@@ -6,6 +6,8 @@ var t = require('../translations').t;
 
 function sendMandrill(to, template, vars, callback) {
 
+	// TODO: add additional options to merge with message, to allow mail scope
+
 	temp.jade(template, vars, function (err, content) {
 
 		mandrill('/messages/send', {
