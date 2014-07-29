@@ -96,7 +96,6 @@ notifier
 			message: {
 				auto_html: null,
 				to: [{email: action.data.email}],
-				bcc_address: 'ceo@likeastore.com',
 				global_merge_vars: vars,
 				preserve_recipients: false
 			}
@@ -169,7 +168,6 @@ notifier
 			message: {
 				auto_html: null,
 				to: emails,
-				bcc_address: 'ceo@likeastore.com',
 				global_merge_vars: vars,
 				preserve_recipients: false
 			}
@@ -236,7 +234,6 @@ notifier
 			message: {
 				auto_html: null,
 				to: [{email: action.data.email}],
-				bcc_address: 'ceo@likeastore.com',
 				global_merge_vars: vars,
 				preserve_recipients: false
 			}
@@ -311,7 +308,6 @@ notifier
 			message: {
 				auto_html: null,
 				to: [{email: action.data.email}],
-				bcc_address: 'ceo@likeastore.com',
 				global_merge_vars: vars,
 				preserve_recipients: false
 			}
@@ -410,7 +406,6 @@ notifier
 			message: {
 				auto_html: null,
 				to: [{email: action.data.email}],
-				bcc_address: 'ceo@likeastore.com',
 				global_merge_vars: vars,
 				preserve_recipients: false
 			}
