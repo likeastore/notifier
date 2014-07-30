@@ -3,6 +3,13 @@ var db = require('../db')(config);
 
 var ObjectId = require('mongojs').ObjectId;
 
+function normalize (user) {
+	if (!user.name && user.firstName) {
+		user.name = user.firstName;
+	}
+	return user;
+}
+
 var resolvers = {
 	'send-welcome': function (action, callback) {
 		db.users.findOne({email: action.user}, function (err, user) {
@@ -14,9 +21,11 @@ var resolvers = {
 				return callback({message: 'user not found', email: action.email});
 			}
 
-			callback(null, action, {email: action.user, user: user, validateUrl: action.validateUrl});
+			callback(null, action, {email: action.user, user: normalize(user), validateUrl: action.validateUrl});
 		});
 	},
+
+	// TODO: check these later
 
 	'send-personal': function (action, callback) {
 		db.users.findOne({email: action.user}, function (err, user) {

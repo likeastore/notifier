@@ -19,7 +19,7 @@ function jadeTemplate(name, vars, callback) {
     } else {
       callback(err);
     }
-  }); 
+  });
 };
 
 function replaceVars(template, vars) {
