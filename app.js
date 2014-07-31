@@ -435,7 +435,7 @@ notifier
 				text: '[empty]',
 				subject: subject,
 				from_email: 'no-reply@likeastore.com',
-				to: [{email: 'devs@likeastore.com'}]
+				to: [{email: 'devs@likeastore.com', name: 'Likeastore Dev Team'}]
 			}
 		}, callback);
 	});
