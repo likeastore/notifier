@@ -412,4 +412,32 @@ notifier
 		}, callback);
 	});
 
+// feed index competed (developers)
+
+notifier
+	.receive('feed-indexing-completed', function (e, actions, callback) {
+		actions.create('send-notify-developers-feed-indexed', {
+			user: e.user,
+			users: e.data.users,
+			items: e.data.items,
+			time: e.data.time
+		}, callback);
+	})
+	.resolve('send-notify-developers-feed-indexed', function (a, actions, callback) {
+		actions.resolved(a, {}, callback);
+	})
+	.execute('send-notify-developers-feed-indexed', function (a, transport, callback) {
+		var subject = 'Feed indexing completed, users: ' +
+			a.data.users + ', items: ' + a.data.item + ' in: ' + a.data.time + ' secs.';
+
+		transport.mandrill('/messages/send', {
+			message: {
+				text: '[empty]',
+				subject: subject,
+				from_email: 'no-reply@likeastore.com',
+				to: [{email: 'devs@likeastore.com'}]
+			}
+		}, callback);
+	});
+
 notifier.start(process.env.PORT || 3031);
