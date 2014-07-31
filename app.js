@@ -428,7 +428,7 @@ notifier
 	})
 	.execute('send-notify-developers-feed-indexed', function (a, transport, callback) {
 		var subject = 'Feed indexing completed, users: ' +
-			a.data.users + ', items: ' + a.data.item + ' in: ' + a.data.time + ' secs.';
+			a.users + ', items: ' + a.items + ' in: ' + a.time + ' secs.';
 
 		transport.mandrill('/messages/send', {
 			message: {
