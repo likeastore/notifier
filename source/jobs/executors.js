@@ -22,16 +22,6 @@ function sendMandrill(to, template, vars, callback) {
 				html: content,
 				auto_text: true
 			}
-
-			// mandrill('/messages/send-template', {
-			// 	template_name: template,
-			// 	template_content: [],
-			// 	message: {
-			// 		auto_html: null,
-			// 		to: to,
-			// 		global_merge_vars: vars,
-			// 		preserve_recipients: false
-			// 	}
 		}, function (err) {
 			callback && callback(err);
 		});
