@@ -1,5 +1,7 @@
 var mandrill = require('node-mandrill');
 var twilio = require('twilio');
+var gcm = require('node-gcm');
+
 var config = require('../config');
 
 var setupMandrill = function () {
@@ -18,6 +20,17 @@ var setupTwillio = function () {
 	return twilio(config.transport.twilio.accountSid, config.transport.twilio.authToken);
 };
 
+var setupAndroidPushNotification = function () {
+	if(!self.isGCMConfigExists()) {
+		throw new Error('missing server api key, please update config.transport.gcm.serverApiKey section');
+	}
+
+	return {
+		push: new gcm.Sender(config.transport.gcm.serverApiKey),
+		message: new gcm.Message()
+	}
+};
+
 var self = {
 	isMandrillConfigExist: function () {
 		return config.transport.mandrill && config.transport.mandrill.token;
@@ -25,12 +38,17 @@ var self = {
 
 	isTwilioConfigExist: function () {
 		return config.transport.twilio && (config.transport.twilio.accountSid && config.transport.twilio.authToken);
+	},
+
+	isGCMConfigExists: function () {
+		return config.transport.gcm && config.transport.gcm.serverApiKey;
 	}
 };
 
 var transport = {
 	mandrill: setupMandrill(),
-	twillio: setupTwillio()
+	twillio: setupTwillio(),
+	android: setupAndroidPushNotification()
 };
 
 module.exports = transport;

@@ -25,11 +25,13 @@
   "homepage": "https://github.com/likeastore/notifier",
   "dependencies": {
     "agenda": "~0.6.4",
+    "apn": "^1.6.0",
     "async": "~0.7.0",
     "colors": "~0.6.2",
     "express": "~3.5.1",
     "moment": "~2.6.0",
     "mongojs": "~0.11.0",
+    "node-gcm": "^0.9.12",
     "node-logentries": "~0.1.4",
     "node-mandrill": "~1.0.1",
     "postal": "~0.9.0-rc1",
