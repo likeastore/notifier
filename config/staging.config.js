@@ -13,6 +13,9 @@ var config = {
 		twilio : {
 			accountSid: process.env.TWILIO_ACCOUNT_SID,
 			authToken: process.env.TWILIO_ACCOUNT_TOKEN
+		},
+		gcm : {
+			serverApiKey: process.env.GOOGLE_SERVER_API_KEY
 		}
 	},
 
