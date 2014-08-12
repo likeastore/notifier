@@ -35,12 +35,12 @@ var setupAndroidPushNotification = function () {
 	return {
 		push: new gcm.Sender(config.transport.gcm.serverApiKey),
 		message: new gcm.Message()
-	}
+	};
 
 	function validConfig() {
 		return config.transport.gcm && config.transport.gcm.serverApiKey;
 	}
-}
+};
 
 var transport = {
 	mandrill: setupMandrill(),

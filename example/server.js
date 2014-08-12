@@ -53,7 +53,6 @@ notifier
 			body: 'Verification code: 1111',
 		}, callback);
 	});
-});
 
 notifier
 	.receive('user-completed-action', function (e, actions, callback) {
@@ -66,7 +65,7 @@ notifier
 			}
 
 			actions.resolved(a, {deviceId: user.deviceId}, callback);
-		})
+		});
 	})
 	.execute('send-android-push-notification', function (a, transport, callback) {
 		var registrationIds = [];
