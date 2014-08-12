@@ -11,12 +11,18 @@ var config = {
 			token: process.env.MANDRILL_TOKEN
 		},
 		twilio : {
-			accountSid: process.env.TWILLIO_ACCOUNT_SID,
-			authToken: process.env.TWILLIO_ACCOUNT_TOKEN
-		},
-		gcm : {
-			serverApiKey: process.env.GOOGLE_SERVER_API_KEY
+			accountSid: process.env.TWILIO_ACCOUNT_SID,
+			authToken: process.env.TWILIO_ACCOUNT_TOKEN
 		}
+	},
+
+	jobs: {
+		run: {
+			resolve: 5,
+			execute: 10
+		},
+
+		collection: 'notifierJobs'
 	}
 };
 
