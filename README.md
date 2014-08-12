@@ -116,8 +116,8 @@ Supported now:
 * [Android push notification](https://github.com/ToothlessGear/node-gcm)
 
 Will be added soon:
-* [Mailgun]()
-* [iOS push notification]()
+* [Mailgun](https://github.com/jimrubenstein/node-mandrill)
+* [iOS push notification](https://github.com/argon/node-apn)
 
 If you want to extend transport support:
 
