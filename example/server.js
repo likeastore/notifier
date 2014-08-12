@@ -43,7 +43,7 @@ notifier
 				return callback(err);
 			}
 
-			actions.resolved(a, {phone: user.email}, callback);
+			actions.resolved(a, {phone: user.phone}, callback);
 		});
 	}).
 	execute('send-verify-sms', function (a, transport, callback) {
