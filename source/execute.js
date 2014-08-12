@@ -53,12 +53,18 @@ function execute(actionName, fn) {
 		logger.info('action execute triggired ' + action.id);
 
 		if (!action.state || action.state !== 'resolved') {
+			logger.error('execute called for non-resolved action' + action.id + ' (' + action._id + ')');
 			return error(callback);
+		}
+
+		if (action.executeAfter && moment().diff(action.executeAfter) < 0) {
+			logger.info('delayed execution of action since executeAfter' + action.id + ' (' + action._id + ')');
+			return callback && callback(null);
 		}
 
 		fn(action, transport, function (err) {
 			if (err) {
-				logger.error('action execute failed ' + (err.stack || err));
+				logger.error('action execute failed ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
 				return executor.error(action, err, callback);
 			}
 

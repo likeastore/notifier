@@ -48,13 +48,13 @@ notifier
 	}).
 	execute('send-verify-sms', function (a, transport, callback) {
 		transport.twilio.messages.create({
-			to: '+380633252435',
+			to: a.data.phone,
 			from: '+12282201270',
 			body: 'Verification code: 1111',
 		}, callback);
 	});
 
-notifier.start(process.env.NODE_PORT || 7000);
+notifier.start(process.env.NODE_PORT || 3031);
 
 function asyncRequestForUser(userId, callback) {
 	var user = {

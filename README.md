@@ -9,14 +9,14 @@ The entry point of application responsible for initializing the `notifier`.
 ```js
 var notifier = require('./source/notifier');
 
-notifier.listen(5050);
+notifier.start(5050);
 ```
 
 To initialize the `notifier` you should create 3 entities - `actions`, `resovers` and `executors`.
 
 ### Receiving event
 
-`notifier` exposes `.action()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
+`notifier` exposes `.receive()` call to initialize particular action. The action `callback` is called then `server` receives event with defined type.
 
 ```js
 notifier.receive('user-registered', function (event, actions, callback) {
@@ -116,6 +116,7 @@ Supported now:
 
 Will be added soon:
 * [Mailgun]()
+* [iPhone / Android push notifications]()
 
 If you want to extend transport support:
 
@@ -168,9 +169,20 @@ Send first notification,
 $ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
 ```
 
-## Example
+## Getting started
 
-Check out [example/server.js](example/server.js) with ready to use `notifier` server.
+Check the following code for guidance.
+
+* [example/server.js](example/server.js) with ready to use `notifier` server.
+* [production](https://github.com/likeastore/notifier/tree/production) version of notifier used by Likeastore
+
+## Used by
+
+* [Likeastore](https://likeastore.com)
+* [DemocracyOS](http://democracyos.org)
+* [Tapreserve](http://tapreserve.com)
+
+(if you are one of the user, please send a PR to extend the list)
 
 # License (MIT)
 

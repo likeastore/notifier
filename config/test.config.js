@@ -17,6 +17,15 @@ var config = {
 		gcm : {
 			serverApiKey: 'fake-google-server-api-key'
 		}
+	},
+
+	jobs: {
+		run: {
+			resolve: 5,
+			execute: 10
+		},
+
+		collection: 'notifierJobs'
 	}
 };
 

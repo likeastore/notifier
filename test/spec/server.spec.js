@@ -3,7 +3,7 @@ var notifier = require('../../source/notifier');
 
 var utils = require('../utils');
 
-describe('notifier.spec.js', function () {
+describe('server.spec.js', function () {
 	var url, response, results;
 
 	beforeEach(function (done) {

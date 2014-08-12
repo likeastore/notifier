@@ -46,7 +46,7 @@ function resolve(actionName, fn) {
 
 		fn(action, resolver, function (err) {
 			if (err) {
-				logger.error('action resolver failed ' + (err.stack || err));
+				logger.error('action resolve failed ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
 				return resolver.error(action, err, callback);
 			}
 
