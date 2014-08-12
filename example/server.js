@@ -53,6 +53,33 @@ notifier
 			body: 'Verification code: 1111',
 		}, callback);
 	});
+});
+
+notifier
+	.receive('user-completed-action', function (e, actions, callback) {
+		actions.create('send-android-push-notification', {user: e.user}, callback);
+	})
+	.resolve('send-android-push-notification', function (a, actions, callback) {
+		asyncRequestForUser(actions.user, function (err, user) {
+			if (err) {
+				return callback(err);
+			}
+
+			actions.resolved(a, {deviceId: user.deviceId}, callback);
+		})
+	})
+	.execute('send-android-push-notification', function (a, transport, callback) {
+		var registrationIds = [];
+		registrationIds.push(a.data.deviceId);
+		
+		var message = transport.android.message;
+		message.addDataWithObject({
+			key1: 'message1',
+			key2: 'message2'
+		});
+
+		transport.android.push.send(message, registrationIds, 4, callback);
+	});
 
 notifier.start(process.env.NODE_PORT || 3031);
 
@@ -60,7 +87,8 @@ function asyncRequestForUser(userId, callback) {
 	var user = {
 		email: 'example@likeastore.com',
 		name: 'alexander.beletsky',
-		phone: '+3805554455'
+		phone: '+3805554455',
+		deviceId: 'regId123'
 	};
 
 	process.nextTick(function () {
