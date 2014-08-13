@@ -13,6 +13,9 @@ var config = {
 		twilio : {
 			accountSid: 'fake-twilio-account-sid',
 			authToken: 'fake-twilio-auth-token'
+		},
+		gcm : {
+			serverApiKey: 'fake-google-server-api-key'
 		}
 	},
 

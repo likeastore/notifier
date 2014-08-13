@@ -113,10 +113,11 @@ Each `.execute()` function callback receives `transport` object, which exposes i
 Supported now:
 * [Mandrill](https://github.com/jimrubenstein/node-mandrill)
 * [Twillio](https://github.com/twilio/twilio-node)
+* [Android push notification](https://github.com/ToothlessGear/node-gcm)
 
 Will be added soon:
-* [Mailgun]()
-* [iPhone / Android push notifications]()
+* [Mailgun](https://github.com/jimrubenstein/node-mandrill)
+* [iOS push notification](https://github.com/argon/node-apn)
 
 If you want to extend transport support:
 
