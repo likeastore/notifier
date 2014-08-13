@@ -34,7 +34,7 @@
     "mongojs": "~0.11.0",
     "node-gcm": "^0.9.12",
     "node-logentries": "~0.1.4",
-    "node-mandrill": "~1.0.1",
+    "node-mandrill": "^1.0.1",
     "postal": "~0.9.0-rc1",
     "request": "~2.21.0",
     "respawn": "~0.3.1",
