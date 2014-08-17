@@ -15,7 +15,7 @@ var setupMandrill = function () {
 	}
 };
 
-var setupTwillio = function () {
+var setupTwilio = function () {
 	if (!validConfig()) {
 		throw new Error('missing twilio account SID or auth Token, please update config.transport.twilio section');
 	}
@@ -44,7 +44,7 @@ var setupAndroidPushNotification = function () {
 
 var transport = {
 	mandrill: setupMandrill(),
-	twillio: setupTwillio(),
+	twilio: setupTwilio(),
 	android: setupAndroidPushNotification()
 };
 
