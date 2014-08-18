@@ -16,6 +16,10 @@ var config = {
 		},
 		gcm : {
 			serverApiKey: 'fake-google-server-api-key'
+		},
+		apn : {
+			cert: 'fake-cert-path',
+			key: 'fake-key-path'
 		}
 	},
 

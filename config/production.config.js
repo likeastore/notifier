@@ -16,6 +16,10 @@ var config = {
 		},
 		gcm : {
 			serverApiKey: process.env.GOOGLE_SERVER_API_KEY
+		},
+		apn : {
+			cert: process.env.APPLE_CERT,
+			key: process.env.APPLE_KEY
 		}
 	},
 
