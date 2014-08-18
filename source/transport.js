@@ -75,11 +75,11 @@ var setupIOSPushNotification = function () {
 
 	return {
 		push: push
-	}
+	};
 
 	function validConfig() {
 		return config.transport.apn && (config.transport.apn.cert && config.transport.apn.key);
-	};
+	}
 
 	function push(options, callback) {
 		var service, note;
@@ -140,7 +140,7 @@ var setupIOSPushNotification = function () {
 
 			service.on('socketError', function() {
 				var errorMsg = 'APNS socket error';
-				logger.error(errorMsg)
+				logger.error(errorMsg);
 			});
 		}
 
