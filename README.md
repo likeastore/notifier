@@ -114,10 +114,10 @@ Supported now:
 * [Mandrill](https://github.com/jimrubenstein/node-mandrill)
 * [Twillio](https://github.com/twilio/twilio-node)
 * [Android push notification](https://github.com/ToothlessGear/node-gcm)
+* [iOS push notification](https://github.com/argon/node-apn)
 
 Will be added soon:
 * [Mailgun](https://github.com/jimrubenstein/node-mandrill)
-* [iOS push notification](https://github.com/argon/node-apn)
 
 If you want to extend transport support:
 
@@ -146,7 +146,7 @@ notifier
 	.execute('created-action', function () { /* ... */ });
 
 // start the server
-notifier.listen(process.env.PORT);
+notifier.start(process.env.PORT);
 ```
 
 Update `development.config.js` and `production.config.js` configuration. For now, configuration requires connection string to MongoDB, accessToken (shared secret) to access service, mandrill and logentries tokens.
