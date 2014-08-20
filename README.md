@@ -112,12 +112,12 @@ Each `.execute()` function callback receives `transport` object, which exposes i
 
 Supported now:
 * [Mandrill](https://github.com/jimrubenstein/node-mandrill)
-* [Twillio](https://github.com/twilio/twilio-node)
+* [Twilio](https://github.com/twilio/twilio-node)
 * [Android push notification](https://github.com/ToothlessGear/node-gcm)
-* [iOS push notification](https://github.com/argon/node-apn)
 
 Will be added soon:
 * [Mailgun](https://github.com/jimrubenstein/node-mandrill)
+* [iOS push notification](https://github.com/argon/node-apn)
 
 If you want to extend transport support:
 
@@ -146,7 +146,7 @@ notifier
 	.execute('created-action', function () { /* ... */ });
 
 // start the server
-notifier.start(process.env.PORT);
+notifier.listen(process.env.PORT);
 ```
 
 Update `development.config.js` and `production.config.js` configuration. For now, configuration requires connection string to MongoDB, accessToken (shared secret) to access service, mandrill and logentries tokens.
@@ -167,7 +167,7 @@ $ curl http://notifier.likeastore.com/
 Send first notification,
 
 ```bash
-$ echo '{"event": "incoming-event"}' | curl -H "Content-Type:application/json" -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
+$ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
 ```
 
 ## Getting started
