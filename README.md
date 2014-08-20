@@ -167,7 +167,7 @@ $ curl http://notifier.likeastore.com/
 Send first notification,
 
 ```bash
-$ echo '{"event": "incoming-event"}' | curl -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
+$ echo '{"event": "incoming-event"}' | curl -H "Content-Type:application/json" -d @- http://notifier.likeastore.com/api/events?access_token=ACCESS_TOKEN
 ```
 
 ## Getting started
