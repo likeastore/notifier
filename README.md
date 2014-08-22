@@ -141,7 +141,7 @@ var notifier = require('./source/notifier');
 
 // initialize actions, resolvers and executors
 notifier
-	.action('incoming-event', function () { /* ... */ })
+	.receive('incoming-event', function () { /* ... */ })
 	.resolve('created-action', function () { /* ... */ })
 	.execute('created-action', function () { /* ... */ });
 
