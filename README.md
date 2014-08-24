@@ -12,7 +12,7 @@ var notifier = require('./source/notifier');
 notifier.start(5050);
 ```
 
-To initialize the `notifier` you should create 3 entities - `actions`, `resovers` and `executors`.
+To initialize the `notifier` you should create 3 entities - `actions`, `resolvers` and `executors`.
 
 ### Receiving event
 
