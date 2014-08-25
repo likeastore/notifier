@@ -3,7 +3,7 @@ var config = {
 	accessToken: process.env.ACCESS_TOKEN,
 
 	logentries: {
-		token: '0bb5837f-db56-45dd-8be1-6541b14a49f0'
+		token: process.env.LOGENTRIES_TOKEN
 	},
 
 	transport: {
