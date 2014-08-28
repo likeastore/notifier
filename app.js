@@ -135,6 +135,10 @@ notifier
 					return u.email;
 				});
 
+				// user.followed is inconsitent, we have some duplications there,
+				// picking up only unique emails..
+				emails = _.uniq(emails);
+
 				var data = {
 					email: emails,
 					user: _.pick(user, userPick),
