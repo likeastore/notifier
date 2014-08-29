@@ -185,6 +185,10 @@ Check the following code for guidance.
 
 (if you are one of the user, please send a PR to extend the list)
 
+## Planned
+
+* [REST hooks](http://resthooks.org/)
+
 # License (MIT)
 
 Copyright (c) 2014, Likeastore.com info@likeastore.com
