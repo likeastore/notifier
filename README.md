@@ -106,6 +106,10 @@ notifier.execute('user-registered', function (action, transport, callback) {
 });
 ```
 
+### Events aggregation
+
+TDB.
+
 ## Transports
 
 Each `.execute()` function callback receives `transport` object, which exposes intialized transports clients libraries.
