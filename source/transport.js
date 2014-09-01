@@ -56,7 +56,7 @@ var setupAndroidPushNotification = function () {
 		service.send(message, options.tokens, options.retries, callback);
 
 		function validOptions() {
-			return options.message && options.tokens && options.retries;
+			return options.message && options.regIds && options.retries;
 		}
 	}
 
