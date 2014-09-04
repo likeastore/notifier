@@ -153,7 +153,7 @@ var setupIOSPushNotification = function () {
 		function initNotification() {
 			note = new apn.notification();
 			note.sound = options.sound  || 'notification-beep.wav';
-			note.alert = options.alert || { "body" : "Your turn!", "action-loc-key" : "Play" , "launch-image" : "mysplash.png"};
+			note.alert = options.alert || { "body" : "Place your message here.", "action-loc-key" : "Play" , "launch-image" : "mysplash.png"};
 			note.payload = options.payload || {'messageFrom': 'Notifier'};
 			note.badge = options.badge;
 		}
