@@ -2,6 +2,11 @@ var config = {
 	connection: 'mongodb://localhost:27017/notifierdb',
 	accessToken: '1234',
 
+	hook: {
+		url: 'http://localhost:5000/api/notify/',
+		token: 'fake-hook-token'
+	},
+
 	logentries: {
 		token: null
 	},
