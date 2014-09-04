@@ -148,6 +148,16 @@ Let's say we want to notify external service that push notification failed for s
 	return callback(err, result);
 });
 ```
+Note, that you have to setup config with hook configuration, namely:
+
+```js
+hook: {
+	url: 'http://localhost:5000/api/notify/',
+	token: 'fake-hook-token'
+},
+```
+where `url` is url of your external system that you'd like to notify and `token` is simply authentication mechanism to be able to talk to our external system.
+
 
 ## How to use?
 
