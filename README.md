@@ -130,6 +130,39 @@ If you want to extend transport support:
 3. Update [config/*.js](/config/development.js) files with new transport section.
 4. Send PR.
 
+
+## REST Hooks
+
+When `notifier` completed `execution` and you want to notify external service about it, use [REST hooks](http://resthooks.org/).
+Let's say we want to notify external service that push notification failed for some reason, for that purpose we use
+`notifier.sendHook(event,data)`
+
+```js
+ transport.android.push({ message: message, regIds: regIds, retries: 1}, function (err, result) {
+	if (err || result.failure === 1) {
+		var data = {
+			clientId: a.data.clientId,
+			message: message,
+			status: result.success
+		};
+
+		notifier.sendHook('notify.sms', data);
+	}
+
+	return callback(err, result);
+});
+```
+Note, that you have to setup config with hook configuration, namely:
+
+```js
+hook: {
+	url: 'http://localhost:5000/api/notify/',
+	token: 'fake-hook-token'
+},
+```
+where `url` is url of your external system that you'd like to notify and `token` is simply authentication mechanism to be able to talk to our external system.
+
+
 ## How to use?
 
 Clone repo,
@@ -188,10 +221,6 @@ Check the following code for guidance.
 * [Tapreserve](http://tapreserve.com)
 
 (if you are one of the user, please send a PR to extend the list)
-
-## Planned
-
-* [REST hooks](http://resthooks.org/)
 
 # License (MIT)
 

@@ -6,6 +6,11 @@ var config = {
 		token: process.env.LOGENTRIES_TOKEN
 	},
 
+	hook: {
+		url: process.env.HOOK_URL,
+		token: process.env.HOOK_TOKEN
+	},
+
 	transport: {
 		mandrill: {
 			token: process.env.MANDRILL_TOKEN

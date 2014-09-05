@@ -6,6 +6,11 @@ var config = {
 		token: null
 	},
 
+	hook: {
+		url: 'http://localhost:5000/api/notify/',
+		token: 'fake-hook-token'
+	},
+
 	transport: {
 		mandrill: {
 			token: 'fake-mandrill-api-token'

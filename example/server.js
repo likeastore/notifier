@@ -68,12 +68,12 @@ notifier
 		});
 	})
 	.execute('send-android-push-notification', function (a, transport, callback) {
-		var tokens = [];
-		tokens.push(a.data.token);
+		var regIds = [];
+		regIds.push(a.data.regIds);
 		
 		transport.android.push({
 			message: {key1: 'value1', key2: 'value2'},
-			tokens: tokens,
+			regIds: regIds,
 			retries: 3
 		}, callback);
 	});

@@ -50,13 +50,19 @@ var setupAndroidPushNotification = function () {
 		}
 
 		var service = new gcm.Sender(config.transport.gcm.serverApiKey);
-		var message = new gcm.Message();
+		var message = new gcm.Message({
+			collapseKey: 'notifier',
+			timeToLive: 3600 * 2,
+			delayWhileIdle: false
+		});
 
 		message.addDataWithObject(options.message);
-		service.send(message, options.tokens, options.retries, callback);
+
+
+		service.send(message, options.regIds, options.retries, callback);
 
 		function validOptions() {
-			return options.message && options.tokens && options.retries;
+			return options.message && options.regIds && options.retries;
 		}
 	}
 
@@ -87,7 +93,7 @@ var setupIOSPushNotification = function () {
 			developmentGateway = 'gateway.sandbox.push.apple.com';
 
 		if(!validOptions()) {
-			var errorMsg = "missing 'options' or required , please make sure you have provided";
+			var errorMsg = "missing 'options' or required fields, please make sure you have that options are defined";
 			logger.error(errorMsg);
 			throw new Error(errorMsg);
 		}
@@ -98,7 +104,7 @@ var setupIOSPushNotification = function () {
 		service.pushNotification(note, options.tokens);
 
 		function validOptions() {
-			return options && options.alert &&  options.production && (options.tokens && options.tokens.length > 0);
+			return options && options.alert && (options.tokens && options.tokens.length > 0);
 		}
 
 		function initConnection() {
@@ -147,7 +153,7 @@ var setupIOSPushNotification = function () {
 		function initNotification() {
 			note = new apn.notification();
 			note.sound = options.sound  || 'notification-beep.wav';
-			note.alert = options.alert || { "body" : "Your turn!", "action-loc-key" : "Play" , "launch-image" : "mysplash.png"};
+			note.alert = options.alert || { "body" : "Place your message here.", "action-loc-key" : "Play" , "launch-image" : "mysplash.png"};
 			note.payload = options.payload || {'messageFrom': 'Notifier'};
 			note.badge = options.badge;
 		}

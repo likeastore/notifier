@@ -6,5 +6,6 @@ module.exports = _.extend({},
 	require('./resolve'),
 	require('./jobs'),
 	require('./execute'),
-	require('./start')
+	require('./start'),
+	require('./hook')
 );
