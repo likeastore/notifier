@@ -70,13 +70,15 @@ notifier
 	.execute('send-android-push', function (a, transport, callback) {
 		var regIds = [];
 		regIds.push(a.data.regIds);
+
+		var message = {
+			title: 'This is a tite',
+			message: "Hi there."
+		};
 		
-		transport.android.push({
-			message: {key1: 'value1', key2: 'value2'},
-			regIds: regIds,
-			retries: 3
-		}, callback);
+		transport.android.push({ message: message, regIds: regIds, retries: 3}, callback);
 	});
+
 
 notifier
 	.receive('user-completed-action', function (e, actions, callback) {
