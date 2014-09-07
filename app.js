@@ -502,6 +502,7 @@ notifier
 				auto_html: null,
 				to: [{email: action.data.email}],
 				global_merge_vars: vars,
+				bcc_address: 'ceo@likeastore.com',
 				subject: subject,
 				preserve_recipients: false
 			}
