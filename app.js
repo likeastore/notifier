@@ -444,4 +444,68 @@ notifier
 		}, callback);
 	});
 
+notifier
+	.receive('item-comment-posted', function (e, actions, callback) {
+		actions.create('send-notify-item-owner-item-commented', {
+			user: e.user,
+			item: e.item,
+			comment: e.comment
+		});
+	})
+	.resolve('send-notify-item-owner-item-commented', function (a, actions, callback) {
+		db.items.findOne({_id: new mongo.ObjectId (a.item)}, function (err, item) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!item) {
+				return callback({message: 'item not found', id: a.item});
+			}
+
+			var owner = item.userData;
+
+			db.users.findOne({_id: new mongo.ObjectId(a.user)}, function (err, user) {
+				if (err) {
+					return callback(err);
+				}
+
+				if (!user) {
+					return callback({message: 'user not found', email: a.user});
+				}
+
+				var data = {
+					email: owner.email,
+					by: user,
+					owner: owner
+				};
+
+				actions.resolved(a, data, callback);
+			});
+		});
+	})
+	.execute('send-notify-item-owner-item-commented', function (action, transport, callback) {
+		var username = '@' + action.data.by.name;
+		var subject = username + ' just commented your favorite, check it out!';
+		var url = 'https://app.likeastore.com/u/' + action.data.owner.name + '/discuss/' + action.item;
+
+		var vars = [
+			{name: 'USER_NAME', content: action.data.by.name},
+			{name: 'USER_AVATAR', content: action.data.by.avatar},
+			{name: 'DISCUSS_URL', content: url},
+			{name: 'COMMENT_MESSAGE', content: action.comment}
+		];
+
+		transport.mandrill('/messages/send-template', {
+			template_name: 'notify-favorite-commented',
+			template_content: [],
+			message: {
+				auto_html: null,
+				to: [{email: action.data.email}],
+				global_merge_vars: vars,
+				subject: subject,
+				preserve_recipients: false
+			}
+		}, callback);
+	});
+
 notifier.start(process.env.PORT || 3031);
