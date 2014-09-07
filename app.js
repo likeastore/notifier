@@ -464,7 +464,7 @@ notifier
 
 			var owner = item.userData;
 
-			db.users.findOne({_id: new mongo.ObjectId(a.user)}, function (err, user) {
+			db.users.findOne({email: a.user}, function (err, user) {
 				if (err) {
 					return callback(err);
 				}
@@ -492,7 +492,7 @@ notifier
 			{name: 'USER_NAME', content: action.data.by.name},
 			{name: 'USER_AVATAR', content: action.data.by.avatar},
 			{name: 'DISCUSS_URL', content: url},
-			{name: 'COMMENT_MESSAGE', content: action.comment}
+			{name: 'COMMENT_MESSAGE', content: action.comment.message}
 		];
 
 		transport.mandrill('/messages/send-template', {
