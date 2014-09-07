@@ -448,8 +448,8 @@ notifier
 	.receive('item-comment-posted', function (e, actions, callback) {
 		actions.create('send-notify-item-owner-item-commented', {
 			user: e.user,
-			item: e.item,
-			comment: e.comment
+			item: e.data.item,
+			comment: e.data.comment
 		});
 	})
 	.resolve('send-notify-item-owner-item-commented', function (a, actions, callback) {
