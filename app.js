@@ -53,7 +53,8 @@ notifier
 				to: [{email: action.data.email}],
 				bcc_address: 'ceo@likeastore.com',
 				global_merge_vars: vars,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -97,7 +98,8 @@ notifier
 				auto_html: null,
 				to: [{email: action.data.email}],
 				global_merge_vars: vars,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -173,7 +175,8 @@ notifier
 				auto_html: null,
 				to: emails,
 				global_merge_vars: vars,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -239,7 +242,8 @@ notifier
 				auto_html: null,
 				to: [{email: action.data.email}],
 				global_merge_vars: vars,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -363,7 +367,8 @@ notifier
 				auto_html: null,
 				to: [{email: action.data.email}],
 				global_merge_vars: vars,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -411,7 +416,8 @@ notifier
 				auto_html: null,
 				to: [{email: action.data.email}],
 				global_merge_vars: vars,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -513,7 +519,8 @@ notifier
 				global_merge_vars: vars,
 				bcc_address: 'ceo@likeastore.com',
 				subject: subject,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
@@ -587,7 +594,8 @@ notifier
 				global_merge_vars: vars,
 				bcc_address: 'ceo@likeastore.com',
 				subject: subject,
-				preserve_recipients: false
+				preserve_recipients: false,
+				track_clicks: false
 			}
 		}, callback);
 	});
