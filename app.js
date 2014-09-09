@@ -479,6 +479,15 @@ notifier
 					owner: owner
 				};
 
+				// skip of owner comment it's own item..
+				if (owner.email === item.user) {
+					return actions.skipped(a, callback);
+				}
+
+				if (item.comments.length > 1) {
+					return actions.skipped(a, callback);
+				}
+
 				actions.resolved(a, data, callback);
 			});
 		});
@@ -501,6 +510,80 @@ notifier
 			message: {
 				auto_html: null,
 				to: [{email: action.data.email}],
+				global_merge_vars: vars,
+				bcc_address: 'ceo@likeastore.com',
+				subject: subject,
+				preserve_recipients: false
+			}
+		}, callback);
+	});
+
+notifier
+	.receive('item-comment-posted', function (e, actions, callback) {
+		actions.create('send-notify-all-item-commented', {
+			user: e.user,
+			item: e.data.item,
+			comment: e.data.comment
+		});
+	})
+	.resolve('send-notify-all-item-commented', function (action, actions, callback) {
+		db.items.findOne({_id: new mongo.ObjectId (action.item)}, function (err, item) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!item) {
+				return callback({message: 'item not found', id: action.item});
+			}
+
+			db.users.findOne({email: action.user}, function (err, user) {
+				if (err) {
+					return callback(err);
+				}
+
+				if (!user) {
+					return callback({message: 'user not found', email: action.user});
+				}
+
+
+				var emails = item.comments.map(function (comment) {
+					return comment.user.email;
+				});
+
+				emails = _.uniq(emails);
+
+				emails = emails.map(function (e) {
+					return {email: e};
+				});
+
+				var data = {
+					emails: emails,
+					by: user,
+					owner: item.owner
+				};
+
+				actions.resolved(actions, data, callback);
+			});
+		});
+	})
+	.execute('send-notify-all-item-commented', function (action, transport, callback) {
+		var username = '@' + action.data.by.name;
+		var subject = username + ' just posted new comment!';
+		var url = 'https://app.likeastore.com/u/' + action.data.owner.name + '/discuss/' + action.item;
+
+		var vars = [
+			{name: 'USER_NAME', content: action.data.by.name},
+			{name: 'USER_AVATAR', content: action.data.by.avatar},
+			{name: 'DISCUSS_URL', content: url},
+			{name: 'COMMENT_MESSAGE', content: action.comment.message}
+		];
+
+		transport.mandrill('/messages/send-template', {
+			template_name: 'notify-favorite-commented',
+			template_content: [],
+			message: {
+				auto_html: null,
+				to: action.emails,
 				global_merge_vars: vars,
 				bcc_address: 'ceo@likeastore.com',
 				subject: subject,
