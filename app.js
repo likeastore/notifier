@@ -569,7 +569,7 @@ notifier
 					owner: item.owner
 				};
 
-				actions.resolved(actions, data, callback);
+				actions.resolved(action, data, callback);
 			});
 		});
 	})
