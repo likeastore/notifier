@@ -543,6 +543,11 @@ notifier
 				return callback({message: 'item not found', id: action.item});
 			}
 
+			// skip if first comment is posted..
+			if (item.comments.length === 1) {
+				return actions.skipped(action, callback);
+			}
+
 			db.users.findOne({email: action.user}, function (err, user) {
 				if (err) {
 					return callback(err);
@@ -551,7 +556,6 @@ notifier
 				if (!user) {
 					return callback({message: 'user not found', email: action.user});
 				}
-
 
 				var emails = item.comments.map(function (comment) {
 					return comment.user.email;
@@ -566,7 +570,7 @@ notifier
 				var data = {
 					emails: emails,
 					by: user,
-					owner: item.owner
+					owner: item.userData
 				};
 
 				actions.resolved(action, data, callback);
