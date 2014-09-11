@@ -486,7 +486,7 @@ notifier
 				};
 
 				// skip of owner comment it's own item..
-				if (owner.email === item.user) {
+				if (owner.email === user.email) {
 					return actions.skipped(a, callback);
 				}
 
