@@ -1,0 +1,7 @@
+{
+  "templates.welcome-email.subject": "DemocracyOS - Benvinguts/des!",
+  "templates.welcome-email.greeting": "Hola, USER_NAME.",
+  "templates.welcome-email.body": "Si us plau <a href=\"VALIDATE_MAIL_URL\">cliqui aquí</a> per validar la teva adreça de correu electrònic.",
+  "templates.welcome-email.signature": "L'equip de DemocracyOS.",
+  "templates.welcome-email.ps": "P.D.: Si no has creat un compte a DemocracyOS, si us plau ignora aquest correu."
+}

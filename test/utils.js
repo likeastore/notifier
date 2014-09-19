@@ -3,7 +3,23 @@ var config = require('../config');
 var db = require('../source/db')(config);
 
 module.exports = {
+	accessToken: function () {
+		return accessToken;
+	},
+
+	port: function () {
+		return 3031;
+	},
+
 	serviceUrl: function () {
+		return 'http://localhost:3031';
+	},
+
+	serviceEventsUrl: function () {
+		return 'http://localhost:3031/api/events';
+	},
+
+	serviceEventsAuthUrl: function () {
 		return 'http://localhost:3031/api/events?access_token=' + accessToken;
 	},
 
@@ -15,28 +31,8 @@ module.exports = {
 		db[collection].remove(callback);
 	},
 
-	createTestUser: function (email, name, followers, callback) {
-		db.users.save({
-			email: email,
-			name: name,
-			followed: followers
-		}, callback);
-	},
-
-	createTestCollection: function (user, title, description, followers, userData, callback) {
-		db.collections.save({
-			user: user,
-			title: title,
-			description: description,
-			followers: followers,
-			userData: userData
-		}, callback);
-	},
-
-	createTestItem: function (user, callback) {
-		db.items.save({
-			user: user
-		}, callback);
+	createAction: function (data, callback) {
+		db.actions.save(data, callback);
 	},
 
 	getLastAction: function (callback) {

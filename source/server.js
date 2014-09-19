@@ -3,11 +3,10 @@ var postal = require('postal');
 
 var config = require('../config');
 var package = require('../package');
+var logger = require('./utils/logger');
 
-var app = express();
-var bus = postal.channel();
-
-require('./triggers')(bus);
+var app = express(), instance;
+var bus = postal.channel('event:receive');
 
 var cors = function (req, res, next) {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -18,7 +17,6 @@ var cors = function (req, res, next) {
 };
 
 app.configure(function(){
-	app.set('port', process.env.PORT || 3031);
 	app.use(express.bodyParser());
 	app.use(express.cookieParser());
 	app.use(cors);
@@ -51,11 +49,31 @@ app.get('/', function (req, res) {
 
 app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 	var e = req.body;
-	bus.publish(e.event, e);
+	bus.publish(e.event, {event: e});
 
 	res.send(201);
 });
 
-app.listen(app.get('port'), function () {
-	console.log('notify server started, port: ' + app.get('port') + ' env: ' + (process.env.NODE_ENV || 'development'));
-});
+var server = {
+	listen: function (port, callback) {
+		instance = app.listen(port, function (err) {
+			logger.info('notifier server started, env: ' + process.env.NODE_ENV + ' port: ' + port);
+			callback && callback(err);
+		});
+	},
+
+	close: function (callback) {
+		if (!instance) {
+			throw new Error('server not started, forgot to call .listen()?');
+		}
+
+		instance.close(function (err) {
+			logger.info('notifier server shutdown');
+			callback && callback(err);
+		});
+	}
+};
+
+module.exports = {
+	_server: server
+};
