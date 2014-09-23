@@ -6,7 +6,18 @@ module.exports = function (config, connection) {
 
 	connection = connection || 'connection';
 
-	var db = mongo.connect(config[connection], ['actions']);
+  // default db collections
+  var collections = ['events', 'actions', 'states', 'collections', 'users', 'items'];
+
+  // add db aliases to default collections
+  for (var key in config.aliases) {
+    var index = collections.indexOf(config.aliases[key]);
+
+    if (!~index) collections.push(config.aliases[key]);
+  }
+
+  // connect to db
+  var db = mongo.connect(config[connection], collections);
 
 	if (!db) {
 		throw new Error('could not connect to ' + config.connection);

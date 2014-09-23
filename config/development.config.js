@@ -1,5 +1,11 @@
 var config = {
-	connection: 'mongodb://localhost:27017/notifierdb',
+	db: {
+		connection: 'mongodb://localhost:27017/DemocracyOS-dev',
+		aliases: {
+			users: "citizens"
+		}
+	},
+
 	accessToken: '1234',
 
 	hook: {

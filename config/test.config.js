@@ -1,6 +1,9 @@
 var config = {
-  connection: 'mongodb://localhost:27017/notifier-test',
-  accessToken: '1234',
+	db: {
+		connection: 'mongodb://localhost:27017/notifier-test'
+	},
+
+	accessToken: '1234',
 
 	logentries: {
 		token: null
