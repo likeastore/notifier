@@ -131,6 +131,22 @@ If you want to extend transport support:
 4. Send PR.
 
 
+## DB aliases
+
+If you want to use `notifier` with an existing DB, you'll probably want keep your schema going. Since `notifier` can't know your DB collection names beforehand, you can manually specify aliases for them. Just add an `aliases` object under the `db` object in your `config` files.
+
+```js
+
+db: {
+	connection: /*...your db connection string...*/,
+	aliases: {
+			users: "players",
+	}
+}
+```
+
+This will make `db.users` actually end up using the `players` collection when querying the DB.
+
 ## REST Hooks
 
 When `notifier` completed `execution` and you want to notify external service about it, use [REST hooks](http://resthooks.org/).
