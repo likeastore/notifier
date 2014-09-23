@@ -2,7 +2,7 @@ var config = {
 	db: {
 		connection: 'mongodb://localhost:27017/DemocracyOS-dev',
 		aliases: {
-			users: "citizens"
+			user: "citizens"
 		}
 	},
 
