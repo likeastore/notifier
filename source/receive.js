@@ -3,7 +3,7 @@ var moment = require('moment');
 var postal = require('postal');
 
 var config = require('../config');
-var db = require('./db')(config);
+var db = require('./db')(config.db);
 
 var logger = require('./utils/logger');
 

@@ -5,7 +5,7 @@ var Agenda = require('agenda');
 var moment = require('moment');
 
 var config = require('../config');
-var db = require('./db')(config);
+var db = require('./db')(config.db);
 
 var logger = require('./utils/logger');
 var timing = require('./utils/timing');
@@ -28,7 +28,7 @@ var handler = function (state, channel, callback) {
 };
 
 var startAgenda = function (callback) {
-	var agenda = new Agenda({db: {address: config.connection, collection: config.jobs.collection} });
+	var agenda = new Agenda({db: {address: config.db.connection, collection: config.jobs.collection} });
 
 	agenda.purge(function () {
 		agenda.define('resolve actions', function (job, callback) {

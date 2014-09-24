@@ -130,6 +130,21 @@ If you want to extend transport support:
 3. Update [config/*.js](/config/development.js) files with new transport section.
 4. Send PR.
 
+## DB aliases
+
+If you want to use `notifier` with an existing DB, you'll probably want keep your schema unaltered but `notifier` assumes your DB will have a `user` collection with user data, but you may have a different schema. Since `notifier` can't know your DB collection names beforehand, you can manually specify aliases for them. Just add an `aliases` object under the `db` object in your `config` files.
+
+```js
+
+db: {
+	connection: /*...your db connection string...*/,
+	aliases: {
+			user: "players",
+	}
+}
+```
+
+This will make `db.user` actually end up using the `players` collection when querying the DB. You can do this for any `notifier`'s collections; check which those are in `source/db/index.js`.
 
 ## REST Hooks
 

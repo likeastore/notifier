@@ -1,5 +1,8 @@
 var config = {
-	connection: process.env.MONGO_CONNECTION,
+	db: {
+		connection: process.env.MONGO_CONNECTION
+	},
+
 	accessToken: process.env.ACCESS_TOKEN,
 
 	logentries: {
