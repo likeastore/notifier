@@ -1,3 +1,10 @@
+## It is fork of likeastore notifier module which looked to be abondoned, I am trying to relive the module as it suits my needs for one of my project.
+
+I have updated all the dependencies to latest versions as of 20-Aug-2016.
+
+##TODO
+Tests
+
 # Notifier
 
 HTTP API that receives the event and turning that event into corresponding notification.
