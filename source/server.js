@@ -1,11 +1,14 @@
 var express = require('express');
 var postal = require('postal');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
 
 var config = require('../config');
 var package = require('../package');
 var logger = require('./utils/logger');
 
-var app = express(), instance;
+var app = express();
 var bus = postal.channel('event:receive');
 
 var cors = function (req, res, next) {
@@ -16,23 +19,23 @@ var cors = function (req, res, next) {
 	next();
 };
 
-app.configure(function(){
-	app.use(express.bodyParser());
-	app.use(express.cookieParser());
-	app.use(cors);
-	app.use(express.methodOverride());
-	app.use(app.router);
-});
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(methodOverride());
+app.use(cookieParser());
+app.use(cors);
+//app.use(app.router);
+
 
 function checkAccessToken(req, res, next) {
 	var accessToken = req.query.access_token;
 
 	if (!accessToken) {
-		return res.send(401, {message: 'access_token is missing'});
+		return res.status(401).send({ message: 'access_token is missing' });
 	}
 
 	if (accessToken !== config.accessToken) {
-		return res.send(401, {message: 'access_token is wrong'});
+		return res.status(401).send({ message: 'access_token is wrong' });
 	}
 
 	next();
@@ -44,14 +47,14 @@ function validateEvent(req, res, next) {
 }
 
 app.get('/', function (req, res) {
-	res.json({app: 'notifier', env: process.env.NODE_ENV, version: package.version, apiUrl: '/api'});
+	res.json({ app: 'notifier', env: process.env.NODE_ENV, version: package.version, apiUrl: '/api' });
 });
 
 app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 	var e = req.body;
-	bus.publish(e.event, {event: e});
+	bus.publish(e.event, { event: e });
 
-	res.send(201);
+	res.status(201).send("Created");
 });
 
 var server = {
