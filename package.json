@@ -1,6 +1,6 @@
 {
   "name": "notifier",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Service for sending notifications to users",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "method-override": "^2.3.10",
     "moment": "~2.19.1",
     "mongojs": "~2.4.1",
-    "node-gcm": "^0.14.8",
+    "node-gcm": "^0.14.9",
     "node-logentries": "~0.1.4",
     "node-mandrill": "^1.0.1",
     "postal": "~2.0.5",
