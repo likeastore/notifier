@@ -16,11 +16,11 @@ var config = {
 
 	transport: {
 		mandrill: {
-			token: 'fake-mandill-token'
+			token: 'fake-mandill-api-token'
 		},
 		twilio : {
 			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-			authToken: 'fake-twilio-token'
+			authToken: 'fake-twilio-auth-token'
 		},
 		gcm : {
 			serverApiKey: 'fake-google-server-api-key'
