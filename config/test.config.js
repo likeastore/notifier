@@ -16,7 +16,7 @@ var config = {
 			token: 'fake-mandrill-api-token'
 		},
 		twilio : {
-			accountSid: 'fake-twilio-account-sid',
+			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 			authToken: 'fake-twilio-auth-token'
 		},
 		gcm : {

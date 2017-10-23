@@ -32,6 +32,7 @@
     "body-parser": "^1.18.2",
     "colors": "~1.1.2",
     "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
     "express": "~4.16.2",
     "method-override": "^2.3.10",
     "moment": "~2.19.1",
