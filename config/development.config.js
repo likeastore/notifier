@@ -16,7 +16,7 @@ var config = {
 
 	transport: {
 		mandrill: {
-			token: 'fake-mandill-api-token'
+			token: 'fake-mandrill-api-token'
 		},
 		twilio : {
 			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
