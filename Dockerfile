@@ -12,4 +12,4 @@ ADD . /etc/notifier
 RUN npm i
 
 # Run http server 
-CMD ['npm', 'start'] 
+CMD npm start 
