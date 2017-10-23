@@ -1,4 +1,8 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
+
 var postal = require('postal');
 
 var config = require('../config');
@@ -16,13 +20,11 @@ var cors = function (req, res, next) {
 	next();
 };
 
-app.configure(function(){
-	app.use(express.bodyParser());
-	app.use(express.cookieParser());
-	app.use(cors);
-	app.use(express.methodOverride());
-	app.use(app.router);
-});
+app.use(bodyParser());
+app.use(cookieParser());
+app.use(cors);
+app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(app.router);
 
 function checkAccessToken(req, res, next) {
 	var accessToken = req.query.access_token;
