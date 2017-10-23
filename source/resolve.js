@@ -42,15 +42,15 @@ function resolve(actionName, fn) {
 		var action = data.action;
 		var callback = data.callback;
 
-		logger.info('action resolve triggired ' + action.id);
+		logger.info('action resolve triggered: ' + action.id);
 
 		fn(action, resolver, function (err) {
 			if (err) {
-				logger.error('action resolve failed ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
+				logger.error('action resolve failed: ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
 				return resolver.error(action, err, callback);
 			}
 
-			logger.info('action resolved successfully ' + action.id);
+			logger.info('action resolved successfully: ' + action.id);
 			callback(null);
 		});
 	});
@@ -68,6 +68,7 @@ function unsubscribe() {
 
 module.exports = {
 	resolve: resolve,
+	
 	// private, expose to use it in tests
 	_resolveBus: bus,
 	_resolveUnsubscribe: unsubscribe

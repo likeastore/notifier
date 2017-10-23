@@ -50,25 +50,25 @@ function execute(actionName, fn) {
 		var action = data.action;
 		var callback = data.callback;
 
-		logger.info('action execute triggired ' + action.id);
+		logger.info('action execute triggered: ' + action.id);
 
 		if (!action.state || action.state !== 'resolved') {
-			logger.error('execute called for non-resolved action' + action.id + ' (' + action._id + ')');
+			logger.error('execute called for non-resolved action: ' + action.id + ' (' + action._id + ')');
 			return error(callback);
 		}
 
 		if (action.executeAfter && moment().diff(action.executeAfter) < 0) {
-			logger.info('delayed execution of action since executeAfter' + action.id + ' (' + action._id + ')');
+			logger.info('delayed execution of action since executeAfter: ' + action.id + ' (' + action._id + ')');
 			return callback && callback(null);
 		}
 
 		fn(action, transport, function (err) {
 			if (err) {
-				logger.error('action execute failed ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
+				logger.error('action execute failed: ' + action.id + ' (' + action._id + ') ' + JSON.stringify(err));
 				return executor.error(action, err, callback);
 			}
 
-			logger.info('action executed successfully ' + action.id);
+			logger.info('action executed successfully: ' + action.id);
 			executor.success(action, callback);
 		});
 	});

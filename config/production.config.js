@@ -2,9 +2,12 @@ var config = {
 	connection: process.env.MONGO_CONNECTION,
 	accessToken: process.env.ACCESS_TOKEN,
 
-	logentries: {
-		token: process.env.LOGENTRIES_TOKEN
-	},
+	logging: {
+		loglevel: 'error',
+		logentries: {
+			token: process.env.LOGENTRIES_TOKEN
+		},	
+	},	
 
 	hook: {
 		url: process.env.HOOK_URL,

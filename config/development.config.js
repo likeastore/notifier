@@ -7,17 +7,20 @@ var config = {
 		token: 'fake-hook-token'
 	},
 
-	logentries: {
-		token: null
-	},
+	logging: {
+		loglevel: 'debug',
+		logentries: {
+			token: null
+		},	
+	},	
 
 	transport: {
 		mandrill: {
-			token: 'fake-mandrill-api-token'
+			token: 'fake-mandill-token'
 		},
 		twilio : {
 			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-			authToken: 'fake-twilio-auth-token'
+			authToken: 'fake-twilio-token'
 		},
 		gcm : {
 			serverApiKey: 'fake-google-server-api-key'
