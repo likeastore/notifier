@@ -17,9 +17,13 @@ log.level(config.logging.loglevel);
 // configure winston logging format
 const tsFormat = () => (new Date()).toLocaleTimeString();
 const winstonLogger = new (winston.Logger)({
-	level: config.logging.loglevel,
-  	colorize: true,
-	timestamp: tsFormat	
+	transports: [
+    	new (winston.transports.Console)({
+    		level: config.logging.loglevel,
+		  	colorize: true,
+			timestamp: tsFormat	
+    	})
+	]
 });
 
 var logger = {

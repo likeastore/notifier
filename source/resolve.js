@@ -68,7 +68,7 @@ function unsubscribe() {
 
 module.exports = {
 	resolve: resolve,
-	
+
 	// private, expose to use it in tests
 	_resolveBus: bus,
 	_resolveUnsubscribe: unsubscribe
