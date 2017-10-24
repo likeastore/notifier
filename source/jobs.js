@@ -30,33 +30,36 @@ var handler = function (state, channel, callback) {
 var startAgenda = function (callback) {
 	var agenda = new Agenda({db: {address: config.connection, collection: config.jobs.collection} });
 
-	agenda.purge(function () {
-		agenda.define('resolve actions', function (job, callback) {
-			handler('created', 'resolve', callback);
+	// wait till agenda is ready initialising everthing
+	agenda.on('ready', function() {
+		agenda.purge(function () {
+			agenda.define('resolve actions', function (job, callback) {
+				handler('created', 'resolve', callback);
+			});
+
+			agenda.define('execute actions', function (job, callback) {
+				handler('resolved', 'execute', callback);
+			});
+
+			agenda.every(util.format('%d seconds', config.jobs.run.resolve), 'resolve actions');
+			agenda.every(util.format('%d seconds', config.jobs.run.execute), 'execute actions');
+
+			agenda.on('start', function (job) {
+				timing.start(job.attrs.name);
+			});
+
+			agenda.on('success', function (job) {
+				var duration = timing.finish(job.attrs.name);
+				logger.info({message: 'job compeleted', job: job.attrs.name, duration: duration.asMilliseconds()});
+			});
+
+			agenda.on('fail', function (err, job) {
+				logger.error({message: 'job failed', job: job.attrs.name, err: err});
+			});
+
+			agenda.start();
 		});
-
-		agenda.define('execute actions', function (job, callback) {
-			handler('resolved', 'execute', callback);
-		});
-
-		agenda.every(util.format('%d seconds', config.jobs.run.resolve), 'resolve actions');
-		agenda.every(util.format('%d seconds', config.jobs.run.execute), 'execute actions');
-
-		agenda.on('start', function (job) {
-			timing.start(job.attrs.name);
-		});
-
-		agenda.on('success', function (job) {
-			var duration = timing.finish(job.attrs.name);
-			logger.info({message: 'job compeleted', job: job.attrs.name, duration: duration.asMilliseconds()});
-		});
-
-		agenda.on('fail', function (err, job) {
-			logger.error({message: 'job failed', job: job.attrs.name, err: err});
-		});
-
-		agenda.start();
-	});
+	})
 };
 
 var jobs = {

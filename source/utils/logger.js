@@ -2,45 +2,52 @@ require('colors');
 
 var util = require('util');
 var moment = require('moment');
+var winston = require('winston');
 var logentries = require('node-logentries');
 var config = require('../../config');
 var stub = require('./stub');
 
+// configure logentries
 var log = logentries.logger({
-	token: config.logentries.token,
+	token: config.logging.logentries.token,
 	printerror: false
 });
+log.level(config.logging.loglevel);
 
-log.level('debug');
+// configure winston logging format
+const tsFormat = () => (new Date()).toLocaleTimeString();
+const winstonLogger = new (winston.Logger)({
+	transports: [
+    	new (winston.transports.Console)({
+    		level: config.logging.loglevel,
+		  	colorize: true,
+			timestamp: tsFormat	
+    	})
+	]
+});
 
 var logger = {
 	success: function (message) {
 		message = typeof message === 'string' ? message : JSON.stringify(message);
-		console.log(this.timestamptMessage(util.format('SUCCESS: %s', message)).green);
+		winstonLogger.info(util.format('SUCCESS: %s', message));
 		log.log('info', message);
 	},
 
 	warning: function (message) {
 		message = typeof message === 'string' ? message : JSON.stringify(message);
-		console.log(this.timestamptMessage(util.format('WARNING: %s', message)).yellow);
+		winstonLogger.warn(util.format('WARNING: %s', message));
 		log.log('warning', message);
 	},
 
 	error: function (message) {
 		message = typeof message === 'string' ? message : JSON.stringify(message);
-		console.log(this.timestamptMessage(util.format('ERROR: %s', message)).red);
+		winstonLogger.error(util.format('ERROR: %s', message));
 		log.log('err', message);
-	},
-
-	fatal: function (message) {
-		message = typeof message === 'string' ? message : JSON.stringify(message);
-		console.log(this.timestamptMessage(util.format('ERROR: %s', message)).red);
-		log.log('emerg', message);
 	},
 
 	info: function (message) {
 		message = typeof message === 'string' ? message : JSON.stringify(message);
-		console.log(this.timestamptMessage(message));
+		winstonLogger.info(message);
 		log.log('info', message);
 	},
 

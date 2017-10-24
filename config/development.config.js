@@ -7,16 +7,19 @@ var config = {
 		token: 'fake-hook-token'
 	},
 
-	logentries: {
-		token: null
-	},
+	logging: {
+		loglevel: 'debug',
+		logentries: {
+			token: null
+		},	
+	},	
 
 	transport: {
 		mandrill: {
 			token: 'fake-mandrill-api-token'
 		},
 		twilio : {
-			accountSid: 'fake-twilio-account-sid',
+			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 			authToken: 'fake-twilio-auth-token'
 		},
 		gcm : {

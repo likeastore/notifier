@@ -1,9 +1,10 @@
 {
   "name": "notifier",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Service for sending notifications to users",
   "main": "index.js",
   "scripts": {
+    "start": "node app.js",
     "test": "node test/run.js",
     "test-func": "node test/run.js test/func/notifier.func.js",
     "watch": "nodemon --watch source --watch config app.js",
@@ -19,27 +20,33 @@
     "url": "https://github.com/likeastore/notifier/issues"
   },
   "devDependencies": {
-    "mocha": "~1.10.0",
-    "chai": "~1.6.1",
-    "sinon-chai": "~2.4.0"
+    "chai": "~4.1.2",
+    "mocha": "~4.0.1",
+    "sinon": "^4.0.1",
+    "sinon-chai": "~2.14.0"
   },
   "homepage": "https://github.com/likeastore/notifier",
   "dependencies": {
-    "agenda": "~0.6.4",
-    "apn": "^1.6.0",
-    "async": "~0.7.0",
-    "colors": "~0.6.2",
-    "express": "~3.5.1",
-    "moment": "~2.6.0",
-    "mongojs": "~0.11.0",
-    "node-gcm": "^0.9.12",
+    "agenda": "~1.0.3",
+    "apn": "^2.1.5",
+    "async": "~2.5.0",
+    "body-parser": "^1.18.2",
+    "colors": "~1.1.2",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "~4.16.2",
+    "method-override": "^2.3.10",
+    "moment": "~2.19.1",
+    "mongojs": "~2.4.1",
+    "node-gcm": "^0.14.9",
     "node-logentries": "~0.1.4",
     "node-mandrill": "^1.0.1",
-    "postal": "~0.9.0-rc1",
-    "request": "~2.21.0",
-    "respawn": "~0.3.1",
-    "twilio": "^1.6.0",
-    "underscore": "~1.4.4"
+    "postal": "~2.0.5",
+    "request": "~2.83.0",
+    "respawn": "~2.5.0",
+    "twilio": "^3.9.0",
+    "underscore": "~1.8.3",
+    "winston": "^2.4.0"
   },
   "engines": {
     "node": "0.10.x"

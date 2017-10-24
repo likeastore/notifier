@@ -1,4 +1,9 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var methodOverride = require('method-override');
+var cors = require('cors');
+
 var postal = require('postal');
 
 var config = require('../config');
@@ -8,21 +13,10 @@ var logger = require('./utils/logger');
 var app = express(), instance;
 var bus = postal.channel('event:receive');
 
-var cors = function (req, res, next) {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-	res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-Access-Token, X-Revision, Content-Type');
-
-	next();
-};
-
-app.configure(function(){
-	app.use(express.bodyParser());
-	app.use(express.cookieParser());
-	app.use(cors);
-	app.use(express.methodOverride());
-	app.use(app.router);
-});
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(cors());
+app.use(methodOverride('X-HTTP-Method-Override'));
 
 function checkAccessToken(req, res, next) {
 	var accessToken = req.query.access_token;
@@ -51,7 +45,7 @@ app.post('/api/events', checkAccessToken, validateEvent, function (req, res) {
 	var e = req.body;
 	bus.publish(e.event, {event: e});
 
-	res.send(201);
+	res.sendStatus(201);
 });
 
 var server = {

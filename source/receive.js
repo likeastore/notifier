@@ -19,7 +19,7 @@ var actions = {
 				logger.error('failed to save action');
 			}
 
-			logger.info('created action ' + id);
+			logger.info('created action: ' + id);
 			callback && callback(err, action);
 		});
 	}
@@ -34,9 +34,9 @@ function receive(eventName, fn) {
 		var e = data.event;
 		var callback = data.callback;
 
-		logger.info('event triggired ' + eventName);
+		logger.info('event triggered: ' + eventName);
 		fn(e, actions, function (err) {
-			err && logger.error('event hander failed ' + (err.stack || err));
+			err && logger.error('event hander failed: ' + (err.stack || err));
 			callback && callback(err);
 		});
 	});
