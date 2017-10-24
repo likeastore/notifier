@@ -18,6 +18,15 @@ var config = {
 		mandrill: {
 			token: 'fake-mandrill-api-token'
 		},
+		nodemailer: {
+			host: 'a-fake-email-server',
+			port: 587,
+			secure: false,
+			auth: {
+				user: 'test-user-account',
+				pass: 'test-passowrd'
+			}
+		},
 		twilio : {
 			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 			authToken: 'fake-twilio-auth-token'

@@ -43,6 +43,7 @@ function error(callback) {
 
 function execute(actionName, fn) {
 	if (!fn) {
+		logger.error('missing execute handler');
 		throw new Error('missing execute handler');
 	}
 
