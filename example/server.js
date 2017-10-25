@@ -1,5 +1,6 @@
 var notifier = require('../source/notifier');
 
+// Using mandrill
 notifier
 	.receive('user-registered', function (e, actions, callback) {
 		actions.create('send-welcome-email', {user: e.user}, callback);
@@ -33,6 +34,41 @@ notifier
 		}, callback);
 	});
 
+// Using nodemailer
+notifier
+	.receive('user-registered', function (e, actions, callback) {
+		actions.create('send-welcome-email', {user: e.user}, callback);
+	})
+	.resolve('send-welcome-email', function (a, actions, callback) {
+		// skip to execute
+		actions.resolved(a, {email: a.user.email, name: a.user.name}, callback);
+	})
+	.execute('send-welcome-email', function (a, transport, callback) {
+		var user = a.data;
+
+		var mailOpts = {
+			from: 'test@user.com',
+			to: 'example@likeastore.com',
+			subject: 'Test Email',
+			text: 'An example of a message.',
+			html: '<h1>Hello</h1> </br> Welcome!'
+		}			
+
+		transport.nodemailer.sendMail(mailOpts, (error, info) => {
+			if(error){
+				console.log(error);
+				return callback(error);
+			}
+
+			console.log('Message sent: ' + JSON.stringify(info));
+	        // Preview only available when sending through an Ethereal account
+	        console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
+
+	        callback();
+		});
+	});
+
+// Using twilio
 notifier
 	.receive('user-registered', function (e, actions, callback) {
 		actions.create('send-verify-sms', {user: e.user}, callback);
@@ -54,6 +90,7 @@ notifier
 		}, callback);
 	});
 
+// Using android push
 notifier
 	.receive('user-completed-action', function (e, actions, callback) {
 		actions.create('send-android-push', {user: e.user}, callback);
@@ -115,6 +152,7 @@ notifier
 		});
 	});
 
+// Using iOS push
 notifier
 	.receive('user-completed-action', function (e, actions, callback) {
 		actions.create('send-ios-push', {user: e.user}, callback);

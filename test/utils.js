@@ -1,5 +1,5 @@
-var accessToken = '1234';
 var config = require('../config');
+var accessToken = config.accessToken;
 var db = require('../source/db')(config);
 
 module.exports = {

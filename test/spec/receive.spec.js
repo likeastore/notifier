@@ -44,7 +44,7 @@ describe('receive.spec.js', function () {
 			expect(action.custom).to.equal('123');
 		});
 
-		it('should have timespampt', function () {
+		it('should have timestamp', function () {
 			expect(action.created).to.be.a('Date');
 		});
 	});

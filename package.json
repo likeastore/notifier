@@ -41,6 +41,7 @@
     "node-gcm": "^0.14.9",
     "node-logentries": "~0.1.4",
     "node-mandrill": "^1.0.1",
+    "nodemailer": "^4.3.0",
     "postal": "~2.0.5",
     "request": "~2.83.0",
     "respawn": "~2.5.0",

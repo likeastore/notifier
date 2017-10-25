@@ -1,4 +1,5 @@
 var mandrill = require('node-mandrill');
+var nodemailer = require('nodemailer');
 var twilio = require('twilio');
 var gcm = require('node-gcm');
 var apn = require('apn');
@@ -16,6 +17,30 @@ var setupMandrill = function () {
 
 	function validConfig() {
 		return config.transport.mandrill && config.transport.mandrill.token;
+	}
+};
+
+var setupNodeMailer = function () {
+	if(!validConfig()) {
+		var errorMsg = 'missing mailer config, please update config.transport.nodemailer section';
+		logger.error(errorMsg);
+		throw new Error(errorMsg);
+	}
+
+    let transporter = nodemailer.createTransport({
+        host: config.transport.nodemailer.host,
+        port: config.transport.nodemailer.port,
+        secure: config.transport.nodemailer.secure, // true for 465, false for other ports
+        auth: {
+            user: config.transport.nodemailer.auth.user,
+            pass: config.transport.nodemailer.auth.pass
+        }
+    });
+
+	return transporter;	
+
+	function validConfig() {
+		return config.transport.nodemailer && (config.transport.nodemailer.host && config.transport.nodemailer.port && config.transport.nodemailer.auth)
 	}
 };
 
@@ -162,6 +187,7 @@ var setupIOSPushNotification = function () {
 
 var transport = {
 	mandrill: setupMandrill(),
+	nodemailer: setupNodeMailer(),
 	twilio: setupTwilio(),
 	android: setupAndroidPushNotification(),
 	ios: setupIOSPushNotification()

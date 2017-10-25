@@ -18,6 +18,15 @@ var config = {
 		mandrill: {
 			token: process.env.MANDRILL_TOKEN
 		},
+		nodemailer: {
+			host: process.env.NODEMAILER_HOST,
+			port: process.env.NODEMAILER_PORT,
+			secure: process.env.NODEMAILER_SECURE, // true for 465, false for other ports
+			auth: {
+				user: process.env.NODEMAILER_USER,
+				pass: process.env.NODEMAILER_PASS
+			}
+		},
 		twilio : {
 			accountSid: process.env.TWILIO_ACCOUNT_SID,
 			authToken: process.env.TWILIO_ACCOUNT_TOKEN
