@@ -2,8 +2,11 @@ var config = {
 	connection: process.env.MONGO_CONNECTION,
 	accessToken: '1234',
 
-	logentries: {
-		token: process.env.LOGENTRIES_TOKEN
+	logging: {
+		loglevel: 'warn',
+		logentries: {
+			token: process.env.LOGENTRIES_TOKEN
+		},	
 	},
 
 	hook: {
@@ -14,6 +17,15 @@ var config = {
 	transport: {
 		mandrill: {
 			token: process.env.MANDRILL_TOKEN
+		},
+		nodemailer: {
+			host: process.env.NODEMAILER_HOST,
+			port: process.env.NODEMAILER_PORT,
+			secure: process.env.NODEMAILER_SECURE,
+			auth: {
+				user: process.env.NODEMAILER_USER,
+				pass: process.env.NODEMAILER_PASS
+			}
 		},
 		twilio : {
 			accountSid: process.env.TWILIO_ACCOUNT_SID,

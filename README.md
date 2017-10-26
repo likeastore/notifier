@@ -116,6 +116,7 @@ Each `.execute()` function callback receives `transport` object, which exposes i
 
 Supported now:
 * [Mandrill](https://github.com/jimrubenstein/node-mandrill)
+* [NodeMailer](https://nodemailer.com/about/)
 * [Twilio](https://github.com/twilio/twilio-node)
 * [Android push notification](https://github.com/ToothlessGear/node-gcm)
 * [iOS push notification](https://github.com/argon/node-apn)

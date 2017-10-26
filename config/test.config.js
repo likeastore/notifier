@@ -2,8 +2,11 @@ var config = {
 	connection: 'mongodb://localhost:27017/notifiertestdb',
 	accessToken: '1234',
 
-	logentries: {
-		token: null
+	logging: {
+		loglevel: 'debug',
+		logentries: {
+			token: null
+		},	
 	},
 
 	hook: {
@@ -15,8 +18,17 @@ var config = {
 		mandrill: {
 			token: 'fake-mandrill-api-token'
 		},
+		nodemailer: {
+			host: 'a-fake-email-server',
+			port: 587,
+			secure: false,
+			auth: {
+				user: 'test-user-account',
+				pass: 'test-passowrd'
+			}
+		},
 		twilio : {
-			accountSid: 'fake-twilio-account-sid',
+			accountSid: 'ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
 			authToken: 'fake-twilio-auth-token'
 		},
 		gcm : {
